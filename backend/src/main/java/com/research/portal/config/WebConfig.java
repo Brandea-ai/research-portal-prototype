@@ -19,5 +19,13 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowCredentials(true)
                 .maxAge(3600);
+
+        registry.addMapping("/api-docs/**")
+                .allowedOriginPatterns("*")
+                .allowedMethods("GET");
+
+        registry.addMapping("/swagger-ui/**")
+                .allowedOriginPatterns("*")
+                .allowedMethods("GET");
     }
 }

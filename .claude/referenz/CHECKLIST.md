@@ -33,10 +33,10 @@
 ## Phase 2: Professionalität (13 Tasks)
 - [x] P2-15: Cypress E2E Tests (5+ Tests grün)
 - [x] P2-16: Backend Unit Tests (70 Tests, 0 Failures, ~75-80% Coverage)
-- [ ] P2-17: XPath Report Import (XML Parser, Beispiel-XML)
+- [x] P2-17: XPath Report Import (XML Parser, 5 XPath-Expressions, 28 Tests)
 - [x] P2-18: CI/CD Pipeline (Jenkinsfile, .gitlab-ci.yml, Harness, SonarQube)
 - [ ] P2-19: Audit Trail (Activity Log, AOP Logging)
-- [ ] P2-20: API Dokumentation (Springdoc, Swagger UI)
+- [x] P2-20: API Dokumentation (Springdoc OpenAPI 2.8.6, Swagger UI, 12 Endpoints)
 - [ ] P2-21: Performance Optimierung (Lazy Load, OnPush, Bundle Size)
 - [ ] P2-22: Datenexport (CSV/Excel)
 - [ ] P2-23: PDF Report Export

@@ -1,5 +1,6 @@
 package com.research.portal.adapter.in.web.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -7,39 +8,69 @@ import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Schema(description = "Anfrage zum Erstellen oder Aktualisieren eines Research Reports")
 public class CreateReportRequest {
 
     @NotNull(message = "analystId ist erforderlich")
+    @Schema(description = "ID des zuständigen Analysten", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long analystId;
 
     @NotNull(message = "securityId ist erforderlich")
+    @Schema(description = "ID der analysierten Wertschrift", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long securityId;
 
     @NotBlank(message = "reportType ist erforderlich")
+    @Schema(description = "Typ des Reports", example = "INITIATION", requiredMode = Schema.RequiredMode.REQUIRED,
+            allowableValues = {"INITIATION", "UPDATE", "QUARTERLY", "FLASH", "DEEP_DIVE", "CREDIT"})
     private String reportType;
 
     @NotBlank(message = "Titel ist erforderlich")
+    @Schema(description = "Titel des Research Reports", example = "Nestlé SA - Initiation of Coverage",
+            requiredMode = Schema.RequiredMode.REQUIRED)
     private String title;
 
     @NotBlank(message = "Executive Summary ist erforderlich")
+    @Schema(description = "Zusammenfassung der wichtigsten Erkenntnisse",
+            example = "Wir initiieren die Coverage von Nestlé mit einem BUY-Rating und einem Kursziel von CHF 105.",
+            requiredMode = Schema.RequiredMode.REQUIRED)
     private String executiveSummary;
 
+    @Schema(description = "Vollständiger Analysetext")
     private String fullText;
 
     @NotBlank(message = "Rating ist erforderlich")
+    @Schema(description = "Aktuelle Empfehlung", example = "BUY", requiredMode = Schema.RequiredMode.REQUIRED,
+            allowableValues = {"STRONG_BUY", "BUY", "HOLD", "SELL", "STRONG_SELL"})
     private String rating;
 
+    @Schema(description = "Vorherige Empfehlung (bei Rating-Änderung)", example = "HOLD")
     private String previousRating;
 
     @NotNull(message = "Kursziel ist erforderlich")
     @Positive(message = "Kursziel muss positiv sein")
+    @Schema(description = "Kursziel in der Handelswährung", example = "105.00", requiredMode = Schema.RequiredMode.REQUIRED)
     private BigDecimal targetPrice;
 
+    @Schema(description = "Vorheriges Kursziel", example = "98.50")
     private BigDecimal previousTarget;
+
+    @Schema(description = "Aktueller Kurs der Wertschrift", example = "89.42")
     private BigDecimal currentPrice;
+
+    @Schema(description = "Risikoeinstufung", example = "MEDIUM",
+            allowableValues = {"LOW", "MEDIUM", "HIGH", "SPECULATIVE"})
     private String riskLevel;
+
+    @Schema(description = "Katalysatoren für die Kursentwicklung",
+            example = "[\"Margenexpansion durch Pricing Power\", \"Aktienrückkaufprogramm CHF 5 Mrd.\"]")
     private List<String> investmentCatalysts;
+
+    @Schema(description = "Wesentliche Risiken für die Anlage",
+            example = "[\"Währungsrisiko durch globale Diversifikation\", \"Input-Kosten-Inflation\"]")
     private List<String> keyRisks;
+
+    @Schema(description = "Schlagwörter zur Kategorisierung",
+            example = "[\"Schweiz\", \"Consumer Staples\", \"Dividende\"]")
     private List<String> tags;
 
     public Long getAnalystId() { return analystId; }

@@ -1,18 +1,41 @@
 package com.research.portal.adapter.in.web.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.math.BigDecimal;
 
+@Schema(description = "Wertschrift-Stammdaten: Aktie, Obligation oder Derivat im Coverage-Universum")
 public class SecurityDto {
 
+    @Schema(description = "Eindeutige Wertschrift-ID", example = "1")
     private Long id;
+
+    @Schema(description = "Börsenticker (SIX Swiss Exchange)", example = "NESN")
     private String ticker;
+
+    @Schema(description = "International Securities Identification Number", example = "CH0038863350")
     private String isin;
+
+    @Schema(description = "Vollständiger Name der Wertschrift", example = "Nestlé SA")
     private String name;
+
+    @Schema(description = "Anlageklasse", example = "EQUITY",
+            allowableValues = {"EQUITY", "FIXED_INCOME", "DERIVATIVES", "MACRO"})
     private String assetClass;
+
+    @Schema(description = "Sektor nach GICS-Klassifikation", example = "Consumer Staples")
     private String sector;
+
+    @Schema(description = "Branche innerhalb des Sektors", example = "Packaged Foods & Meats")
     private String industry;
+
+    @Schema(description = "Börsenplatz", example = "SIX")
     private String exchange;
+
+    @Schema(description = "Handelswährung", example = "CHF")
     private String currency;
+
+    @Schema(description = "Marktkapitalisierung in Mio. der Handelswährung", example = "245000000000")
     private BigDecimal marketCap;
 
     public SecurityDto() {}

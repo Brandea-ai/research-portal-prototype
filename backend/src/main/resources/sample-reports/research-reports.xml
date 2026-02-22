@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<researchReports xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:noNamespaceSchemaLocation="research-report.xsd">
+
+    <!-- Nestl&#233; SA: Consumer Staples, SIX Swiss Exchange -->
+    <report>
+        <title>Nestl&#233; SA - Organisches Wachstum &#252;bertrifft Erwartungen</title>
+        <analyst>
+            <name>Dr. Elena Fischer</name>
+            <analystId>1</analystId>
+        </analyst>
+        <security>
+            <ticker>NESN</ticker>
+            <securityId>1</securityId>
+            <name>Nestl&#233; SA</name>
+            <isin>CH0038863350</isin>
+            <exchange>SIX</exchange>
+            <currency>CHF</currency>
+        </security>
+        <publishedAt>2026-02-20T09:30:00</publishedAt>
+        <reportType>UPDATE</reportType>
+        <rating>BUY</rating>
+        <previousRating>HOLD</previousRating>
+        <targetPrice>105.00</targetPrice>
+        <previousTarget>92.00</previousTarget>
+        <currentPrice>96.50</currentPrice>
+        <riskLevel>LOW</riskLevel>
+        <executiveSummary>
+            Nestl&#233; liefert mit 4.2% organischem Wachstum im Q4 2025 &#252;ber Konsens (3.8%).
+            Die Portfolio-Optimierung zeigt Wirkung: Margen verbessern sich sequenziell.
+            Wir stufen von HOLD auf BUY hoch mit einem Kursziel von CHF 105.
+        </executiveSummary>
+        <catalysts>
+            <catalyst>Organisches Wachstum &#252;ber 4% nachhaltig erreichbar</catalyst>
+            <catalyst>Portfolio-Bereinigung (Verkauf Water-Segment) steigert Marge</catalyst>
+            <catalyst>Pricing-Power in Emerging Markets intakt</catalyst>
+        </catalysts>
+        <risks>
+            <risk>Input-Kosten (Kakao, Kaffee) bleiben volatil</risk>
+            <risk>W&#228;hrungseffekte CHF/USD k&#246;nnten Ergebnis belasten</risk>
+        </risks>
+        <tags>
+            <tag>Consumer Staples</tag>
+            <tag>Large Cap</tag>
+            <tag>Dividende</tag>
+            <tag>Upgrade</tag>
+        </tags>
+    </report>
+
+    <!-- Novartis AG: Healthcare, Pharma -->
+    <report>
+        <title>Novartis AG - Kisqali-Blockbuster treibt Wachstumsprofil</title>
+        <analyst>
+            <name>Dr. Elena Fischer</name>
+            <analystId>1</analystId>
+        </analyst>
+        <security>
+            <ticker>NOVN</ticker>
+            <securityId>2</securityId>
+            <name>Novartis AG</name>
+            <isin>CH0012005267</isin>
+            <exchange>SIX</exchange>
+            <currency>CHF</currency>
+        </security>
+        <publishedAt>2026-02-18T14:00:00</publishedAt>
+        <reportType>DEEP_DIVE</reportType>
+        <rating>STRONG_BUY</rating>
+        <previousRating>BUY</previousRating>
+        <targetPrice>112.00</targetPrice>
+        <previousTarget>98.00</previousTarget>
+        <currentPrice>95.80</currentPrice>
+        <riskLevel>MEDIUM</riskLevel>
+        <executiveSummary>
+            Kisqali erzielt USD 4.8 Mrd. Peak Sales und wird zum gr&#246;ssten Umsatztr&#228;ger.
+            Die Pipeline ist breit diversifiziert mit 15 Phase-III-Kandidaten.
+            Wir erh&#246;hen unser Kursziel auf CHF 112 und stufen auf STRONG_BUY.
+        </executiveSummary>
+        <catalysts>
+            <catalyst>Kisqali Peak Sales k&#246;nnten USD 6 Mrd. &#252;berschreiten</catalyst>
+            <catalyst>Pipeline: Iptacopan (PNH) und Remibrutinib (CSU) vor Zulassung</catalyst>
+            <catalyst>Aktienr&#252;ckkauf-Programm CHF 15 Mrd. bis 2027</catalyst>
+            <catalyst>Sandoz-Abspaltung erm&#246;glicht h&#246;heres Wachstumsprofil</catalyst>
+        </catalysts>
+        <risks>
+            <risk>Entresto-Patentablauf 2026 k&#246;nnte Druck erzeugen</risk>
+            <risk>US-Preisreform (IRA) betrifft Teile des Portfolios</risk>
+            <risk>Pipeline-Risiko bei sp&#228;ten Entwicklungsphasen</risk>
+        </risks>
+        <tags>
+            <tag>Healthcare</tag>
+            <tag>Pharma</tag>
+            <tag>Large Cap</tag>
+            <tag>Pipeline</tag>
+            <tag>Upgrade</tag>
+        </tags>
+    </report>
+
+    <!-- UBS Group AG: Financials, Banking -->
+    <report>
+        <title>UBS Group - Integration auf Kurs, Synergien &#252;ber Plan</title>
+        <analyst>
+            <name>Thomas Brunner</name>
+            <analystId>2</analystId>
+        </analyst>
+        <security>
+            <ticker>UBSG</ticker>
+            <securityId>4</securityId>
+            <name>UBS Group AG</name>
+            <isin>CH0244767585</isin>
+            <exchange>SIX</exchange>
+            <currency>CHF</currency>
+        </security>
+        <publishedAt>2026-02-19T08:15:00</publishedAt>
+        <reportType>QUARTERLY</reportType>
+        <rating>BUY</rating>
+        <previousRating>BUY</previousRating>
+        <targetPrice>32.50</targetPrice>
+        <previousTarget>30.00</previousTarget>
+        <currentPrice>28.40</currentPrice>
+        <riskLevel>MEDIUM</riskLevel>
+        <executiveSummary>
+            Die Credit-Suisse-Integration verl&#228;uft planm&#228;ssig. Kostensynergien von
+            USD 8.5 Mrd. bis Ende 2026 liegen &#252;ber der urspr&#252;nglichen Guidance.
+            Wealth Management verzeichnet Nettoneugeld von CHF 27 Mrd. im Q4.
+        </executiveSummary>
+        <catalysts>
+            <catalyst>Kostensynergien USD 8.5 Mrd. &#252;ber urspr&#252;nglichem Ziel</catalyst>
+            <catalyst>Nettoneugeld CHF 27 Mrd. im Quartal zeigt Kundenvertrauen</catalyst>
+            <catalyst>CET1-Quote bei 14.3% erm&#246;glicht h&#246;here Aussch&#252;ttungen</catalyst>
+        </catalysts>
+        <risks>
+            <risk>Regulatorische Kapitalanforderungen k&#246;nnten steigen (Too-Big-To-Fail)</risk>
+            <risk>Rechtsrisiken aus CS-Altlasten noch nicht vollst&#228;ndig quantifizierbar</risk>
+            <risk>Geopolitische Unsicherheiten belasten Handelsaktivit&#228;t</risk>
+        </risks>
+        <tags>
+            <tag>Financials</tag>
+            <tag>Banking</tag>
+            <tag>Large Cap</tag>
+            <tag>Integration</tag>
+        </tags>
+    </report>
+
+    <!-- Roche Holding AG: Healthcare, Diagnostics -->
+    <report>
+        <title>Roche Holding - Diagnostik-Sparte als stiller Werttreiber</title>
+        <analyst>
+            <name>Dr. Elena Fischer</name>
+            <analystId>1</analystId>
+        </analyst>
+        <security>
+            <ticker>ROG</ticker>
+            <securityId>3</securityId>
+            <name>Roche Holding AG</name>
+            <isin>CH0012032048</isin>
+            <exchange>SIX</exchange>
+            <currency>CHF</currency>
+        </security>
+        <publishedAt>2026-02-21T11:45:00</publishedAt>
+        <reportType>UPDATE</reportType>
+        <rating>HOLD</rating>
+        <previousRating>HOLD</previousRating>
+        <targetPrice>260.00</targetPrice>
+        <previousTarget>255.00</previousTarget>
+        <currentPrice>248.30</currentPrice>
+        <riskLevel>MEDIUM</riskLevel>
+        <executiveSummary>
+            Roche k&#228;mpft weiterhin mit Biosimilar-Erosion bei Avastin und Herceptin.
+            Die Diagnostik-Sparte w&#228;chst hingegen robust mit 7% organisch.
+            Wir bestätigen HOLD, erh&#246;hen aber das Kursziel leicht auf CHF 260.
+        </executiveSummary>
+        <catalysts>
+            <catalyst>Diagnostik-Wachstum 7% organisch, h&#246;here Margen</catalyst>
+            <catalyst>Vabysmo (Augenheilkunde) gewinnt Marktanteile gegen Eylea</catalyst>
+        </catalysts>
+        <risks>
+            <risk>Biosimilar-Erosion bei Legacy-Produkten h&#228;lt an</risk>
+            <risk>Alzheimer-Pipeline (Trontinemab) mit Ausgangsungewissheit</risk>
+            <risk>Genussschein-Struktur limitiert Governance-Transparenz</risk>
+        </risks>
+        <tags>
+            <tag>Healthcare</tag>
+            <tag>Pharma</tag>
+            <tag>Diagnostik</tag>
+            <tag>Large Cap</tag>
+        </tags>
+    </report>
+
+    <!-- Zurich Insurance Group: Financials, Versicherung -->
+    <report>
+        <title>Zurich Insurance - Pr&#228;mienwachstum und Kapitalst&#228;rke &#252;berzeugen</title>
+        <analyst>
+            <name>Thomas Brunner</name>
+            <analystId>2</analystId>
+        </analyst>
+        <security>
+            <ticker>ZURN</ticker>
+            <securityId>5</securityId>
+            <name>Zurich Insurance Group AG</name>
+            <isin>CH0011075394</isin>
+            <exchange>SIX</exchange>
+            <currency>CHF</currency>
+        </security>
+        <publishedAt>2026-02-22T10:00:00</publishedAt>
+        <reportType>INITIATION</reportType>
+        <rating>SELL</rating>
+        <previousRating>HOLD</previousRating>
+        <targetPrice>440.00</targetPrice>
+        <previousTarget>480.00</previousTarget>
+        <currentPrice>495.20</currentPrice>
+        <riskLevel>LOW</riskLevel>
+        <executiveSummary>
+            Zurich Insurance hat starke Ergebnisse geliefert, der Kurs reflektiert dies
+            jedoch bereits vollst&#228;ndig. Bei einem KGV von 15.2x sehen wir begrenztes
+            Aufwärtspotenzial. Wir stufen auf SELL mit Kursziel CHF 440.
+        </executiveSummary>
+        <catalysts>
+            <catalyst>Commercial Insurance Combined Ratio unter 92% nachhaltig</catalyst>
+        </catalysts>
+        <risks>
+            <risk>Bewertung mit KGV 15.2x &#252;ber historischem Durchschnitt</risk>
+            <risk>Naturkatastrophen-Risiken steigen durch Klimawandel</risk>
+            <risk>Solvency-II-Anpassungen k&#246;nnten Kapitalanforderungen erh&#246;hen</risk>
+        </risks>
+        <tags>
+            <tag>Financials</tag>
+            <tag>Versicherung</tag>
+            <tag>Large Cap</tag>
+            <tag>Downgrade</tag>
+        </tags>
+    </report>
+
+</researchReports>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Wurzelelement: Sammlung von Research Reports -->
+    <xs:element name="researchReports">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="report" type="reportType" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Report-Typ: Kernstruktur eines Research Reports -->
+    <xs:complexType name="reportType">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string"/>
+            <xs:element name="analyst" type="analystType"/>
+            <xs:element name="security" type="securityType"/>
+            <xs:element name="publishedAt" type="xs:dateTime"/>
+            <xs:element name="reportType" type="reportTypeEnum"/>
+            <xs:element name="rating" type="ratingEnum"/>
+            <xs:element name="previousRating" type="ratingEnum" minOccurs="0"/>
+            <xs:element name="targetPrice" type="xs:decimal"/>
+            <xs:element name="previousTarget" type="xs:decimal" minOccurs="0"/>
+            <xs:element name="currentPrice" type="xs:decimal"/>
+            <xs:element name="riskLevel" type="riskLevelEnum" minOccurs="0"/>
+            <xs:element name="executiveSummary" type="xs:string"/>
+            <xs:element name="catalysts" type="catalystsType" minOccurs="0"/>
+            <xs:element name="risks" type="risksType" minOccurs="0"/>
+            <xs:element name="tags" type="tagsType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Analyst-Referenz -->
+    <xs:complexType name="analystType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="analystId" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Wertschrift-Referenz -->
+    <xs:complexType name="securityType">
+        <xs:sequence>
+            <xs:element name="ticker" type="xs:string"/>
+            <xs:element name="securityId" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="isin" type="xs:string" minOccurs="0"/>
+            <xs:element name="exchange" type="xs:string" minOccurs="0"/>
+            <xs:element name="currency" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Investment-Katalysatoren -->
+    <xs:complexType name="catalystsType">
+        <xs:sequence>
+            <xs:element name="catalyst" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Risikofaktoren -->
+    <xs:complexType name="risksType">
+        <xs:sequence>
+            <xs:element name="risk" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Tags / Schlagwörter -->
+    <xs:complexType name="tagsType">
+        <xs:sequence>
+            <xs:element name="tag" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Enum: Rating (Analystenempfehlung) -->
+    <xs:simpleType name="ratingEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="STRONG_BUY"/>
+            <xs:enumeration value="BUY"/>
+            <xs:enumeration value="HOLD"/>
+            <xs:enumeration value="SELL"/>
+            <xs:enumeration value="STRONG_SELL"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Enum: Report-Typ -->
+    <xs:simpleType name="reportTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="INITIATION"/>
+            <xs:enumeration value="UPDATE"/>
+            <xs:enumeration value="QUARTERLY"/>
+            <xs:enumeration value="FLASH"/>
+            <xs:enumeration value="DEEP_DIVE"/>
+            <xs:enumeration value="CREDIT"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Enum: Risikostufe -->
+    <xs:simpleType name="riskLevelEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="LOW"/>
+            <xs:enumeration value="MEDIUM"/>
+            <xs:enumeration value="HIGH"/>
+            <xs:enumeration value="SPECULATIVE"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

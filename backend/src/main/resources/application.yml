@@ -19,6 +19,14 @@ spring:
 server:
   port: 8080
 
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui
+    operationsSorter: method
+    tagsSorter: alpha
+
 ---
 # Profile: local (H2 In-Memory)
 spring:
