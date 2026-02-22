@@ -5,6 +5,30 @@
 
 ---
 
+## D-010: Parallele Subagents in Git-Worktrees (22.02.2026)
+
+**Kontext:** P1-08 (Dashboard) und P1-09 (Reports) sind unabhängig, berühren keine gemeinsamen Dateien.
+**Entscheidung:** Zwei Subagents gleichzeitig in isolierten Git-Worktrees starten.
+**Alternativen:** Sequentiell (sicherer, aber doppelte Zeit) / Auf selber Codebasis parallel (Merge-Konflikte möglich)
+**Begründung:** Worktree-Isolation garantiert konfliktfreie Arbeit. Effektiv halbierte Entwicklungszeit.
+**Ergebnis:** 0 Merge-Konflikte, kombinierter Build 276 KB, 0 Fehler.
+
+## D-009: sessionStorage statt localStorage für Auth (22.02.2026)
+
+**Kontext:** Mock-Auth braucht Token-Persistierung.
+**Entscheidung:** sessionStorage (Session endet beim Tab-Schließen).
+**Alternativen:** localStorage (überlebt Tab-Schließen) / Memory only (kein Refresh möglich)
+**Begründung:** Banking-Standard: Session endet beim Tab-Schließen. Zeigt Security-Bewusstsein.
+**Risiko:** Kein Refresh-Überleben bei Tab-Wechsel. Akzeptabel für Prototyp.
+
+## D-008: inject() statt Constructor Injection im Frontend (22.02.2026)
+
+**Kontext:** `toSignal()` und `FormBuilder` als Feld-Initialisierer brauchen Zugriff auf injectierte Services VOR dem Constructor.
+**Entscheidung:** Durchgehend `inject()` statt Constructor Injection.
+**Alternativen:** Constructor Injection + ngOnInit-Initialisierung (umständlicher)
+**Begründung:** `inject()` ermöglicht Feld-Initialisierer mit `toSignal()`, `computed()`, `FormBuilder`. Konsistent. Angular 15+ Best Practice.
+**Quellen:** Angular.dev Signals Dokumentation, "inject() vs Constructor" Pattern.
+
 ## D-007: Fehlende Skills ergänzen (22.02.2026)
 
 **Kontext:** Selbst-Audit ergab 6 nicht abgedeckte Skills aus der Stellenanzeige.

@@ -17,7 +17,7 @@
 
 ---
 
-## P0: Fundament (0/7)
+## P0: Fundament (7/7) — ABGESCHLOSSEN
 
 | Nr | Task | Status | Abhängig von | Bemerkung |
 |----|------|--------|-------------|-----------|
@@ -29,7 +29,7 @@
 | P0-06 | Frontend Grundstruktur | [x] | P0-01, P0-02 | Erledigt 22.02.2026 |
 | P0-07 | Login-Seite | [x] | P0-06 | Erledigt 22.02.2026 |
 
-## P1: Kernfeatures (0/7)
+## P1: Kernfeatures (2/7) — IN ARBEIT
 
 | Nr | Task | Status | Abhängig von | Bemerkung |
 |----|------|--------|-------------|-----------|
@@ -41,7 +41,7 @@
 | P1-13 | RxJS State Management | [ ] | P1-09 | |
 | P1-14 | Responsive Design | [ ] | P1-08 bis P1-12 | |
 
-## P2: Professionalität (0/13)
+## P2: Professionalität (0/13) — WARTET AUF P1
 
 | Nr | Task | Status | Abhängig von | Bemerkung |
 |----|------|--------|-------------|-----------|

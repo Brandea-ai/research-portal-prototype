@@ -5,6 +5,40 @@
 
 ---
 
+## 22.02.2026 - Session 4: Steuerungsdateien-Synchronisation
+
+**Dauer:** ~10 Min
+**Auslöser:** Feststellung, dass MD-Dateien nicht mit dem tatsächlichen Projektstand synchron waren.
+
+**Gefundene Probleme (7):**
+1. CHECKLIST.md: 9 erledigte Tasks nicht abgehakt (alle [ ])
+2. STATUS.md: Sektions-Header (0/7) statt (7/7)
+3. CURRENT-TASK.md: Zeigte P0-07, aber P1-08+P1-09 waren fertig
+4. TODOs.md: Gesamtstatus 0/48, alle Sub-Items [ ]
+5. DECISION-LOG.md: D-008, D-009, D-010 fehlten
+6. README.md: Angular 17+ statt 21, Flyway statt data.sql
+7. TODOs.md: DoD-Daten fehlten bei erledigten Tasks
+
+**Korrigierte Dateien (6):**
+- CHECKLIST.md → 9 Checkboxen [x], Phase-Header
+- STATUS.md → Sektions-Header korrigiert
+- CURRENT-TASK.md → Komplett neu geschrieben
+- RESEARCH-PORTAL_TODOs.md → 9/48, alle P0+P1-08/09 [x] mit Datum
+- DECISION-LOG.md → 3 neue Entscheidungen (D-008 bis D-010)
+- README.md → Aktuelle Versionen
+
+**Nicht geändert (waren korrekt):**
+- PROGRESS-LOG.md, START.md, RULES.md, REQUIREMENTS.md, GOLDENE-REGELN.md, CLAUDE.md
+
+**Erkenntnisse:**
+- Kohärenz-Prüfung muss bei jedem Session-Start passieren
+- Die R4-Regel wurde in früheren Sessions nicht vollständig angewendet
+- CHECKLIST.md und TODOs.md wurden systematisch vergessen
+
+**Nächster Schritt:** P1-10 Report Detail-Ansicht + P1-11 Securities View (parallel)
+
+---
+
 ## 22.02.2026 - Session 3: P1-08 + P1-09 (Parallele Subagents)
 
 **Dauer:** ~5 Min (Parallel, real ~3 Min pro Agent)

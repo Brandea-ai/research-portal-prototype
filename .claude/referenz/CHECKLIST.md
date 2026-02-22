@@ -4,22 +4,22 @@
 
 ---
 
-## Phase 0: Fundament (7 Tasks)
-- [ ] P0-01: Projektinitialisierung (GitHub, Angular, Spring Boot, Docker)
-- [ ] P0-02: Design-System CSS (Farben, Fonts, Reset, Breakpoints)
-- [ ] P0-03: Backend Domain-Modell (Entities, Enums, Ports)
-- [ ] P0-04: Backend Persistence (JPA, H2, Flyway, Demo-Daten)
-- [ ] P0-05: Backend REST API (Controllers, DTOs, CORS, Error Handler)
-- [ ] P0-06: Frontend Grundstruktur (Shell, Routing, Guards, Interceptors)
-- [ ] P0-07: Login-Seite (Form, Validation, Mock-Auth, Redirect)
+## Phase 0: Fundament (7 Tasks) — ABGESCHLOSSEN
+- [x] P0-01: Projektinitialisierung (GitHub, Angular, Spring Boot, Docker)
+- [x] P0-02: Design-System CSS (Farben, Fonts, Reset, Breakpoints)
+- [x] P0-03: Backend Domain-Modell (Entities, Enums, Ports)
+- [x] P0-04: Backend Persistence (JPA, H2, Flyway, Demo-Daten)
+- [x] P0-05: Backend REST API (Controllers, DTOs, CORS, Error Handler)
+- [x] P0-06: Frontend Grundstruktur (Shell, Routing, Guards, Interceptors)
+- [x] P0-07: Login-Seite (Form, Validation, Mock-Auth, Redirect)
 
 **Gate:** `ng build` + `mvn package` fehlerfrei, Login funktioniert
 
 ---
 
-## Phase 1: Kernfeatures (7 Tasks)
-- [ ] P1-08: Dashboard View (KPIs, letzte Reports, Live-Updates)
-- [ ] P1-09: Research Reports Tabelle (PrimeNG, Filter, Sort, Suche)
+## Phase 1: Kernfeatures (7 Tasks) — IN ARBEIT (2/7)
+- [x] P1-08: Dashboard View (KPIs, letzte Reports, Live-Updates)
+- [x] P1-09: Research Reports Tabelle (PrimeNG, Filter, Sort, Suche)
 - [ ] P1-10: Report Detail-Ansicht (Split-View, Rating, Finanzdaten)
 - [ ] P1-11: Securities View (Wertschriften-Tabelle, Verlinkung)
 - [ ] P1-12: Report CRUD (Create, Edit, Delete, Validation)

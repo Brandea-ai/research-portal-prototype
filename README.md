@@ -39,19 +39,19 @@ Das ist die EINZIGE Stelle, die die Reihenfolge festlegt. Beginne dort.
 ## Tech-Stack
 
 ### Frontend
-- **Angular 17+** (Standalone Components)
-- **TypeScript** (strict mode)
-- **RxJS** (State Management, HTTP, Live-Updates)
-- **PrimeNG** (Daten-Grid Struktur) + **Custom CSS** (100% eigenes Design)
-- **Cypress** (E2E Tests)
+- **Angular 21** (Standalone Components, Signals, inject())
+- **TypeScript** (strict mode, isolatedModules)
+- **RxJS** (State Management, HTTP, Debounced Search)
+- **Custom CSS** (100% eigenes Design, kein Framework-Theme)
+- **Cypress** (E2E Tests, geplant P2)
 - **HTML5 + CSS3** (kein Tailwind, kein Bootstrap)
 
 ### Backend
-- **Java 17** + **Spring Boot 3**
+- **Java 17** + **Spring Boot 3.5.0**
 - **Hibernate/JPA** (Entity Mapping, JPQL)
 - **H2 Database** (lokal) / Oracle-Config vorbereitet
 - **Maven** (Build)
-- **Flyway** (DB Migrations)
+- **data.sql** (Demo-Daten, defer-datasource-initialization)
 
 ### DevOps
 - **Jenkinsfile** (CI/CD Pipeline)
