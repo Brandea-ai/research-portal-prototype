@@ -3,6 +3,11 @@
   min-height: 100vh;
 }
 
+.app-login-wrapper {
+  flex: 1;
+  min-height: 100vh;
+}
+
 .app-content {
   flex: 1;
   margin-left: var(--sidebar-width);
