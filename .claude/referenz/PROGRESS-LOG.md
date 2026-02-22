@@ -5,6 +5,42 @@
 
 ---
 
+## 22.02.2026 - Session 2: P0-01 Projektinitialisierung
+
+**Dauer:** ~30 Min
+**Was wurde gemacht:**
+- Java 17 via Homebrew installiert, JAVA_HOME konfiguriert
+- Maven 3.9.12 installiert
+- Angular CLI 21.1.4 installiert (Node.js 25)
+- GitHub Repo erstellt: https://github.com/Brandea-ai/research-portal-prototype
+- Initial Commit mit allen Dokumentations-Dateien gepusht
+- Spring Boot 3.5.0 via Spring Initializr generiert (Web, JPA, H2, Validation, Lombok, DevTools)
+- Hexagonale Package-Struktur angelegt (11 Packages)
+- application.yml mit 3 Profilen (local/H2 in-memory, demo/H2 file, production/Oracle)
+- WebConfig.java für CORS (localhost:4200)
+- Angular 21 Projekt generiert (Standalone Components, strict TypeScript)
+- PrimeNG installiert (nur als strukturelle Basis, kein Theme)
+- Docker Compose + Dockerfiles (Backend: JDK 17 multi-stage, Frontend: nginx)
+- nginx.conf mit API-Proxy und SPA-Routing
+- Beide Builds verifiziert: `mvn clean package` BUILD SUCCESS + `ng build` erfolgreich
+
+**Probleme und Lösungen:**
+- Spring Initializr bot Boot 3.4.3 nicht an → 3.5.0 verwendet (neuer ist besser)
+- Maven nutzte Java 25 statt 17 → JAVA_HOME explizit gesetzt
+- `sudo` für Java-Symlink in Sandbox nicht möglich → PATH-Export statt Symlink
+- Shell-Variablen in Sandbox expandieren nicht über Bash-Tool-Calls → Literale Pfade
+- Flyway ohne Migrationen blockiert Start → Flyway im local-Profil deaktiviert
+
+**Erkenntnisse:**
+- Angular 21 ist aktuell (Angular CLI 21.1.4), deutlich neuer als Angular 17+ im Plan
+- Standalone Components sind jetzt der Default (kein `--standalone` Flag mehr nötig)
+- Spring Boot 3.5.0 kompatibel mit Java 17 (trotz JDK 25 auf dem System)
+- JAVA_HOME muss bei jedem Bash-Call neu gesetzt werden (kein Shell-State-Persistence)
+
+**Nächster Schritt:** P0-02 Design-System CSS
+
+---
+
 ## 22.02.2026 - Session 1b: Systemische Kohärenz-Korrektur
 
 **Dauer:** ~20 Min
