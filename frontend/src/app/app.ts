@@ -5,9 +5,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { TopbarComponent } from './layout/topbar/topbar.component';
 import { ShortcutHelpComponent } from './shared/components/shortcut-help/shortcut-help.component';
+import { SessionWarningComponent } from './shared/components/session-warning/session-warning.component';
 import { AuthService } from './core/services/auth.service';
 import { ThemeService } from './core/services/theme.service';
 import { KeyboardShortcutService } from './core/services/keyboard-shortcut.service';
+import { SessionService } from './core/services/session.service';
 
 const PAGE_TITLES: Record<string, string> = {
   dashboard: 'Dashboard',
@@ -18,7 +20,7 @@ const PAGE_TITLES: Record<string, string> = {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SidebarComponent, TopbarComponent, ShortcutHelpComponent],
+  imports: [RouterOutlet, SidebarComponent, TopbarComponent, ShortcutHelpComponent, SessionWarningComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -27,6 +29,7 @@ export class App implements OnInit {
   readonly authService = inject(AuthService);
   readonly themeService = inject(ThemeService);
   private readonly keyboardShortcuts = inject(KeyboardShortcutService);
+  readonly sessionService = inject(SessionService);
 
   readonly sidebar = viewChild<SidebarComponent>('sidebar');
 

@@ -1,0 +1,27 @@
+@if (sessionService.isWarningVisible()) {
+  <div class="session-warning-overlay" role="alertdialog" aria-modal="true"
+       aria-labelledby="session-warning-title"
+       aria-describedby="session-warning-desc">
+    <div class="session-warning-dialog">
+      <div class="session-warning-icon" aria-hidden="true">&#9201;</div>
+      <h2 class="session-warning-title" id="session-warning-title">
+        Sitzung läuft ab
+      </h2>
+      <p class="session-warning-desc" id="session-warning-desc">
+        Ihre Sitzung läuft in
+        <strong class="session-warning-time">{{ timeDisplay() }}</strong>
+        Minuten ab.
+      </p>
+      <p class="session-warning-hint">
+        Klicken Sie auf "Verlängern" um Ihre Sitzung fortzuführen.
+      </p>
+      <button
+        class="session-warning-btn"
+        type="button"
+        (click)="onExtendSession()"
+        autofocus>
+        Sitzung verlängern
+      </button>
+    </div>
+  </div>
+}

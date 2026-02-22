@@ -3,7 +3,7 @@
 > Dynamischer Tracker. Wird nach jeder Arbeitseinheit aktualisiert.
 
 **Letzte Aktualisierung:** 23.02.2026
-**Gesamtfortschritt:** 23/48 Tasks (48%) + Design Overhaul v2.0 + Theme System v3.0
+**Gesamtfortschritt:** 25/48 Tasks (52%) + Design Overhaul v2.0 + Theme System v3.0
 
 ---
 
@@ -13,7 +13,7 @@
 |-------|-------|----------|--------|
 | P0: Fundament | 7 | 7/7 | [x] Abgeschlossen |
 | P1: Kernfeatures | 7 | 7/7 | [x] Abgeschlossen |
-| P2: Professionalität | 13 | 9/13 | [~] In Arbeit |
+| P2: Professionalität | 13 | 11/13 | [~] In Arbeit |
 
 ---
 
@@ -41,7 +41,7 @@
 | P1-13 | RxJS State Management | [x] | P1-09 | Erledigt 22.02.2026, parallel |
 | P1-14 | Responsive Design | [x] | P1-08 bis P1-12 | Erledigt 22.02.2026, parallel |
 
-## P2: Professionalität (9/13) — IN ARBEIT
+## P2: Professionalität (11/13) — IN ARBEIT
 
 | Nr | Task | Status | Abhängig von | Bemerkung |
 |----|------|--------|-------------|-----------|
@@ -53,8 +53,8 @@
 | P2-20 | API Dokumentation | [x] | P0-05 | Erledigt 23.02.2026, Swagger UI, parallel |
 | P2-21 | Performance Optimierung | [x] | P1 komplett | Erledigt 23.02.2026, OnPush 7/7, 307 KB Bundle, parallel |
 | P2-22 | Datenexport (CSV/Excel) | [x] | P1-09 | Erledigt 23.02.2026, Apache POI, 13 Tests, parallel |
-| P2-23 | PDF Report Export | [ ] | P1-10 | Neu: Selbst-Audit |
-| P2-24 | Session Timeout + Security | [ ] | P0-07 | Neu: Selbst-Audit |
+| P2-23 | PDF Report Export | [x] | P1-10 | Erledigt 23.02.2026, OpenPDF 2.0.3, 10 Tests, parallel |
+| P2-24 | Session Timeout + Security | [x] | P0-07 | Erledigt 23.02.2026, 8 Headers, 30min Timeout, 21 Tests, parallel |
 | P2-25 | Keyboard Shortcuts | [x] | P1-09 | Erledigt 23.02.2026, vim-style Combos, parallel |
 | P2-26 | i18n Vorbereitung | [ ] | P0-06 | Neu: Selbst-Audit |
 | P2-27 | Git-Flow Branching | [ ] | P0-01 | Neu: Selbst-Audit |
@@ -65,6 +65,7 @@
 
 | Datum | Änderung | Begründung |
 |-------|----------|------------|
+| 23.02.2026 | P2-23+P2-24 parallel: PDF Report Export (OpenPDF 2.0.3, 10 Tests) + Session Timeout + Security Headers (8 Headers, 21 Tests, SessionService) | 2 parallele Sonnet 4.6 Agents, 163 Tests gesamt |
 | 23.02.2026 | P2-21+P2-22 parallel: Performance Optimierung (OnPush 7/7, 307 KB Bundle) + Datenexport CSV/Excel (Apache POI, 13 Tests) | 2 parallele Sonnet 4.6 Agents, 132 Tests gesamt |
 | 23.02.2026 | P2-19+P2-25 parallel: Audit Trail (AOP @Aspect, 14 Dateien, 21 Tests) + Keyboard Shortcuts (vim-style, RxJS, Overlay) | 2 parallele Sonnet 4.6 Agents, 119 Tests gesamt |
 | 23.02.2026 | P2-17+P2-20 parallel: XPath Report Import (28 Tests, 5 XPath-Expressions) + API Dokumentation (Springdoc OpenAPI, Swagger UI, 12 Endpoints) | 2 parallele Sonnet 4.6 Agents, 98 Tests gesamt |

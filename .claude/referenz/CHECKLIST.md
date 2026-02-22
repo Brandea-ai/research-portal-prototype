@@ -39,8 +39,8 @@
 - [x] P2-20: API Dokumentation (Springdoc OpenAPI 2.8.6, Swagger UI, 12 Endpoints)
 - [x] P2-21: Performance Optimierung (OnPush 7/7 Komponenten, Lazy Load verifiziert, 307 KB Bundle)
 - [x] P2-22: Datenexport (CSV Semikolon + Excel mit Apache POI, 13 Tests)
-- [ ] P2-23: PDF Report Export
-- [ ] P2-24: Session Timeout + Security Headers
+- [x] P2-23: PDF Report Export (OpenPDF 2.0.3, Rating-Farbcodierung, Footer, 10 Tests)
+- [x] P2-24: Session Timeout (30min, Keep-Alive, Warning) + Security Headers (8 OWASP Headers)
 - [x] P2-25: Keyboard Shortcuts (vim-style 2-Key Combos, RxJS, Overlay)
 - [ ] P2-26: i18n Vorbereitung (DE/FR/EN)
 - [ ] P2-27: Git-Flow Branching Strategie
