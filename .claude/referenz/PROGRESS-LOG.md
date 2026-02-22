@@ -5,6 +5,40 @@
 
 ---
 
+## 22.02.2026 - Session 3: P1-08 + P1-09 (Parallele Subagents)
+
+**Dauer:** ~5 Min (Parallel, real ~3 Min pro Agent)
+**Methode:** 2 Subagents in isolierten Git-Worktrees, gleichzeitig
+
+**P1-08 Dashboard View:**
+- KPI-Cards verbessert (font-data, 2.25rem, Untertitel, Hover)
+- latestReports als computed() mit Datum-Sortierung
+- Top Analysten (NEU): Top 3 nach accuracy12m, Rang, Sterne
+- Coverage-Übersicht (NEU): Sektoren, Ticker, Avg. Accuracy
+- 5 computed() Signals, vollständig responsive
+
+**P1-09 Reports Tabelle:**
+- Sortierung via Unicode-Pfeile (▲/▼), 3 sortierbare Spalten
+- Filter: Typ-Dropdown, Rating-Dropdown, Debounced Suchfeld (RxJS Subject + 300ms)
+- Analyst-Spalte via AnalystService Map<id, name>
+- Rating-Change Indikator, Typ-Badges, Leerer-Zustand
+- computed() für gefilterte+sortierte Liste
+
+**Architektur-Entscheidungen:**
+- Parallele Worktrees: Kein Merge-Konflikt da Dashboard und Reports separate Dateien
+- RxJS Subject + debounceTime für Suchfeld (zeigt RxJS-Kompetenz für Interview)
+- Rating-Sortierung mit semantischer Reihenfolge (STRONG_BUY=5, SELL=1)
+- angular.json Budget erhöht (6kB/10kB für anyComponentStyle)
+
+**Erkenntnisse:**
+- Parallele Subagents funktionieren perfekt für unabhängige Features
+- Worktree-Isolation verhindert Konflikte zuverlässig
+- Kombinierter Build: 276 KB, 0 Fehler
+
+**Nächster Schritt:** P1-10 Report Detail-Ansicht
+
+---
+
 ## 22.02.2026 - Session 3 (Fortsetzung): P0-07 Login-Seite
 
 **Dauer:** ~15 Min

@@ -1,27 +1,154 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, computed } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ReportService } from '../../core/services/report.service';
+import { AnalystService } from '../../core/services/analyst.service';
 import { Report } from '../../core/models/report.model';
+import { Analyst } from '../../core/models/analyst.model';
+
+type SortColumn = 'publishedAt' | 'rating' | 'targetPrice' | 'impliedUpside';
+type SortDirection = 'asc' | 'desc';
+type ReportTypeFilter = 'ALL' | 'INITIATION' | 'UPDATE' | 'QUARTERLY' | 'FLASH' | 'DEEP_DIVE';
+type RatingFilter = 'ALL' | 'STRONG_BUY' | 'BUY' | 'HOLD' | 'SELL' | 'STRONG_SELL';
+
+const RATING_ORDER: Record<string, number> = {
+  'STRONG_BUY': 5,
+  'BUY': 4,
+  'HOLD': 3,
+  'SELL': 2,
+  'STRONG_SELL': 1
+};
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [DatePipe, DecimalPipe],
+  imports: [DatePipe, DecimalPipe, FormsModule],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.css'
 })
 export class ReportsComponent implements OnInit {
 
   reports = signal<Report[]>([]);
+  analysts = signal<Map<number, string>>(new Map());
   loading = signal(true);
 
-  constructor(private readonly reportService: ReportService) {}
+  sortColumn = signal<SortColumn>('publishedAt');
+  sortDirection = signal<SortDirection>('desc');
+
+  filterType = signal<ReportTypeFilter>('ALL');
+  filterRating = signal<RatingFilter>('ALL');
+  searchTerm = signal('');
+
+  private readonly searchSubject = new Subject<string>();
+
+  reportTypes: ReportTypeFilter[] = ['ALL', 'INITIATION', 'UPDATE', 'QUARTERLY', 'FLASH', 'DEEP_DIVE'];
+  ratingOptions: RatingFilter[] = ['ALL', 'STRONG_BUY', 'BUY', 'HOLD', 'SELL', 'STRONG_SELL'];
+
+  activeFilterCount = computed(() => {
+    let count = 0;
+    if (this.filterType() !== 'ALL') count++;
+    if (this.filterRating() !== 'ALL') count++;
+    if (this.searchTerm().trim().length > 0) count++;
+    return count;
+  });
+
+  filteredReports = computed(() => {
+    let result = this.reports();
+
+    const typeFilter = this.filterType();
+    if (typeFilter !== 'ALL') {
+      result = result.filter(r => r.reportType === typeFilter);
+    }
+
+    const ratingFilter = this.filterRating();
+    if (ratingFilter !== 'ALL') {
+      result = result.filter(r => r.rating === ratingFilter);
+    }
+
+    const search = this.searchTerm().trim().toLowerCase();
+    if (search.length > 0) {
+      result = result.filter(r => r.title.toLowerCase().includes(search));
+    }
+
+    const column = this.sortColumn();
+    const direction = this.sortDirection();
+    const dirMultiplier = direction === 'asc' ? 1 : -1;
+
+    result = [...result].sort((a, b) => {
+      let comparison = 0;
+      switch (column) {
+        case 'publishedAt':
+          comparison = a.publishedAt.localeCompare(b.publishedAt);
+          break;
+        case 'rating':
+          comparison = (RATING_ORDER[a.rating] ?? 0) - (RATING_ORDER[b.rating] ?? 0);
+          break;
+        case 'targetPrice':
+          comparison = a.targetPrice - b.targetPrice;
+          break;
+        case 'impliedUpside':
+          comparison = a.impliedUpside - b.impliedUpside;
+          break;
+      }
+      return comparison * dirMultiplier;
+    });
+
+    return result;
+  });
+
+  constructor(
+    private readonly reportService: ReportService,
+    private readonly analystService: AnalystService
+  ) {}
 
   ngOnInit(): void {
     this.reportService.getAll().subscribe(data => {
       this.reports.set(data);
       this.loading.set(false);
     });
+
+    this.analystService.getAll().subscribe(data => {
+      const map = new Map<number, string>();
+      data.forEach(a => map.set(a.id, a.name));
+      this.analysts.set(map);
+    });
+
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(term => {
+      this.searchTerm.set(term);
+    });
+  }
+
+  onSearchInput(value: string): void {
+    this.searchSubject.next(value);
+  }
+
+  toggleSort(column: SortColumn): void {
+    if (this.sortColumn() === column) {
+      this.sortDirection.set(this.sortDirection() === 'asc' ? 'desc' : 'asc');
+    } else {
+      this.sortColumn.set(column);
+      this.sortDirection.set('desc');
+    }
+  }
+
+  getSortIndicator(column: SortColumn): string {
+    if (this.sortColumn() !== column) return '';
+    return this.sortDirection() === 'asc' ? ' \u25B2' : ' \u25BC';
+  }
+
+  resetFilters(): void {
+    this.filterType.set('ALL');
+    this.filterRating.set('ALL');
+    this.searchTerm.set('');
+  }
+
+  getAnalystName(analystId: number): string {
+    return this.analysts().get(analystId) ?? `Analyst #${analystId}`;
   }
 
   ratingClass(rating: string): string {
@@ -32,5 +159,14 @@ export class ReportsComponent implements OnInit {
 
   formatRating(rating: string): string {
     return rating.replace(/_/g, ' ');
+  }
+
+  formatType(type: string): string {
+    return type.replace(/_/g, ' ');
+  }
+
+  formatFilterLabel(value: string): string {
+    if (value === 'ALL') return 'Alle';
+    return value.replace(/_/g, ' ');
   }
 }

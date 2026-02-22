@@ -2,41 +2,48 @@
   @if (loading()) {
     <p class="loading">Daten werden geladen...</p>
   } @else {
+    <!-- KPI Cards -->
     <div class="kpi-grid">
       <div class="kpi-card">
         <span class="kpi-card__label">Reports</span>
         <span class="kpi-card__value">{{ reports().length }}</span>
+        <span class="kpi-card__sub">Publizierte Analysen</span>
       </div>
       <div class="kpi-card">
         <span class="kpi-card__label">Wertschriften</span>
         <span class="kpi-card__value">{{ securities().length }}</span>
+        <span class="kpi-card__sub">Im Coverage-Universum</span>
       </div>
       <div class="kpi-card">
         <span class="kpi-card__label">Analysten</span>
         <span class="kpi-card__value">{{ analysts().length }}</span>
+        <span class="kpi-card__sub">Aktive Researcher</span>
       </div>
       <div class="kpi-card">
         <span class="kpi-card__label">Rating-Änderungen</span>
         <span class="kpi-card__value kpi-card__value--accent">
           {{ ratingChangedCount() }}
         </span>
+        <span class="kpi-card__sub">Angepasste Empfehlungen</span>
       </div>
     </div>
 
+    <!-- Neueste Reports -->
     <section class="section">
       <h2 class="section__title">Neueste Reports</h2>
       <div class="report-list">
-        @for (report of latestReports; track report.id) {
+        @for (report of latestReports(); track report.id) {
           <div class="report-row">
             <div class="report-row__info">
               <span class="report-row__title">{{ report.title }}</span>
               <span class="report-row__meta">
-                {{ report.reportType }} · {{ report.publishedAt | date:'dd.MM.yyyy' }}
+                <span class="report-row__type-badge">{{ report.reportType }}</span>
+                {{ report.publishedAt | date:'dd.MM.yyyy' }}
               </span>
             </div>
             <div class="report-row__data">
               <span class="report-row__rating" [class]="'rating--' + ratingClass(report.rating)">
-                {{ report.rating.replace('_', ' ') }}
+                {{ formatRating(report.rating) }}
               </span>
               <span class="report-row__target">
                 CHF {{ report.targetPrice | number:'1.2-2' }}
@@ -44,6 +51,45 @@
             </div>
           </div>
         }
+      </div>
+    </section>
+
+    <!-- Top Analysten -->
+    <section class="section">
+      <h2 class="section__title">Top Analysten</h2>
+      <div class="analyst-grid">
+        @for (analyst of topAnalysts(); track analyst.id; let i = $index) {
+          <div class="analyst-card">
+            <div class="analyst-card__rank">{{ i + 1 }}</div>
+            <div class="analyst-card__info">
+              <span class="analyst-card__name">{{ analyst.name }}</span>
+              <span class="analyst-card__dept">{{ analyst.department }}</span>
+            </div>
+            <div class="analyst-card__stats">
+              <span class="analyst-card__accuracy">{{ analyst.accuracy12m | number:'1.1-1' }}%</span>
+              <span class="analyst-card__stars">{{ starDisplay(analyst.starRating) }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Coverage-Übersicht -->
+    <section class="section">
+      <h2 class="section__title">Coverage-Übersicht</h2>
+      <div class="coverage-grid">
+        <div class="coverage-stat">
+          <span class="coverage-stat__value">{{ sectorCount() }}</span>
+          <span class="coverage-stat__label">Sektoren</span>
+        </div>
+        <div class="coverage-stat">
+          <span class="coverage-stat__value">{{ totalCoverage() }}</span>
+          <span class="coverage-stat__label">Ticker abgedeckt</span>
+        </div>
+        <div class="coverage-stat">
+          <span class="coverage-stat__value">{{ avgAccuracy() | number:'1.1-1' }}%</span>
+          <span class="coverage-stat__label">Avg. Accuracy (12M)</span>
+        </div>
       </div>
     </section>
   }

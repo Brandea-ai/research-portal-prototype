@@ -3,7 +3,7 @@
 > Dynamischer Tracker. Wird nach jeder Arbeitseinheit aktualisiert.
 
 **Letzte Aktualisierung:** 22.02.2026
-**Gesamtfortschritt:** 7/48 Tasks (14%)
+**Gesamtfortschritt:** 9/48 Tasks (18%)
 
 ---
 
@@ -12,7 +12,7 @@
 | Phase | Tasks | Erledigt | Status |
 |-------|-------|----------|--------|
 | P0: Fundament | 7 | 7/7 | [x] Abgeschlossen |
-| P1: Kernfeatures | 7 | 0/7 | [ ] Wartet auf P0 |
+| P1: Kernfeatures | 7 | 2/7 | [~] In Arbeit |
 | P2: Professionalität | 13 | 0/13 | [ ] Wartet auf P1 |
 
 ---
@@ -33,8 +33,8 @@
 
 | Nr | Task | Status | Abhängig von | Bemerkung |
 |----|------|--------|-------------|-----------|
-| P1-08 | Dashboard View | [ ] | P0-05, P0-06 | |
-| P1-09 | Research Reports Tabelle | [ ] | P0-05, P0-06 | |
+| P1-08 | Dashboard View | [x] | P0-05, P0-06 | Erledigt 22.02.2026, parallel |
+| P1-09 | Research Reports Tabelle | [x] | P0-05, P0-06 | Erledigt 22.02.2026, parallel |
 | P1-10 | Report Detail-Ansicht | [ ] | P1-09 | |
 | P1-11 | Securities View | [ ] | P0-05, P0-06 | |
 | P1-12 | Report CRUD | [ ] | P1-09 | |
@@ -65,6 +65,7 @@
 
 | Datum | Änderung | Begründung |
 |-------|----------|------------|
+| 22.02.2026 | P1-08+P1-09 parallel abgeschlossen: Dashboard erweitert (Top Analysten, Coverage), Reports mit Sort/Filter/Search | Parallele Subagents, 0 Konflikte |
 | 22.02.2026 | P0-07 abgeschlossen: Login-Seite, Auth-Service, Guard, Logout, Rollen-Badge | Build OK, P0 komplett |
 | 22.02.2026 | P0-06 abgeschlossen: 3 Models, 3 Services, 2 Layout-Komp., 4 Feature-Komp., App Shell, 4 Lazy Routes, 264 KB Bundle | Build OK, 0 Fehler |
 | 22.02.2026 | P0-05 abgeschlossen: 5 DTOs, 3 Mapper, 3 Services, 3 Controller, Exception Handler, 12 Endpoints live | Alle Tests bestanden |

@@ -1,7 +1,56 @@
 <div class="page">
   <div class="page__header">
     <h2 class="page__title">Research Reports</h2>
-    <span class="page__count">{{ reports().length }} Reports</span>
+    <span class="page__count">{{ filteredReports().length }} von {{ reports().length }} Reports</span>
+  </div>
+
+  <!-- Filter-Leiste -->
+  <div class="filter-bar">
+    <div class="filter-bar__controls">
+      <div class="filter-group">
+        <label class="filter-label" for="filter-type">Typ</label>
+        <select
+          id="filter-type"
+          class="filter-select"
+          [ngModel]="filterType()"
+          (ngModelChange)="filterType.set($event)">
+          @for (type of reportTypes; track type) {
+            <option [value]="type">{{ formatFilterLabel(type) }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label" for="filter-rating">Rating</label>
+        <select
+          id="filter-rating"
+          class="filter-select"
+          [ngModel]="filterRating()"
+          (ngModelChange)="filterRating.set($event)">
+          @for (rating of ratingOptions; track rating) {
+            <option [value]="rating">{{ formatFilterLabel(rating) }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group filter-group--search">
+        <label class="filter-label" for="filter-search">Suche</label>
+        <input
+          id="filter-search"
+          type="text"
+          class="filter-input"
+          placeholder="Titel durchsuchen..."
+          [ngModel]="searchTerm()"
+          (ngModelChange)="onSearchInput($event)" />
+      </div>
+    </div>
+
+    @if (activeFilterCount() > 0) {
+      <div class="filter-bar__status">
+        <span class="filter-count">{{ activeFilterCount() }} Filter aktiv</span>
+        <button class="filter-reset" (click)="resetFilters()">Filter zurücksetzen</button>
+      </div>
+    }
   </div>
 
   @if (loading()) {
@@ -13,34 +62,47 @@
           <tr>
             <th>Titel</th>
             <th>Typ</th>
+            <th>Analyst</th>
             <th>Rating</th>
-            <th class="text-right">Kursziel</th>
+            <th class="text-right sortable" (click)="toggleSort('targetPrice')">
+              Kursziel{{ getSortIndicator('targetPrice') }}
+            </th>
             <th class="text-right">Kurs</th>
-            <th class="text-right">Upside</th>
-            <th>Datum</th>
+            <th class="text-right sortable" (click)="toggleSort('impliedUpside')">
+              Upside{{ getSortIndicator('impliedUpside') }}
+            </th>
+            <th class="sortable" (click)="toggleSort('publishedAt')">
+              Datum{{ getSortIndicator('publishedAt') }}
+            </th>
           </tr>
         </thead>
         <tbody>
-          @for (report of reports(); track report.id) {
+          @for (report of filteredReports(); track report.id) {
             <tr>
               <td class="cell-title">{{ report.title }}</td>
-              <td class="cell-type">{{ report.reportType }}</td>
+              <td>
+                <span class="type-badge">{{ formatType(report.reportType) }}</span>
+              </td>
+              <td class="cell-analyst">{{ getAnalystName(report.analystId) }}</td>
               <td>
                 <span class="rating" [class]="'rating--' + ratingClass(report.rating)">
                   {{ formatRating(report.rating) }}
                 </span>
-                @if (report.ratingChanged) {
-                  <span class="rating-change">
-                    {{ report.previousRating ? formatRating(report.previousRating) : '' }}
-                  </span>
+                @if (report.ratingChanged && report.previousRating) {
+                  <span class="rating-prev">{{ formatRating(report.previousRating) }}</span>
                 }
               </td>
               <td class="text-right mono">CHF {{ report.targetPrice | number:'1.2-2' }}</td>
               <td class="text-right mono">CHF {{ report.currentPrice | number:'1.2-2' }}</td>
-              <td class="text-right mono" [class]="report.impliedUpside > 0 ? 'text-positive' : 'text-negative'">
+              <td class="text-right mono" [class]="report.impliedUpside >= 0 ? 'text-right mono text-positive' : 'text-right mono text-negative'">
                 {{ report.impliedUpside | number:'1.1-1' }}%
               </td>
               <td class="cell-date">{{ report.publishedAt | date:'dd.MM.yyyy' }}</td>
+            </tr>
+          }
+          @if (filteredReports().length === 0) {
+            <tr>
+              <td class="empty-state" colspan="8">Keine Reports gefunden</td>
             </tr>
           }
         </tbody>

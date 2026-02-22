@@ -1,3 +1,7 @@
+/* ============================================
+   Dashboard Component Styles
+   ============================================ */
+
 .dashboard {
   padding: var(--space-lg);
 }
@@ -7,6 +11,8 @@
   color: var(--color-text-muted);
   font-size: 0.875rem;
 }
+
+/* --- KPI Grid --- */
 
 .kpi-grid {
   display: grid;
@@ -22,7 +28,12 @@
   padding: var(--space-lg);
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-xs);
+  transition: border-color var(--transition-fast);
+}
+
+.kpi-card:hover {
+  border-color: var(--color-border-light);
 }
 
 .kpi-card__label {
@@ -36,15 +47,25 @@
 
 .kpi-card__value {
   font-family: var(--font-data);
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 2.25rem;
+  font-weight: 700;
   color: var(--color-text-primary);
   font-variant-numeric: tabular-nums;
+  line-height: 1.1;
 }
 
 .kpi-card__value--accent {
   color: var(--color-accent);
 }
+
+.kpi-card__sub {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  color: var(--color-text-dim);
+  margin-top: var(--space-xs);
+}
+
+/* --- Sections --- */
 
 .section {
   margin-bottom: var(--space-2xl);
@@ -61,6 +82,8 @@
   padding-bottom: var(--space-sm);
   border-bottom: 1px solid var(--color-border);
 }
+
+/* --- Report List --- */
 
 .report-list {
   display: flex;
@@ -84,6 +107,8 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
+  flex: 1;
 }
 
 .report-row__title {
@@ -91,18 +116,38 @@
   font-size: 0.8125rem;
   font-weight: 500;
   color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .report-row__meta {
   font-family: var(--font-ui);
   font-size: 0.6875rem;
   color: var(--color-text-dim);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.report-row__type-badge {
+  font-family: var(--font-data);
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 1px 6px;
 }
 
 .report-row__data {
   display: flex;
   align-items: center;
   gap: var(--space-lg);
+  flex-shrink: 0;
 }
 
 .report-row__rating {
@@ -130,16 +175,172 @@
   font-size: 0.8125rem;
   color: var(--color-text-primary);
   font-variant-numeric: tabular-nums;
+  min-width: 100px;
+  text-align: right;
 }
+
+/* --- Top Analysten --- */
+
+.analyst-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.analyst-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  transition: border-color var(--transition-fast);
+}
+
+.analyst-card:hover {
+  border-color: var(--color-border-light);
+}
+
+.analyst-card__rank {
+  font-family: var(--font-data);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-dim);
+  min-width: 28px;
+  text-align: center;
+  line-height: 1;
+}
+
+.analyst-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.analyst-card__name {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.analyst-card__dept {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+}
+
+.analyst-card__stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.analyst-card__accuracy {
+  font-family: var(--font-data);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.analyst-card__stars {
+  font-size: 0.75rem;
+  color: var(--color-warning);
+  letter-spacing: 1px;
+}
+
+/* --- Coverage-Übersicht --- */
+
+.coverage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.coverage-stat {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  text-align: center;
+}
+
+.coverage-stat__value {
+  font-family: var(--font-data);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.coverage-stat__label {
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* --- Responsive --- */
 
 @media (max-width: 1024px) {
   .kpi-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .analyst-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .coverage-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
+  .dashboard {
+    padding: var(--space-md);
+  }
+
   .kpi-grid {
     grid-template-columns: 1fr;
+  }
+
+  .analyst-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .coverage-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .report-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .report-row__data {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .report-row__target {
+    min-width: auto;
   }
 }
