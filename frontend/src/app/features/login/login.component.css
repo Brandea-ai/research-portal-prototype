@@ -1,19 +1,29 @@
+/* ============================================
+   Login Page
+   ============================================ */
+
 .login {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: var(--color-bg);
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(56, 189, 248, 0.06) 0%, transparent 70%),
+    var(--color-bg);
   padding: var(--space-lg);
 }
 
 .login__card {
   width: 100%;
-  max-width: 360px;
+  max-width: 380px;
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-2xl) var(--space-xl);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    0 2px 8px rgba(0, 0, 0, 0.30),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
 .login__header {
@@ -24,8 +34,8 @@
 
 .login__brand {
   font-family: var(--font-data);
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: var(--text-xl, 1.375rem);
+  font-weight: 800;
   letter-spacing: 0.2em;
   color: var(--color-text-primary);
 }
@@ -36,7 +46,7 @@
 
 .login__subtitle {
   font-family: var(--font-ui);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs, 0.6875rem);
   color: var(--color-text-muted);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -51,7 +61,7 @@
 
 .login__error {
   font-family: var(--font-ui);
-  font-size: 0.75rem;
+  font-size: var(--text-sm, 0.8125rem);
   color: var(--color-negative);
   background: rgba(248, 113, 113, 0.08);
   border: 1px solid rgba(248, 113, 113, 0.2);
@@ -67,46 +77,74 @@
 
 .field__label {
   font-family: var(--font-ui);
-  font-size: 0.625rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
+  font-size: var(--text-xs, 0.6875rem);
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
+/* Override global input styles for login fields */
+.login__form input {
+  font-family: var(--font-ui);
+  font-size: var(--text-base, 0.9375rem);
+  color: var(--color-text-primary);
+  background: var(--color-surface-raised, #151820);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-sm);
+  padding: 12px var(--space-md);
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.login__form input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-glow, rgba(56, 189, 248, 0.25));
+}
+
+.login__form input::placeholder {
+  color: var(--color-text-dim);
+}
+
 .field__error {
   font-family: var(--font-ui);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs, 0.6875rem);
   color: var(--color-negative);
 }
 
 .login__submit {
   font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: 0.875rem;
+  font-weight: 700;
+  font-size: var(--text-base, 0.9375rem);
   color: var(--color-bg);
-  background: var(--color-accent);
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover, #0EA5E9) 100%);
   border: none;
   border-radius: var(--radius-sm);
-  padding: var(--space-sm) var(--space-md);
+  padding: 12px var(--space-md);
   cursor: pointer;
-  transition: background var(--transition-fast);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
   margin-top: var(--space-sm);
-  height: 40px;
+  height: 48px;
+  width: 100%;
+  box-shadow: var(--shadow-glow, 0 0 20px rgba(56, 189, 248, 0.15));
 }
 
-.login__submit:hover {
-  background: var(--color-accent-hover);
+.login__submit:hover:not(:disabled) {
+  box-shadow: 0 0 32px rgba(56, 189, 248, 0.35);
+  transform: translateY(-1px);
 }
 
 .login__submit:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+  transform: none;
 }
 
 .login__hint {
   font-family: var(--font-data);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs, 0.6875rem);
   color: var(--color-text-dim);
   text-align: center;
   margin-top: var(--space-lg);

@@ -1,96 +1,186 @@
 <div class="dashboard">
   @if (loading()) {
-    <p class="loading">Daten werden geladen...</p>
+    <div class="loading-state">
+      <div class="loading-dot"></div>
+      <span class="loading-text">Daten werden geladen...</span>
+    </div>
   } @else {
-    <!-- KPI Cards -->
-    <div class="kpi-grid">
+
+    <!-- ===== KPI ROW ===== -->
+    <div class="kpi-grid stagger">
+
       <div class="kpi-card">
         <span class="kpi-card__label">Reports</span>
         <span class="kpi-card__value">{{ reports().length }}</span>
         <span class="kpi-card__sub">Publizierte Analysen</span>
       </div>
+
       <div class="kpi-card">
         <span class="kpi-card__label">Wertschriften</span>
         <span class="kpi-card__value">{{ securities().length }}</span>
         <span class="kpi-card__sub">Im Coverage-Universum</span>
       </div>
+
       <div class="kpi-card">
         <span class="kpi-card__label">Analysten</span>
         <span class="kpi-card__value">{{ analysts().length }}</span>
         <span class="kpi-card__sub">Aktive Researcher</span>
       </div>
-      <div class="kpi-card">
+
+      <div class="kpi-card kpi-card--accent">
         <span class="kpi-card__label">Rating-Änderungen</span>
         <span class="kpi-card__value kpi-card__value--accent">
           {{ ratingChangedCount() }}
         </span>
         <span class="kpi-card__sub">Angepasste Empfehlungen</span>
       </div>
+
     </div>
 
-    <!-- Neueste Reports -->
+    <!-- ===== CHARTS ROW ===== -->
+    <div class="charts-row">
+
+      <!-- Doughnut: Rating Distribution -->
+      <div class="chart-card chart-card--doughnut">
+        <div class="chart-card__header">
+          <span class="section-label">Empfehlungs-Verteilung</span>
+          <span class="chart-card__total">{{ reports().length }} Total</span>
+        </div>
+        <div class="chart-card__body chart-card__body--doughnut">
+          <div class="doughnut-wrap">
+            <canvas #ratingCanvas></canvas>
+            <div class="doughnut-center">
+              <span class="doughnut-center__value">{{ ratingDistribution().buy }}</span>
+              <span class="doughnut-center__label">BUY</span>
+            </div>
+          </div>
+          <div class="doughnut-legend">
+            <div class="legend-item">
+              <span class="legend-dot legend-dot--buy"></span>
+              <span class="legend-label">Buy / Strong Buy</span>
+              <span class="legend-value legend-value--buy">{{ ratingDistribution().buy }}</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot legend-dot--hold"></span>
+              <span class="legend-label">Hold</span>
+              <span class="legend-value legend-value--hold">{{ ratingDistribution().hold }}</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot legend-dot--sell"></span>
+              <span class="legend-label">Sell / Strong Sell</span>
+              <span class="legend-value legend-value--sell">{{ ratingDistribution().sell }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bar Chart: Sector Coverage -->
+      <div class="chart-card chart-card--bar">
+        <div class="chart-card__header">
+          <span class="section-label">Reports nach Sektor</span>
+          <span class="chart-card__total">{{ sectorCount() }} Sektoren</span>
+        </div>
+        <div class="chart-card__body">
+          <canvas #sectorCanvas></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== LATEST REPORTS ===== -->
     <section class="section">
-      <h2 class="section__title">Neueste Reports</h2>
+      <div class="section__header">
+        <span class="section-label">Neueste Reports</span>
+        <span class="section__count">{{ latestReports().length }} angezeigt</span>
+      </div>
       <div class="report-list">
+        <div class="report-list__head">
+          <span class="col-title">Titel</span>
+          <span class="col-type">Typ</span>
+          <span class="col-rating">Rating</span>
+          <span class="col-upside">Upside</span>
+          <span class="col-target">Kursziel</span>
+          <span class="col-date">Datum</span>
+        </div>
         @for (report of latestReports(); track report.id) {
-          <div class="report-row">
-            <div class="report-row__info">
-              <span class="report-row__title">{{ report.title }}</span>
-              <span class="report-row__meta">
-                <span class="report-row__type-badge">{{ report.reportType }}</span>
-                {{ report.publishedAt | date:'dd.MM.yyyy' }}
-              </span>
-            </div>
-            <div class="report-row__data">
-              <span class="report-row__rating" [class]="'rating--' + ratingClass(report.rating)">
-                {{ formatRating(report.rating) }}
-              </span>
-              <span class="report-row__target">
-                CHF {{ report.targetPrice | number:'1.2-2' }}
-              </span>
-            </div>
+          <div class="report-row" [class.report-row--changed]="report.ratingChanged">
+            <span class="report-row__title col-title">{{ report.title }}</span>
+            <span class="report-row__type col-type">{{ report.reportType }}</span>
+            <span class="report-row__rating col-rating"
+                  [class]="'rating-badge rating-badge--' + ratingClass(report.rating)">
+              {{ formatRating(report.rating) }}
+            </span>
+            <span class="report-row__upside col-upside"
+                  [class]="'upside--' + impliedUpsideClass(report.impliedUpside)">
+              {{ report.impliedUpside > 0 ? '+' : '' }}{{ report.impliedUpside | number:'1.1-1' }}%
+            </span>
+            <span class="report-row__target col-target">
+              CHF {{ report.targetPrice | number:'1.2-2' }}
+            </span>
+            <span class="report-row__date col-date">
+              {{ report.publishedAt | date:'dd.MM.yy' }}
+            </span>
           </div>
         }
       </div>
     </section>
 
-    <!-- Top Analysten -->
-    <section class="section">
-      <h2 class="section__title">Top Analysten</h2>
-      <div class="analyst-grid">
-        @for (analyst of topAnalysts(); track analyst.id; let i = $index) {
-          <div class="analyst-card">
-            <div class="analyst-card__rank">{{ i + 1 }}</div>
-            <div class="analyst-card__info">
-              <span class="analyst-card__name">{{ analyst.name }}</span>
-              <span class="analyst-card__dept">{{ analyst.department }}</span>
-            </div>
-            <div class="analyst-card__stats">
-              <span class="analyst-card__accuracy">{{ analyst.accuracy12m | number:'1.1-1' }}%</span>
-              <span class="analyst-card__stars">{{ starDisplay(analyst.starRating) }}</span>
-            </div>
-          </div>
-        }
-      </div>
-    </section>
+    <!-- ===== BOTTOM ROW ===== -->
+    <div class="bottom-row">
 
-    <!-- Coverage-Übersicht -->
-    <section class="section">
-      <h2 class="section__title">Coverage-Übersicht</h2>
-      <div class="coverage-grid">
-        <div class="coverage-stat">
-          <span class="coverage-stat__value">{{ sectorCount() }}</span>
-          <span class="coverage-stat__label">Sektoren</span>
+      <!-- Top Analysten -->
+      <section class="section bottom-card">
+        <div class="section__header">
+          <span class="section-label">Top Analysten</span>
+          <span class="section__count">nach Accuracy 12M</span>
         </div>
-        <div class="coverage-stat">
-          <span class="coverage-stat__value">{{ totalCoverage() }}</span>
-          <span class="coverage-stat__label">Ticker abgedeckt</span>
+        <div class="analyst-list">
+          @for (analyst of topAnalysts(); track analyst.id; let i = $index) {
+            <div class="analyst-row">
+              <span class="analyst-row__rank">{{ i + 1 }}</span>
+              <div class="analyst-row__info">
+                <span class="analyst-row__name">{{ analyst.name }}</span>
+                <span class="analyst-row__dept">{{ analyst.department }}</span>
+              </div>
+              <div class="analyst-row__stats">
+                <span class="analyst-row__accuracy">{{ analyst.accuracy12m | number:'1.1-1' }}%</span>
+                <span class="analyst-row__stars">{{ starDisplay(analyst.starRating) }}</span>
+              </div>
+            </div>
+          }
         </div>
-        <div class="coverage-stat">
-          <span class="coverage-stat__value">{{ avgAccuracy() | number:'1.1-1' }}%</span>
-          <span class="coverage-stat__label">Avg. Accuracy (12M)</span>
+      </section>
+
+      <!-- Coverage-Übersicht -->
+      <section class="section bottom-card">
+        <div class="section__header">
+          <span class="section-label">Coverage-Übersicht</span>
         </div>
-      </div>
-    </section>
+        <div class="coverage-grid">
+          <div class="coverage-stat">
+            <span class="coverage-stat__value">{{ sectorCount() }}</span>
+            <span class="coverage-stat__label">Sektoren</span>
+          </div>
+          <div class="coverage-stat">
+            <span class="coverage-stat__value">{{ totalCoverage() }}</span>
+            <span class="coverage-stat__label">Ticker abgedeckt</span>
+          </div>
+          <div class="coverage-stat">
+            <span class="coverage-stat__value">{{ avgAccuracy() | number:'1.1-1' }}%</span>
+            <span class="coverage-stat__label">Avg. Accuracy 12M</span>
+          </div>
+        </div>
+        <div class="coverage-breakdown">
+          @for (sec of securities().slice(0, 6); track sec.id) {
+            <div class="coverage-ticker">
+              <span class="coverage-ticker__symbol">{{ sec.ticker }}</span>
+              <span class="coverage-ticker__name">{{ sec.name }}</span>
+            </div>
+          }
+        </div>
+      </section>
+
+    </div>
+
   }
 </div>

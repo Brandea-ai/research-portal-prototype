@@ -3,12 +3,21 @@
 > Wird nach jeder Arbeitseinheit aktualisiert. Referenz: `_claude-tasks/STATUS.md`
 
 **Letzte Aktualisierung:** 22.02.2026
-**Aktueller Task:** P2-16 Backend Unit Tests (nächster)
-**Status:** P0 komplett (7/7), P1 komplett (7/7), P2 in Arbeit (1/13)
+**Aktueller Task:** Design Overhaul v2.0 abgeschlossen, P2-16 Backend Unit Tests (nächster)
+**Status:** P0 komplett (7/7), P1 komplett (7/7), P2 in Arbeit (1/13) + Design Overhaul
 
 ---
 
 ## Was wurde zuletzt gemacht
+
+### Session 4 (22.02.2026): Design Overhaul v2.0
+
+1. styles.css komplett neugeschrieben (Design System v2.0: Warm Dark Palette, Shadow-System, Animationen)
+2. index.html: Inter 300-800 + JetBrains Mono 400-700 Weights
+3. Chart.js installiert, Dashboard mit Doughnut + Bar Chart
+4. 9 Component-CSS-Dateien neugeschrieben (Swiss Institutional Banking Aesthetic)
+5. angular.json Budget erhöht auf 20kB/32kB
+6. Build: 285.77 KB, 0 Fehler, 0 Warnings
 
 ### Session 4 (22.02.2026): P1-14 + P2-15 (Parallel)
 
@@ -30,10 +39,11 @@
 
 ## Was steht als Nächstes an
 
-**P2 Professionalität (Fortsetzung):**
-1. **P2-16:** Backend Unit Tests (>70% Coverage)
-2. **P2-17:** XPath Report Import
-3. **P2-18:** CI/CD Pipeline (Jenkins, GitLab, Harness, Nexus)
+**Optionen (Armend entscheidet):**
+1. **i18n (DE/EN)** — Internationalisierung als nächstes
+2. **P2-16:** Backend Unit Tests (>70% Coverage)
+3. **P2-17:** XPath Report Import
+4. **P2-18:** CI/CD Pipeline (Jenkins, GitLab, Harness, Nexus)
 
 ## Offene Fragen / Blocker
 

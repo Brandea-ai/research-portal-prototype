@@ -34,61 +34,85 @@
 
 ## Design-System
 
-### Farbschema (STRIKT einhalten)
+### Farbschema v2.0 (STRIKT einhalten)
 
 ```css
-/* Core Palette */
---color-bg:           #0A0A0A;   /* Near-Black Hintergrund */
---color-surface:      #111111;   /* Cards, Panels */
---color-surface-alt:  #161616;   /* Hover States, alternating rows */
---color-border:       #1E1E1E;   /* Subtile Trennlinien */
---color-border-light: #2A2A2A;   /* Stärkere Trennlinien */
+/* Core Palette — Warm Dark (nicht kalt-schwarz) */
+--color-bg:             #08090C;   /* Warmer Near-Black Hintergrund */
+--color-surface:        #0F1117;   /* Cards, Panels */
+--color-surface-raised: #151820;   /* Erhöhte Karten, Modals */
+--color-surface-alt:    #1A1E28;   /* Hover States, alternating rows */
+--color-surface-hover:  #1E2330;   /* Aktive Hover-States */
 
-/* Text */
---color-text-primary: #FFFFFF;   /* Primäre Labels, Werte */
---color-text-muted:   #6B7280;   /* Sekundäre Labels, Datum */
---color-text-dim:     #4B5563;   /* Tertiär, Placeholder */
+/* Borders */
+--color-border:         #1E2330;   /* Subtile Trennlinien */
+--color-border-light:   #2A3040;   /* Stärkere Trennlinien */
+--color-border-accent:  rgba(56, 189, 248, 0.15); /* Accent-Borders */
 
-/* Accent: Futuristisches Hellblau */
---color-accent:       #38BDF8;   /* Active States, BUY, CTAs */
+/* Text — Höherer Kontrast */
+--color-text-primary:   #F0F2F5;   /* Primäre Labels (weicher als reines Weiß) */
+--color-text-secondary: #A0AAB8;   /* Sekundäre Labels */
+--color-text-muted:     #6C7A8D;   /* Tertiäre Labels, Datum */
+--color-text-dim:       #4A5568;   /* Placeholder, deaktiviert */
+
+/* Accent: Institutional Blue */
+--color-accent:       #38BDF8;   /* Active States, CTAs */
 --color-accent-hover: #0EA5E9;   /* Hover-Zustand */
---color-accent-dim:   #0C4A6E;   /* Subtle Accent Background */
+--color-accent-dim:   rgba(56, 189, 248, 0.08);  /* Subtle Background */
+--color-accent-glow:  rgba(56, 189, 248, 0.25);  /* Glow-Effekte */
 
-/* Semantisch */
---color-positive:     #38BDF8;   /* BUY, positive Deltas (= Accent) */
+/* Semantisch — Grün für Positiv (nicht Blau!) */
+--color-positive:     #34D399;   /* BUY, positive Deltas (Grün) */
 --color-negative:     #F87171;   /* SELL, negative Deltas */
 --color-neutral:      #94A3B8;   /* HOLD, neutral */
 --color-warning:      #FBBF24;   /* Warnungen */
 ```
 
+### Shadow-System (Layered Depth)
+```css
+--shadow-card:       0 2px 8px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.03);
+--shadow-card-hover: 0 8px 24px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06);
+--shadow-glow:       0 0 20px rgba(56, 189, 248, 0.15);
+```
+
 ### Accent-Regel (Bloomberg-Prinzip)
 `#38BDF8` wird NUR verwendet für:
 - Active/Selected States in der Navigation
-- BUY/STRONG_BUY Ratings
-- Positive Kursveränderungen
 - CTA-Buttons (primär)
 - Fokus-Ringe bei Formularen
+- Ticker-Symbole und Accent-Highlights
 
-NIEMALS für: Hintergründe, Borders, dekorative Elemente
+`#34D399` (Grün) wird für BUY-Ratings und positive Deltas verwendet.
+
+NIEMALS Accent für: großflächige Hintergründe, dekorative Elemente
 
 ### Typografie
 
 ```css
-/* Fonts */
---font-ui:   'Inter', system-ui, -apple-system, sans-serif;
---font-data: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+/* Fonts (erweiterte Weights) */
+--font-ui:   'Inter', system-ui, -apple-system, sans-serif;  /* 300-800 */
+--font-data: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;  /* 400-700 */
+
+/* Typography Scale */
+--text-xs:   0.6875rem;   /* 11px — Labels, Captions */
+--text-sm:   0.8125rem;   /* 13px — Sekundärtext */
+--text-base: 0.9375rem;   /* 15px — Body */
+--text-md:   1rem;        /* 16px — Emphasis */
+--text-lg:   1.125rem;    /* 18px — Section Titles */
+--text-xl:   1.375rem;    /* 22px — Page Titles */
+--text-2xl:  1.75rem;     /* 28px — Hero Numbers */
+--text-3xl:  2.25rem;     /* 36px — KPI Values */
 
 /* Alle Zahlen/Finanzdaten */
 font-family: var(--font-data);
 font-variant-numeric: tabular-nums;
-
-/* Labels und Section Headers */
-font-family: var(--font-ui);
-font-size: 0.625rem;
-letter-spacing: 0.15em;
-text-transform: uppercase;
-color: var(--color-text-muted);
 ```
+
+### Animationen
+- `slideUp`: Page-Enter-Animation für alle Views
+- `stagger`: .stagger > * mit 60ms nth-child Delays
+- `pulse-glow`: Subtile Aufmerksamkeit auf Rating-Karten
+- Cubic-Bezier Transitions: 150ms (fast), 250ms (normal), 400ms (slow)
 
 ### KEINE Icons
 - Kein Icon-Set (kein Lucide, kein Material Icons, kein FontAwesome)
