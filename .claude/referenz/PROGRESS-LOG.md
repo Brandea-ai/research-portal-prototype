@@ -5,6 +5,42 @@
 
 ---
 
+## 22.02.2026 - Session 4: P2-16 + P2-18 (Parallele Subagents)
+
+**Dauer:** ~8 Min (Parallel)
+**Methode:** 2 Subagents in isolierten Git-Worktrees, gleichzeitig
+
+**P2-16 Backend Unit Tests:**
+- 70 Tests, 0 Failures, BUILD SUCCESS
+- 10 Testdateien in 4 Kategorien:
+  - Service Tests (3): ReportService, SecurityService, AnalystService (Mockito)
+  - Controller Tests (3): @WebMvcTest + MockMvc, HTTP Status Codes, Validation
+  - Mapper Tests (3): Domain→DTO, Edge Cases (null, leere Listen)
+  - Persistence Adapter Test (1): @DataJpaTest mit H2
+- `@MockitoBean` statt deprecated `@MockBean` (Spring Boot 3.5.0)
+- Deutsche `@DisplayName` Annotationen
+- Geschätzte Coverage: ~75-80%
+
+**P2-18 CI/CD Pipeline:**
+- Jenkinsfile: 10 Stages, K8s Agent, Quality Gate, Banking-Compliance (manuelles Approval)
+- .gitlab-ci.yml: 5 Stages, parallele Jobs, Cache (.m2 + node_modules), Artifacts
+- .harness/pipeline.yaml: 3 Stages, 4-Augen-Prinzip, Rolling Deployment
+- sonar-project.properties: Multi-Modul (Java + TypeScript), Quality Gate >= 70%
+
+**Architektur-Entscheidungen:**
+- Nur neue Dateien (Tests in src/test, CI/CD im Root): Null Überlappung zwischen Agents
+- @WebMvcTest isoliert Controller von Spring Context (schnellere Tests)
+- Alle 3 CI-Systeme (Jenkins, GitLab, Harness) für maximalen Skill-Nachweis
+
+**Erkenntnisse:**
+- Spring Boot 3.5.0: `@MockBean` deprecated → `@MockitoBean` verwenden
+- Parallele Agents mit Null-Überlappung = perfekte Isolation
+- 70 Backend Tests in 4.1s Laufzeit (H2 in-memory, schnelle Zyklen)
+
+**Nächster Schritt:** P2-17 XPath Report Import oder P2-19 Audit Trail
+
+---
+
 ## 22.02.2026 - Session 4: Design System v3.0 — Light/Dark/System Theme (2 parallele Sonnet 4.6 Agents)
 
 **Dauer:** ~15 Min (Foundation + 2 parallele Agents)

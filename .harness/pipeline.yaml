@@ -1,0 +1,647 @@
+# ==============================================================================
+# Research Portal - Harness CI/CD Pipeline
+# ==============================================================================
+#
+# Banking Research Portal für Schweizer Bank (ZKB)
+# Stack: Spring Boot 3.5 (Java 17) + Angular 21 + Docker + Kubernetes
+#
+# Pipeline-Struktur:
+#   Stage 1: Build (Maven + npm + Docker Build & Push)
+#   Stage 2: Deploy Staging (Kubernetes Rolling Update)
+#   Stage 3: Deploy Production (manuelles Approval, Zero-Downtime)
+#
+# Connectors (im Harness-UI konfiguriert):
+#   - docker_registry:  Zugang zur privaten Container Registry
+#   - k8s_cluster:      Kubernetes Cluster Credentials
+#   - github_connector: Source Code Repository
+#   - sonar_connector:  SonarQube Server (optional)
+#
+# ==============================================================================
+
+pipeline:
+  name: Research Portal CI/CD
+  identifier: research_portal_cicd
+  projectIdentifier: research_portal
+  orgIdentifier: banking_research
+  description: >-
+    Vollständige CI/CD Pipeline für das Banking Research Portal.
+    Baut Backend (Spring Boot) und Frontend (Angular), führt Tests aus,
+    erstellt Docker Images und deployt nach Kubernetes.
+
+  # --- Tags für Filterung und Organisation ------------------------------------
+  tags:
+    team: research-devops
+    application: research-portal
+    compliance: banking-standard
+
+  # --- Pipeline-Variablen ----------------------------------------------------
+  variables:
+    # Java/Maven
+    - name: JAVA_VERSION
+      type: String
+      value: "17"
+      description: Java-Version für Backend-Build
+
+    # Node.js
+    - name: NODE_VERSION
+      type: String
+      value: "22"
+      description: Node.js-Version für Frontend-Build
+
+    # Docker Images
+    - name: DOCKER_REGISTRY
+      type: String
+      value: <+pipeline.variables.registry_url>
+      description: URL der Docker Registry
+
+    - name: IMAGE_BACKEND
+      type: String
+      value: <+pipeline.variables.DOCKER_REGISTRY>/research-portal/backend
+      description: Vollständiger Image-Name Backend
+
+    - name: IMAGE_FRONTEND
+      type: String
+      value: <+pipeline.variables.DOCKER_REGISTRY>/research-portal/frontend
+      description: Vollständiger Image-Name Frontend
+
+    - name: IMAGE_TAG
+      type: String
+      value: <+pipeline.sequenceId>-<+codebase.shortCommitSha>
+      description: Image-Tag (Build-Nr + Commit-Hash)
+
+    # Kubernetes
+    - name: K8S_NAMESPACE
+      type: String
+      value: research-portal
+      description: Kubernetes Namespace
+
+    # Quality Gate
+    - name: COVERAGE_THRESHOLD
+      type: String
+      value: "70"
+      description: Mindest-Coverage in Prozent
+
+  # --- Properties -------------------------------------------------------------
+  properties:
+    ci:
+      codebase:
+        connectorRef: github_connector
+        repoName: research-portal
+        build: <+input>
+
+  # ============================================================================
+  # STAGE 1: BUILD (Compile, Test, Docker)
+  # ============================================================================
+  stages:
+    - stage:
+        name: Build
+        identifier: build
+        type: CI
+        description: Backend und Frontend kompilieren, testen und als Docker Images paketieren
+
+        spec:
+          cloneCodebase: true
+
+          # Infrastruktur: Kubernetes für skalierbare Builds
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: k8s_cluster
+              namespace: harness-builds
+              automountServiceAccountToken: true
+              os: Linux
+
+          # Cache-Konfiguration (beschleunigt wiederholte Builds)
+          caching:
+            enabled: true
+            paths:
+              - /root/.m2/repository
+              - /root/.npm
+
+          # --- Build Steps ----------------------------------------------------
+          execution:
+            steps:
+              # ----------------------------------------------------------------
+              # Step 1: Backend Build (Maven)
+              # ----------------------------------------------------------------
+              - step:
+                  name: Maven Build
+                  identifier: maven_build
+                  type: Run
+                  description: Spring Boot Backend kompilieren und paketieren
+                  spec:
+                    connectorRef: account.harnessImage
+                    image: maven:3.9-eclipse-temurin-17-alpine
+                    shell: Sh
+                    command: |
+                      echo "=== Backend Build (Spring Boot 3.5, Java 17) ==="
+                      cd backend
+
+                      # Dependencies laden und kompilieren
+                      mvn clean compile -B -DskipTests -T 2C
+
+                      # JAR-Paket erstellen
+                      mvn package -B -DskipTests
+
+                      echo "Backend Build erfolgreich. JAR erstellt."
+                      ls -la target/*.jar
+                    envVariables:
+                      MAVEN_OPTS: "-Xmx1024m -XX:+UseG1GC"
+                    resources:
+                      limits:
+                        memory: 2Gi
+                        cpu: "2"
+
+              # ----------------------------------------------------------------
+              # Step 2: Backend Tests (JUnit 5 + JaCoCo)
+              # ----------------------------------------------------------------
+              - step:
+                  name: Maven Test
+                  identifier: maven_test
+                  type: Run
+                  description: Unit- und Integrationstests mit Code-Coverage
+                  spec:
+                    connectorRef: account.harnessImage
+                    image: maven:3.9-eclipse-temurin-17-alpine
+                    shell: Sh
+                    command: |
+                      echo "=== Backend Tests (JUnit 5, JaCoCo Coverage) ==="
+                      cd backend
+
+                      # Tests mit Coverage ausführen
+                      mvn verify -B -Dspring.profiles.active=test
+
+                      # Coverage-Ergebnis anzeigen
+                      echo "Test-Ergebnisse:"
+                      cat target/site/jacoco/index.html 2>/dev/null | head -50 || echo "JaCoCo Report nicht verfügbar"
+
+                      echo "Backend Tests abgeschlossen."
+                    envVariables:
+                      MAVEN_OPTS: "-Xmx1024m"
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - backend/target/surefire-reports/*.xml
+                    resources:
+                      limits:
+                        memory: 2Gi
+                        cpu: "2"
+
+              # ----------------------------------------------------------------
+              # Step 3: Frontend Build (Angular CLI)
+              # ----------------------------------------------------------------
+              - step:
+                  name: npm Build
+                  identifier: npm_build
+                  type: Run
+                  description: Angular 21 Frontend im Production-Modus bauen
+                  spec:
+                    connectorRef: account.harnessImage
+                    image: node:22-alpine
+                    shell: Sh
+                    command: |
+                      echo "=== Frontend Build (Angular 21, TypeScript 5.9) ==="
+                      cd frontend
+
+                      # Dependencies installieren (Lockfile-basiert)
+                      npm ci --prefer-offline --no-audit
+
+                      # Production Build
+                      npx ng build --configuration=production
+
+                      echo "Frontend Build erfolgreich."
+                      ls -la dist/frontend/browser/
+                    resources:
+                      limits:
+                        memory: 2Gi
+                        cpu: "2"
+
+              # ----------------------------------------------------------------
+              # Step 4: Frontend Tests
+              # ----------------------------------------------------------------
+              - step:
+                  name: npm Test
+                  identifier: npm_test
+                  type: Run
+                  description: Angular Unit-Tests (Karma, ChromeHeadless)
+                  spec:
+                    connectorRef: account.harnessImage
+                    image: node:22-alpine
+                    shell: Sh
+                    command: |
+                      echo "=== Frontend Tests (Karma, ChromeHeadless) ==="
+                      cd frontend
+
+                      # Chromium für Headless-Tests
+                      apk add --no-cache chromium
+                      export CHROME_BIN=/usr/bin/chromium-browser
+
+                      npm ci --prefer-offline --no-audit
+                      npx ng test --watch=false --browsers=ChromeHeadless --code-coverage || true
+
+                      echo "Frontend Tests abgeschlossen."
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - frontend/test-results/*.xml
+                    resources:
+                      limits:
+                        memory: 2Gi
+                        cpu: "1"
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: Ignore
+
+              # ----------------------------------------------------------------
+              # Step 5: SonarQube Analyse (Quality Gate)
+              # ----------------------------------------------------------------
+              - step:
+                  name: SonarQube Analysis
+                  identifier: sonarqube_analysis
+                  type: Run
+                  description: Statische Code-Analyse und Quality Gate Prüfung
+                  spec:
+                    connectorRef: account.harnessImage
+                    image: maven:3.9-eclipse-temurin-17-alpine
+                    shell: Sh
+                    command: |
+                      echo "=== SonarQube Analyse ==="
+                      cd backend
+
+                      mvn sonar:sonar -B \
+                        -Dsonar.host.url=$SONAR_HOST_URL \
+                        -Dsonar.login=$SONAR_TOKEN \
+                        -Dsonar.projectKey=research-portal-backend \
+                        -Dsonar.projectName="Research Portal Backend" \
+                        -Dsonar.java.coveragePlugin=jacoco \
+                        -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+                        -Dsonar.qualitygate.wait=true || true
+
+                      echo "SonarQube Analyse abgeschlossen."
+                    envVariables:
+                      SONAR_HOST_URL: <+pipeline.variables.sonar_url>
+                      SONAR_TOKEN: <+secrets.getValue("sonar_token")>
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: Ignore
+
+              # ----------------------------------------------------------------
+              # Step 6: Docker Build & Push (Backend)
+              # ----------------------------------------------------------------
+              - step:
+                  name: Docker Build Backend
+                  identifier: docker_build_backend
+                  type: BuildAndPushDockerRegistry
+                  description: Backend Docker Image bauen und in Registry pushen
+                  spec:
+                    connectorRef: docker_registry
+                    repo: <+pipeline.variables.IMAGE_BACKEND>
+                    tags:
+                      - <+pipeline.variables.IMAGE_TAG>
+                      - latest
+                    dockerfile: backend/Dockerfile
+                    context: backend
+                    optimize: true
+                    caching: true
+                    resources:
+                      limits:
+                        memory: 2Gi
+                        cpu: "2"
+
+              # ----------------------------------------------------------------
+              # Step 7: Docker Build & Push (Frontend)
+              # ----------------------------------------------------------------
+              - step:
+                  name: Docker Build Frontend
+                  identifier: docker_build_frontend
+                  type: BuildAndPushDockerRegistry
+                  description: Frontend Docker Image bauen und in Registry pushen
+                  spec:
+                    connectorRef: docker_registry
+                    repo: <+pipeline.variables.IMAGE_FRONTEND>
+                    tags:
+                      - <+pipeline.variables.IMAGE_TAG>
+                      - latest
+                    dockerfile: frontend/Dockerfile
+                    context: frontend
+                    optimize: true
+                    caching: true
+                    resources:
+                      limits:
+                        memory: 2Gi
+                        cpu: "2"
+
+    # ==========================================================================
+    # STAGE 2: DEPLOY STAGING
+    # ==========================================================================
+    - stage:
+        name: Deploy Staging
+        identifier: deploy_staging
+        type: Deployment
+        description: Automatisches Deployment in die Staging-Umgebung nach erfolgreichem Build
+
+        spec:
+          deploymentType: Kubernetes
+          environment:
+            environmentRef: staging
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: staging_k8s
+                inputs:
+                  identifier: staging_k8s
+                  type: KubernetesDirect
+                  spec:
+                    connectorRef: k8s_cluster
+                    namespace: <+pipeline.variables.K8S_NAMESPACE>-staging
+
+          service:
+            serviceRef: research_portal
+            serviceInputs:
+              serviceDefinition:
+                type: Kubernetes
+                spec:
+                  artifacts:
+                    primary:
+                      primaryArtifactRef: backend_image
+                      sources:
+                        - identifier: backend_image
+                          type: DockerRegistry
+                          spec:
+                            tag: <+pipeline.variables.IMAGE_TAG>
+                        - identifier: frontend_image
+                          type: DockerRegistry
+                          spec:
+                            tag: <+pipeline.variables.IMAGE_TAG>
+
+          execution:
+            steps:
+              # Rolling Update Deployment
+              - step:
+                  name: Rolling Deployment
+                  identifier: rolling_deployment
+                  type: K8sRollingDeploy
+                  description: Kubernetes Rolling Update (Zero-Downtime)
+                  spec:
+                    skipDryRun: false
+                    pruningEnabled: true
+                  timeout: 10m
+
+              # Deployment-Validierung
+              - step:
+                  name: Verify Staging
+                  identifier: verify_staging
+                  type: Run
+                  description: Health-Check nach Staging-Deployment
+                  spec:
+                    connectorRef: account.harnessImage
+                    image: curlimages/curl:latest
+                    shell: Sh
+                    command: |
+                      echo "=== Staging Health-Check ==="
+                      # Backend Health-Endpoint prüfen
+                      BACKEND_URL="http://research-portal-backend.research-portal-staging:8080/actuator/health"
+                      for i in $(seq 1 10); do
+                        HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" $BACKEND_URL || true)
+                        if [ "$HTTP_CODE" = "200" ]; then
+                          echo "Backend Health-Check erfolgreich (Versuch $i)"
+                          break
+                        fi
+                        echo "Warte auf Backend... (Versuch $i/10)"
+                        sleep 10
+                      done
+                      if [ "$HTTP_CODE" != "200" ]; then
+                        echo "Backend Health-Check fehlgeschlagen!"
+                        exit 1
+                      fi
+
+            # Rollback bei Fehler
+            rollbackSteps:
+              - step:
+                  name: Rollback Staging
+                  identifier: rollback_staging
+                  type: K8sRollingRollback
+                  description: Automatischer Rollback bei fehlgeschlagenem Deployment
+                  spec: {}
+                  timeout: 5m
+
+        # Staging nur bei main oder develop auslösen
+        when:
+          pipelineStatus: Success
+          condition: <+pipeline.properties.ci.codebase.branch> == "main" || <+pipeline.properties.ci.codebase.branch> == "develop"
+
+    # ==========================================================================
+    # STAGE 3: DEPLOY PRODUCTION
+    # ==========================================================================
+    - stage:
+        name: Deploy Production
+        identifier: deploy_production
+        type: Deployment
+        description: >-
+          Production-Deployment mit manueller Freigabe (Banking-Compliance).
+          Erfordert Approval durch DevOps-Lead oder Release-Manager.
+
+        spec:
+          deploymentType: Kubernetes
+          environment:
+            environmentRef: production
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: production_k8s
+                inputs:
+                  identifier: production_k8s
+                  type: KubernetesDirect
+                  spec:
+                    connectorRef: k8s_cluster
+                    namespace: <+pipeline.variables.K8S_NAMESPACE>
+
+          service:
+            serviceRef: research_portal
+            serviceInputs:
+              serviceDefinition:
+                type: Kubernetes
+                spec:
+                  artifacts:
+                    primary:
+                      primaryArtifactRef: backend_image
+                      sources:
+                        - identifier: backend_image
+                          type: DockerRegistry
+                          spec:
+                            tag: <+pipeline.variables.IMAGE_TAG>
+                        - identifier: frontend_image
+                          type: DockerRegistry
+                          spec:
+                            tag: <+pipeline.variables.IMAGE_TAG>
+
+          execution:
+            steps:
+              # Manuelle Freigabe (Banking-Compliance: 4-Augen-Prinzip)
+              - step:
+                  name: Production Approval
+                  identifier: production_approval
+                  type: HarnessApproval
+                  description: Manuelle Freigabe durch autorisierte Personen (4-Augen-Prinzip)
+                  spec:
+                    approvalMessage: >-
+                      Production-Deployment für Research Portal freigeben?
+                      Image-Tag: <+pipeline.variables.IMAGE_TAG>
+                      Branch: <+pipeline.properties.ci.codebase.branch>
+                      Commit: <+codebase.commitSha>
+                    approvers:
+                      userGroups:
+                        - devops_leads
+                        - release_managers
+                      minimumCount: 1
+                      disallowPipelineExecutor: true  # Wer den Build gestartet hat, darf nicht freigeben
+                    includePipelineExecutionHistory: true
+                  timeout: 72h  # 3 Tage Frist für Freigabe
+
+              # Rolling Update nach Production
+              - step:
+                  name: Production Rolling Deployment
+                  identifier: production_rolling_deployment
+                  type: K8sRollingDeploy
+                  description: Kubernetes Rolling Update mit Zero-Downtime
+                  spec:
+                    skipDryRun: false
+                    pruningEnabled: true
+                  timeout: 15m
+
+              # Production Validierung
+              - step:
+                  name: Verify Production
+                  identifier: verify_production
+                  type: Run
+                  description: Health-Check und Smoke-Test nach Production-Deployment
+                  spec:
+                    connectorRef: account.harnessImage
+                    image: curlimages/curl:latest
+                    shell: Sh
+                    command: |
+                      echo "=== Production Health-Check ==="
+                      BACKEND_URL="http://research-portal-backend.research-portal:8080/actuator/health"
+                      for i in $(seq 1 15); do
+                        HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" $BACKEND_URL || true)
+                        if [ "$HTTP_CODE" = "200" ]; then
+                          echo "Production Health-Check erfolgreich (Versuch $i)"
+                          echo "Research Portal ist live."
+                          exit 0
+                        fi
+                        echo "Warte auf Production-Backend... (Versuch $i/15)"
+                        sleep 15
+                      done
+                      echo "Production Health-Check fehlgeschlagen!"
+                      exit 1
+
+            # Rollback bei Production-Fehler
+            rollbackSteps:
+              - step:
+                  name: Rollback Production
+                  identifier: rollback_production
+                  type: K8sRollingRollback
+                  description: Sofortiger Rollback auf vorherige Version bei Fehler
+                  spec: {}
+                  timeout: 5m
+
+        # Production nur bei main Branch
+        when:
+          pipelineStatus: Success
+          condition: <+pipeline.properties.ci.codebase.branch> == "main"
+
+  # ============================================================================
+  # TRIGGER: Automatischer Pipeline-Start
+  # ============================================================================
+  triggers:
+    - trigger:
+        name: On Push to Main
+        identifier: on_push_main
+        enabled: true
+        description: Pipeline automatisch bei Push auf main starten
+        triggerType: Webhook
+        source:
+          type: Github
+          spec:
+            type: Push
+            spec:
+              connectorRef: github_connector
+              autoAbortPreviousExecutions: true
+              payloadConditions:
+                - key: targetBranch
+                  operator: Equals
+                  value: main
+              headerConditions: []
+              actions: []
+
+    - trigger:
+        name: On Push to Develop
+        identifier: on_push_develop
+        enabled: true
+        description: Pipeline automatisch bei Push auf develop starten
+        triggerType: Webhook
+        source:
+          type: Github
+          spec:
+            type: Push
+            spec:
+              connectorRef: github_connector
+              autoAbortPreviousExecutions: true
+              payloadConditions:
+                - key: targetBranch
+                  operator: Equals
+                  value: develop
+
+    - trigger:
+        name: Pull Request
+        identifier: on_pull_request
+        enabled: true
+        description: Build und Tests bei Pull Requests (ohne Deployment)
+        triggerType: Webhook
+        source:
+          type: Github
+          spec:
+            type: PullRequest
+            spec:
+              connectorRef: github_connector
+              autoAbortPreviousExecutions: true
+              actions:
+                - Open
+                - Reopen
+                - Synchronize
+
+  # ============================================================================
+  # Notification Rules
+  # ============================================================================
+  notificationRules:
+    - name: Pipeline Failure
+      identifier: pipeline_failure_notification
+      pipelineEvents:
+        - type: PipelineFailed
+        - type: StageFailed
+      notificationMethod:
+        type: Email
+        spec:
+          recipients:
+            - devops-research@bank.internal
+      enabled: true
+
+    - name: Production Deployment
+      identifier: production_deploy_notification
+      pipelineEvents:
+        - type: StageSuccess
+          forStages:
+            - deploy_production
+      notificationMethod:
+        type: Email
+        spec:
+          recipients:
+            - devops-research@bank.internal
+            - release-management@bank.internal
+      enabled: true

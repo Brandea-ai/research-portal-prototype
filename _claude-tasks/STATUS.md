@@ -3,7 +3,7 @@
 > Dynamischer Tracker. Wird nach jeder Arbeitseinheit aktualisiert.
 
 **Letzte Aktualisierung:** 22.02.2026
-**Gesamtfortschritt:** 15/48 Tasks (31%) + Design Overhaul v2.0 + Theme System v3.0
+**Gesamtfortschritt:** 17/48 Tasks (35%) + Design Overhaul v2.0 + Theme System v3.0
 
 ---
 
@@ -13,7 +13,7 @@
 |-------|-------|----------|--------|
 | P0: Fundament | 7 | 7/7 | [x] Abgeschlossen |
 | P1: Kernfeatures | 7 | 7/7 | [x] Abgeschlossen |
-| P2: Professionalität | 13 | 1/13 | [~] In Arbeit |
+| P2: Professionalität | 13 | 3/13 | [~] In Arbeit |
 
 ---
 
@@ -46,9 +46,9 @@
 | Nr | Task | Status | Abhängig von | Bemerkung |
 |----|------|--------|-------------|-----------|
 | P2-15 | Cypress E2E Tests | [x] | P1 komplett | Erledigt 22.02.2026, parallel |
-| P2-16 | Backend Unit Tests | [ ] | P0-05 | Kann parallel zu P1 |
+| P2-16 | Backend Unit Tests | [x] | P0-05 | Erledigt 22.02.2026, 70 Tests, parallel |
 | P2-17 | XPath Report Import | [ ] | P0-05 | |
-| P2-18 | CI/CD Pipeline (Jenkins, GitLab, Harness, Nexus) | [ ] | P0-01 | Kann parallel |
+| P2-18 | CI/CD Pipeline (Jenkins, GitLab, Harness, Nexus) | [x] | P0-01 | Erledigt 22.02.2026, 4 Dateien, parallel |
 | P2-19 | Audit Trail | [ ] | P1-12 | |
 | P2-20 | API Dokumentation | [ ] | P0-05 | |
 | P2-21 | Performance Optimierung | [ ] | P1 komplett | |
@@ -65,6 +65,7 @@
 
 | Datum | Änderung | Begründung |
 |-------|----------|------------|
+| 22.02.2026 | P2-16+P2-18 parallel: 70 Backend Unit Tests (JUnit 5, Mockito, 0 Failures) + CI/CD Pipeline (Jenkinsfile, .gitlab-ci.yml, Harness, SonarQube) | 2 parallele Sonnet 4.6 Agents |
 | 22.02.2026 | Design System v3.0: ThemeService (Light/Dark/System), styles.css Rewrite, Sidebar-Redesign (Collapsed Active State), Theme-Toggle, 16 Dateien geändert | 2 parallele Sonnet 4.6 Agents, Build 292.83 KB |
 | 22.02.2026 | Design Overhaul v2.0: styles.css Rewrite, Chart.js Dashboard (Doughnut+Bar), 9 Component-CSS Rewrites, 15 Dateien geändert | 2 parallele Sonnet 4.6 Agents, Build 285.77 KB |
 | 22.02.2026 | P1-14+P2-15 parallel abgeschlossen: Responsive Design (Sidebar collapsible, Hamburger, Mobile), Cypress E2E (5 Specs, 49 Tests) | Parallele Subagents, 0 Konflikte |

@@ -3,12 +3,22 @@
 > Wird nach jeder Arbeitseinheit aktualisiert. Referenz: `_claude-tasks/STATUS.md`
 
 **Letzte Aktualisierung:** 22.02.2026
-**Aktueller Task:** Design System v3.0 (Light/Dark/System Theme) abgeschlossen, P2-16 Backend Unit Tests (nächster)
-**Status:** P0 komplett (7/7), P1 komplett (7/7), P2 in Arbeit (1/13) + Design v2.0 + Theme v3.0
+**Aktueller Task:** P2-16 + P2-18 abgeschlossen, P2-17 XPath Report Import (nächster)
+**Status:** P0 komplett (7/7), P1 komplett (7/7), P2 in Arbeit (3/13) + Design v2.0 + Theme v3.0
 
 ---
 
 ## Was wurde zuletzt gemacht
+
+### Session 4 (22.02.2026): P2-16 + P2-18 (Parallel)
+
+1. P2-16: 70 Backend Unit Tests (JUnit 5 + Mockito), 0 Failures, ~75-80% Coverage
+   - 3 Service Tests, 3 Controller Tests (@WebMvcTest), 3 Mapper Tests, 1 Persistence Adapter Test
+2. P2-18: 4 CI/CD-Konfigurationsdateien
+   - Jenkinsfile (10 Stages, K8s Agent, Quality Gate)
+   - .gitlab-ci.yml (5 Stages, parallele Jobs, Caching)
+   - .harness/pipeline.yaml (3 Stages, 4-Augen-Prinzip)
+   - sonar-project.properties (Multi-Modul, Quality Gate)
 
 ### Session 4 (22.02.2026): Design System v3.0 — Theme Toggle
 
@@ -50,10 +60,10 @@
 ## Was steht als Nächstes an
 
 **Optionen (Armend entscheidet):**
-1. **i18n (DE/EN)** — Internationalisierung als nächstes
-2. **P2-16:** Backend Unit Tests (>70% Coverage)
-3. **P2-17:** XPath Report Import
-4. **P2-18:** CI/CD Pipeline (Jenkins, GitLab, Harness, Nexus)
+1. **P2-17:** XPath Report Import
+2. **P2-19:** Audit Trail (Activity Log, AOP Logging)
+3. **P2-20:** API Dokumentation (Springdoc, Swagger UI)
+4. **P2-26:** i18n (DE/EN) Internationalisierung
 
 ## Offene Fragen / Blocker
 

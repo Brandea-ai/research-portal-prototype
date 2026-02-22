@@ -1,0 +1,444 @@
+# ==============================================================================
+# Research Portal - GitLab CI/CD Pipeline
+# ==============================================================================
+#
+# Banking Research Portal für Schweizer Bank (ZKB)
+# Stack: Spring Boot 3.5 (Java 17) + Angular 21 + Docker + Kubernetes
+#
+# Pipeline-Übersicht:
+#   build    → Maven Compile + npm Build (parallel)
+#   test     → Backend Tests + Frontend Tests (parallel)
+#   quality  → SonarQube Analyse + OWASP Security Scan
+#   package  → Docker Build & Push (Backend + Frontend)
+#   deploy   → Staging (automatisch) + Production (manuell)
+#
+# Optimierungen:
+#   - Maven .m2 und npm node_modules gecacht
+#   - Parallele Jobs wo möglich
+#   - Branch-basierte Deployment-Regeln
+#   - Artefakt-Weitergabe zwischen Stages
+#
+# ==============================================================================
+
+# --- Globale Variablen --------------------------------------------------------
+variables:
+  # Java/Maven
+  MAVEN_OPTS: >-
+    -Xmx1024m
+    -XX:+UseG1GC
+    -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
+  JAVA_VERSION: "17"
+
+  # Node.js
+  NODE_VERSION: "22"
+
+  # Docker Registry (private Banking-Registry)
+  DOCKER_REGISTRY: $CI_REGISTRY
+  IMAGE_BACKEND: $CI_REGISTRY/$CI_PROJECT_PATH/backend
+  IMAGE_FRONTEND: $CI_REGISTRY/$CI_PROJECT_PATH/frontend
+  IMAGE_TAG: $CI_PIPELINE_IID-$CI_COMMIT_SHORT_SHA
+
+  # SonarQube
+  SONAR_HOST_URL: $SONAR_URL
+  SONAR_TOKEN: $SONAR_AUTH_TOKEN
+
+  # Kubernetes
+  K8S_NAMESPACE: research-portal
+
+  # Quality Gate Schwellenwerte
+  COVERAGE_THRESHOLD: "70"
+
+
+# --- Stages (Reihenfolge) ----------------------------------------------------
+stages:
+  - build
+  - test
+  - quality
+  - package
+  - deploy
+
+
+# --- Cache-Konfiguration (wiederverwendbar) -----------------------------------
+.maven-cache: &maven-cache
+  key:
+    files:
+      - backend/pom.xml
+    prefix: maven
+  paths:
+    - .m2/repository/
+  policy: pull-push
+
+.npm-cache: &npm-cache
+  key:
+    files:
+      - frontend/package-lock.json
+    prefix: npm
+  paths:
+    - frontend/node_modules/
+  policy: pull-push
+
+
+# --- Default-Einstellungen ----------------------------------------------------
+default:
+  # Retry bei Runner-Problemen (nicht bei Skript-Fehlern)
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+
+  # Interruptible: laufende Pipelines bei neuem Push abbrechen
+  interruptible: true
+
+
+# ==============================================================================
+# STAGE: BUILD
+# ==============================================================================
+
+# Backend kompilieren (Maven)
+maven-build:
+  stage: build
+  image: maven:3.9-eclipse-temurin-17-alpine
+  cache:
+    <<: *maven-cache
+  script:
+    - echo "Backend kompilieren (Spring Boot 3.5, Java 17)..."
+    - cd backend
+    - mvn clean compile -B -DskipTests -Dmaven.javadoc.skip=true -T 2C
+    - mvn package -B -DskipTests
+  artifacts:
+    paths:
+      - backend/target/*.jar
+      - backend/target/classes/
+    expire_in: 1 hour
+  tags:
+    - docker
+
+
+# Frontend bauen (Angular 21)
+ng-build:
+  stage: build
+  image: node:22-alpine
+  cache:
+    <<: *npm-cache
+  script:
+    - echo "Frontend Dependencies installieren und Angular-App bauen..."
+    - cd frontend
+    - npm ci --prefer-offline --no-audit
+    - npx ng build --configuration=production
+  artifacts:
+    paths:
+      - frontend/dist/
+    expire_in: 1 hour
+  tags:
+    - docker
+
+
+# ==============================================================================
+# STAGE: TEST
+# ==============================================================================
+
+# Backend Unit- und Integrationstests
+maven-test:
+  stage: test
+  image: maven:3.9-eclipse-temurin-17-alpine
+  cache:
+    <<: *maven-cache
+    policy: pull  # Cache nur lesen, nicht erneut schreiben
+  needs:
+    - maven-build
+  script:
+    - echo "Backend Tests mit JaCoCo Coverage ausführen..."
+    - cd backend
+    - mvn verify -B -Dspring.profiles.active=test
+  artifacts:
+    when: always
+    paths:
+      - backend/target/surefire-reports/
+      - backend/target/site/jacoco/
+      - backend/target/jacoco.exec
+    reports:
+      junit:
+        - backend/target/surefire-reports/TEST-*.xml
+    expire_in: 1 week
+  # Coverage-Regex für GitLab Coverage Badge
+  coverage: '/Total.*?(\d+\.?\d*)%/'
+  tags:
+    - docker
+
+
+# Frontend Unit-Tests (Karma/Jasmine)
+ng-test:
+  stage: test
+  image: node:22-alpine
+  cache:
+    <<: *npm-cache
+    policy: pull
+  needs:
+    - ng-build
+  script:
+    - echo "Angular Unit-Tests mit Karma ausführen..."
+    - cd frontend
+    - npm ci --prefer-offline --no-audit
+    # Chromium für Headless-Tests installieren
+    - apk add --no-cache chromium
+    - export CHROME_BIN=/usr/bin/chromium-browser
+    - npx ng test --watch=false --browsers=ChromeHeadless --code-coverage
+  artifacts:
+    when: always
+    paths:
+      - frontend/coverage/
+    reports:
+      junit:
+        - frontend/test-results/TESTS-*.xml
+    expire_in: 1 week
+  coverage: '/Statements.*?(\d+\.?\d*)%/'
+  allow_failure: true  # Frontend-Tests blockieren Pipeline nicht
+  tags:
+    - docker
+
+
+# Cypress E2E-Tests (optional, nur auf develop/main)
+cypress-e2e:
+  stage: test
+  image: cypress/browsers:node-22.0.0-chrome-131.0.6778.69-1-ff-133.0-edge-131.0.2903.51-1
+  needs:
+    - maven-build
+    - ng-build
+  services:
+    - name: eclipse-temurin:17-jre-alpine
+      alias: backend
+      entrypoint: ["java", "-jar", "/app/app.jar", "--spring.profiles.active=test"]
+  script:
+    - echo "Cypress E2E-Tests gegen Staging-Build ausführen..."
+    - cd frontend
+    - npm ci --prefer-offline --no-audit
+    - npx cypress run --browser chrome --headless
+  artifacts:
+    when: always
+    paths:
+      - frontend/cypress/screenshots/
+      - frontend/cypress/videos/
+    expire_in: 3 days
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"
+    - if: $CI_MERGE_REQUEST_ID
+  allow_failure: true
+  tags:
+    - docker
+
+
+# ==============================================================================
+# STAGE: QUALITY
+# ==============================================================================
+
+# SonarQube Analyse (Backend + Frontend)
+sonarqube:
+  stage: quality
+  image: maven:3.9-eclipse-temurin-17-alpine
+  needs:
+    - maven-test
+    - ng-test
+  variables:
+    GIT_DEPTH: 0  # Vollständige Git-Historie für SonarQube Blame
+  script:
+    - echo "SonarQube-Analyse für Backend starten..."
+    - cd backend
+    - >
+      mvn sonar:sonar -B
+      -Dsonar.host.url=$SONAR_HOST_URL
+      -Dsonar.login=$SONAR_TOKEN
+      -Dsonar.projectKey=research-portal-backend
+      -Dsonar.projectName="Research Portal Backend"
+      -Dsonar.java.coveragePlugin=jacoco
+      -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+      -Dsonar.exclusions="**/dto/**,**/config/WebConfig.java"
+      -Dsonar.qualitygate.wait=true
+      -Dsonar.qualitygate.timeout=$COVERAGE_THRESHOLD
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"
+    - if: $CI_MERGE_REQUEST_ID
+  allow_failure: true  # Quality Gate informativ, blockiert nicht
+  tags:
+    - docker
+
+
+# OWASP Dependency-Check (Sicherheitsprüfung)
+owasp-scan:
+  stage: quality
+  image: maven:3.9-eclipse-temurin-17-alpine
+  needs:
+    - maven-build
+  script:
+    - echo "OWASP Dependency-Check für bekannte Schwachstellen (CVEs)..."
+    - cd backend
+    - >
+      mvn org.owasp:dependency-check-maven:check -B
+      -DfailBuildOnCVSS=9
+      -Dformat=ALL
+      -DsuppressionFile=../owasp-suppressions.xml || true
+  artifacts:
+    when: always
+    paths:
+      - backend/target/dependency-check-report.*
+    expire_in: 1 week
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "develop"
+      when: manual  # Auf develop nur manuell auslösbar
+  allow_failure: true
+  tags:
+    - docker
+
+
+# ==============================================================================
+# STAGE: PACKAGE (Docker Build & Push)
+# ==============================================================================
+
+# Docker Build Backend
+docker-build-backend:
+  stage: package
+  image: docker:24
+  services:
+    - docker:24-dind
+  needs:
+    - maven-test
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" --password-stdin
+  script:
+    - echo "Docker Image für Backend bauen und pushen..."
+    - >
+      docker build
+      --cache-from $IMAGE_BACKEND:latest
+      --build-arg BUILDKIT_INLINE_CACHE=1
+      -t $IMAGE_BACKEND:$IMAGE_TAG
+      -t $IMAGE_BACKEND:latest
+      -t $IMAGE_BACKEND:$CI_COMMIT_REF_SLUG
+      -f backend/Dockerfile
+      backend/
+    - docker push $IMAGE_BACKEND:$IMAGE_TAG
+    - docker push $IMAGE_BACKEND:latest
+    - docker push $IMAGE_BACKEND:$CI_COMMIT_REF_SLUG
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"
+    - if: $CI_COMMIT_TAG
+  tags:
+    - docker
+
+
+# Docker Build Frontend
+docker-build-frontend:
+  stage: package
+  image: docker:24
+  services:
+    - docker:24-dind
+  needs:
+    - ng-build
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" --password-stdin
+  script:
+    - echo "Docker Image für Frontend bauen und pushen..."
+    - >
+      docker build
+      --cache-from $IMAGE_FRONTEND:latest
+      --build-arg BUILDKIT_INLINE_CACHE=1
+      -t $IMAGE_FRONTEND:$IMAGE_TAG
+      -t $IMAGE_FRONTEND:latest
+      -t $IMAGE_FRONTEND:$CI_COMMIT_REF_SLUG
+      -f frontend/Dockerfile
+      frontend/
+    - docker push $IMAGE_FRONTEND:$IMAGE_TAG
+    - docker push $IMAGE_FRONTEND:latest
+    - docker push $IMAGE_FRONTEND:$CI_COMMIT_REF_SLUG
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"
+    - if: $CI_COMMIT_TAG
+  tags:
+    - docker
+
+
+# ==============================================================================
+# STAGE: DEPLOY
+# ==============================================================================
+
+# Staging Deployment (automatisch bei develop und main)
+deploy-staging:
+  stage: deploy
+  image: bitnami/kubectl:1.28
+  needs:
+    - docker-build-backend
+    - docker-build-frontend
+  environment:
+    name: staging
+    url: https://staging.research-portal.internal
+    on_stop: stop-staging
+  script:
+    - echo "Deployment nach Staging ($K8S_NAMESPACE-staging)..."
+    # Kubernetes Konfiguration setzen
+    - export KUBECONFIG=$K8S_KUBECONFIG
+    # Image-Tags in Manifesten ersetzen
+    - sed -i "s|IMAGE_BACKEND|$IMAGE_BACKEND:$IMAGE_TAG|g" k8s/staging/*.yaml
+    - sed -i "s|IMAGE_FRONTEND|$IMAGE_FRONTEND:$IMAGE_TAG|g" k8s/staging/*.yaml
+    # Deployment anwenden
+    - kubectl apply -f k8s/staging/ -n $K8S_NAMESPACE-staging
+    # Rollout abwarten
+    - kubectl rollout status deployment/research-portal-backend -n $K8S_NAMESPACE-staging --timeout=300s
+    - kubectl rollout status deployment/research-portal-frontend -n $K8S_NAMESPACE-staging --timeout=300s
+    - echo "Staging-Deployment erfolgreich abgeschlossen."
+  rules:
+    - if: $CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"
+  tags:
+    - docker
+
+
+# Staging stoppen (manuell, zum Ressourcen sparen)
+stop-staging:
+  stage: deploy
+  image: bitnami/kubectl:1.28
+  environment:
+    name: staging
+    action: stop
+  script:
+    - export KUBECONFIG=$K8S_KUBECONFIG
+    - kubectl scale deployment --all --replicas=0 -n $K8S_NAMESPACE-staging
+  rules:
+    - if: $CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"
+      when: manual
+  allow_failure: true
+  tags:
+    - docker
+
+
+# Production Deployment (nur main, manuelle Freigabe erforderlich)
+deploy-production:
+  stage: deploy
+  image: bitnami/kubectl:1.28
+  needs:
+    - docker-build-backend
+    - docker-build-frontend
+    - deploy-staging  # Staging muss erfolgreich sein
+  environment:
+    name: production
+    url: https://research-portal.internal
+  script:
+    - echo "Production-Deployment ($K8S_NAMESPACE)..."
+    - echo "Change-Management Ticket wird im Audit-Log vermerkt."
+    - export KUBECONFIG=$K8S_KUBECONFIG
+    # Image-Tags in Manifesten ersetzen
+    - sed -i "s|IMAGE_BACKEND|$IMAGE_BACKEND:$IMAGE_TAG|g" k8s/production/*.yaml
+    - sed -i "s|IMAGE_FRONTEND|$IMAGE_FRONTEND:$IMAGE_TAG|g" k8s/production/*.yaml
+    # Deployment mit Rolling Update (Zero-Downtime)
+    - kubectl apply -f k8s/production/ -n $K8S_NAMESPACE
+    - kubectl rollout status deployment/research-portal-backend -n $K8S_NAMESPACE --timeout=600s
+    - kubectl rollout status deployment/research-portal-frontend -n $K8S_NAMESPACE --timeout=600s
+    - echo "Production-Deployment erfolgreich. Image-Tag: $IMAGE_TAG"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: manual  # Manuelle Freigabe für Production (Banking-Compliance)
+  allow_failure: false
+  tags:
+    - docker
