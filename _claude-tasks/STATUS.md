@@ -3,7 +3,7 @@
 > Dynamischer Tracker. Wird nach jeder Arbeitseinheit aktualisiert.
 
 **Letzte Aktualisierung:** 22.02.2026
-**Gesamtfortschritt:** 3/48 Tasks (6%)
+**Gesamtfortschritt:** 4/48 Tasks (8%)
 
 ---
 
@@ -11,7 +11,7 @@
 
 | Phase | Tasks | Erledigt | Status |
 |-------|-------|----------|--------|
-| P0: Fundament | 7 | 3/7 | [~] In Arbeit |
+| P0: Fundament | 7 | 4/7 | [~] In Arbeit |
 | P1: Kernfeatures | 7 | 0/7 | [ ] Wartet auf P0 |
 | P2: Professionalität | 13 | 0/13 | [ ] Wartet auf P1 |
 
@@ -24,7 +24,7 @@
 | P0-01 | Projektinitialisierung | [x] | Nichts | Erledigt 22.02.2026 |
 | P0-02 | Design-System CSS | [x] | P0-01 | Erledigt 22.02.2026 |
 | P0-03 | Backend Domain-Modell | [x] | P0-01 | Erledigt 22.02.2026 |
-| P0-04 | Backend Persistence Layer | [ ] | P0-03 | |
+| P0-04 | Backend Persistence Layer | [x] | P0-03 | Erledigt 22.02.2026 |
 | P0-05 | Backend REST API | [ ] | P0-04 | |
 | P0-06 | Frontend Grundstruktur | [ ] | P0-01, P0-02 | |
 | P0-07 | Login-Seite | [ ] | P0-06 | |
@@ -65,6 +65,7 @@
 
 | Datum | Änderung | Begründung |
 |-------|----------|------------|
+| 22.02.2026 | P0-04 abgeschlossen: 3 JPA Entities, 3 Repos, 3 Mapper, 3 Adapters, 25 Demo-Datensätze | BUILD SUCCESS, App startet |
 | 22.02.2026 | P0-03 abgeschlossen: 5 Entities, 4 Enums, 7 Ports, 0 Spring-Imports in Domain | BUILD SUCCESS, 18 Files |
 | 22.02.2026 | P0-02 abgeschlossen: Design-System CSS (12 Farben, Fonts, Spacing, Buttons, Forms) | Build verifiziert, 5.12 KB CSS |
 | 22.02.2026 | P0-01 abgeschlossen: Angular 21 + Spring Boot 3.5 + Docker | Builds verifiziert, GitHub gepusht |

@@ -5,6 +5,33 @@
 
 ---
 
+## 22.02.2026 - Session 2 (Fortsetzung): P0-04 Backend Persistence Layer
+
+**Dauer:** ~20 Min
+**Was wurde gemacht:**
+- 3 JPA Entities: AnalystEntity, SecurityEntity, ResearchReportEntity
+- 3 Spring Data Repositories mit Custom Query Methods (findByTicker, findByAnalystId, findBySecurityId)
+- 3 Persistence Mapper: Enum-Konvertierung (String ↔ Domain-Enum), List-Konvertierung (pipe/comma-delimited ↔ List<String>)
+- 3 Persistence Adapters: AnalystPersistenceAdapter, SecurityPersistenceAdapter, ReportPersistenceAdapter
+- data.sql: 5 Analysten, 10 Schweizer Wertschriften (NESN, NOVN, ROG, UBSG, ZURN, SREN, ABBN, LONN, GIVN, SIKA), 10 Research Reports
+- application.yml: `defer-datasource-initialization: true` + `sql.init.mode: always` für korrekte data.sql-Ausführung
+- Build verifiziert: `mvn clean package -DskipTests` erfolgreich
+- Spring Boot Starttest: App startet, Hibernate erstellt Tabellen, data.sql lädt fehlerfrei
+
+**Architektur-Entscheidungen:**
+- Enums als String in DB (nicht @Enumerated), damit Entity-Schicht unabhängig von Domain-Enums
+- Lists als delimited Strings (pipe für Reports, comma für Analyst coverage)
+- Nur ReportRepository hat save/delete (Analyst/Security sind read-only, kämen aus Fremdsystemen)
+
+**Erkenntnisse:**
+- Spring Boot 3.x führt data.sql standardmässig VOR Hibernate aus → `defer-datasource-initialization: true` nötig
+- H2 `create-drop` + data.sql = perfekte Kombination für Demo-Daten (bei jedem Start frisch)
+- Mapper-Schicht ist der Schlüssel zur sauberen Trennung: Domain-Objekte kennen kein JPA, JPA-Entities kennen keine Domain-Enums
+
+**Nächster Schritt:** P0-05 Backend REST API
+
+---
+
 ## 22.02.2026 - Session 2: P0-01 Projektinitialisierung
 
 **Dauer:** ~30 Min
