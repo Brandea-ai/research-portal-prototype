@@ -10,6 +10,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--space-xl);
+  transition: background var(--transition-normal), border-color var(--transition-normal);
 }
 
 .topbar__left {
@@ -20,9 +21,9 @@
 
 .topbar__title {
   font-family: var(--font-ui);
-  font-size: var(--text-lg, 1.125rem);
+  font-size: var(--text-lg);
   font-weight: 700;
-  letter-spacing: -0.005em;
+  letter-spacing: -0.01em;
   color: var(--color-text-primary);
   margin: 0;
 }
@@ -33,11 +34,29 @@
   gap: var(--space-md);
 }
 
+.topbar__theme-btn {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  padding: 4px 10px;
+  transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+  line-height: 1;
+}
+
+.topbar__theme-btn:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-border-light);
+  background: var(--color-surface-alt);
+}
+
 .topbar__role {
   font-family: var(--font-data);
-  font-size: var(--text-xs, 0.6875rem);
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-accent);
   background: var(--color-accent-dim);
@@ -47,25 +66,26 @@
 
 .topbar__user {
   font-family: var(--font-ui);
-  font-size: var(--text-sm, 0.8125rem);
-  color: var(--color-text-secondary, var(--color-text-muted));
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
 }
 
 .topbar__logout {
   font-family: var(--font-ui);
-  font-size: var(--text-sm, 0.8125rem);
-  color: var(--color-text-dim);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
   background: none;
-  border: 1px solid var(--color-border-light);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  padding: 4px 12px;
+  padding: 5px 14px;
   cursor: pointer;
-  transition: color var(--transition-fast), border-color var(--transition-fast);
+  transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
 }
 
 .topbar__logout:hover {
   color: var(--color-text-primary);
-  border-color: var(--color-text-dim);
+  border-color: var(--color-border-light);
+  background: var(--color-surface-alt);
 }
 
 /* --- Hamburger Menu Button --- */
@@ -94,10 +114,7 @@
     display: block;
   }
 
-  .topbar__role {
-    display: none;
-  }
-
+  .topbar__role,
   .topbar__user {
     display: none;
   }

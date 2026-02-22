@@ -5,6 +5,7 @@ import {
   inject,
   signal,
   computed,
+  effect,
   ElementRef,
   viewChild,
 } from '@angular/core';
@@ -13,6 +14,7 @@ import { Chart, registerables } from 'chart.js';
 import { ReportStateService } from '../../core/services/report-state.service';
 import { SecurityService } from '../../core/services/security.service';
 import { AnalystService } from '../../core/services/analyst.service';
+import { ThemeService } from '../../core/services/theme.service';
 import { Report } from '../../core/models/report.model';
 import { Security } from '../../core/models/security.model';
 import { Analyst } from '../../core/models/analyst.model';
@@ -105,6 +107,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   private readonly reportState = inject(ReportStateService);
   private readonly securityService = inject(SecurityService);
   private readonly analystService = inject(AnalystService);
+  private readonly themeService = inject(ThemeService);
+
+  constructor() {
+    // Rebuild charts whenever the resolved theme changes so colors update instantly.
+    effect(() => {
+      this.themeService.resolvedTheme(); // track signal
+      if (!this.loading()) {
+        this.buildCharts();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.reportState.reports$.subscribe((data) => {
@@ -125,14 +138,37 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.analystService.getAll().subscribe((data) => {
       this.analysts.set(data);
       this.loading.set(false);
-      // At this point all data is loaded — build charts
-      // Use setTimeout to allow Angular to render the canvases first
+      // All data is loaded — build charts after Angular renders the canvases.
       setTimeout(() => this.buildCharts(), 0);
     });
   }
 
   ngAfterViewInit(): void {
     this.chartsReady.set(true);
+  }
+
+  /**
+   * Returns theme-appropriate colour tokens for Chart.js configs.
+   * All values mirror the CSS custom properties defined in styles.css.
+   */
+  private getChartColors() {
+    const isDark = this.themeService.resolvedTheme() === 'dark';
+    return {
+      positive:       isDark ? '#2DD4A0' : '#00875A',
+      neutral:        isDark ? '#94A3B8' : '#64748B',
+      negative:       isDark ? '#F87171' : '#CC2936',
+      accent:         isDark ? '#4DA3FF' : '#0062CC',
+      accentBg:       isDark ? 'rgba(77, 163, 255, 0.15)' : 'rgba(0, 98, 204, 0.12)',
+      accentBgHover:  isDark ? 'rgba(77, 163, 255, 0.28)' : 'rgba(0, 98, 204, 0.22)',
+      accentBorder:   isDark ? '#4DA3FF' : '#0062CC',
+      tooltipBg:      isDark ? '#1A1E28' : '#FFFFFF',
+      tooltipBorder:  isDark ? '#333C4D' : '#DFE2E8',
+      tooltipTitle:   isDark ? '#9BA3B5' : '#505868',
+      tooltipBody:    isDark ? '#ECEEF2' : '#1A1D24',
+      gridColor:      isDark ? '#262D3A' : '#DFE2E8',
+      tickColor:      isDark ? '#6B7588' : '#7A8294',
+      tickLabelColor: isDark ? '#9BA3B5' : '#505868',
+    };
   }
 
   private buildCharts(): void {
@@ -152,6 +188,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     const ctx = canvasRef.nativeElement.getContext('2d');
     if (!ctx) return;
 
+    const colors = this.getChartColors();
+
     this.ratingChart = new Chart(ctx, {
       type: 'doughnut',
       data: {
@@ -159,7 +197,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         datasets: [
           {
             data: [buy, hold, sell],
-            backgroundColor: ['#34D399', '#94A3B8', '#F87171'],
+            backgroundColor: [colors.positive, colors.neutral, colors.negative],
             borderColor: 'transparent',
             borderWidth: 0,
             hoverOffset: 6,
@@ -173,11 +211,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: '#151820',
-            borderColor: '#2A3040',
+            backgroundColor: colors.tooltipBg,
+            borderColor: colors.tooltipBorder,
             borderWidth: 1,
-            titleColor: '#A0AAB8',
-            bodyColor: '#F0F2F5',
+            titleColor: colors.tooltipTitle,
+            bodyColor: colors.tooltipBody,
             titleFont: { family: 'Inter', size: 11, weight: 'normal' },
             bodyFont: { family: 'JetBrains Mono, monospace', size: 13, weight: 'bold' },
             padding: 12,
@@ -211,6 +249,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     const ctx = canvasRef.nativeElement.getContext('2d');
     if (!ctx) return;
 
+    const colors = this.getChartColors();
+
     this.sectorChart = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -219,12 +259,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           {
             label: 'Reports',
             data: data.map((d) => d.count),
-            backgroundColor: 'rgba(56, 189, 248, 0.15)',
-            borderColor: '#38BDF8',
+            backgroundColor: colors.accentBg,
+            borderColor: colors.accentBorder,
             borderWidth: 1,
             borderRadius: 3,
-            hoverBackgroundColor: 'rgba(56, 189, 248, 0.28)',
-            hoverBorderColor: '#38BDF8',
+            hoverBackgroundColor: colors.accentBgHover,
+            hoverBorderColor: colors.accentBorder,
           },
         ],
       },
@@ -235,11 +275,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: '#151820',
-            borderColor: '#2A3040',
+            backgroundColor: colors.tooltipBg,
+            borderColor: colors.tooltipBorder,
             borderWidth: 1,
-            titleColor: '#A0AAB8',
-            bodyColor: '#F0F2F5',
+            titleColor: colors.tooltipTitle,
+            bodyColor: colors.tooltipBody,
             titleFont: { family: 'Inter', size: 11, weight: 'normal' },
             bodyFont: { family: 'JetBrains Mono, monospace', size: 13, weight: 'bold' },
             padding: 12,
@@ -254,7 +294,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             grid: { display: false },
             border: { display: false },
             ticks: {
-              color: '#6C7A8D',
+              color: colors.tickColor,
               font: { family: 'JetBrains Mono, monospace', size: 11 },
               maxTicksLimit: 6,
             },
@@ -263,7 +303,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             grid: { display: false },
             border: { display: false },
             ticks: {
-              color: '#A0AAB8',
+              color: colors.tickLabelColor,
               font: { family: 'Inter', size: 12 },
               padding: 8,
             },

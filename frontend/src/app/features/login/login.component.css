@@ -1,5 +1,8 @@
 /* ============================================
    Login Page
+   All colors from global CSS variables — no hardcoded values.
+   Light: clean white card on cool-gray background.
+   Dark: dark card on near-black background.
    ============================================ */
 
 .login {
@@ -7,10 +10,11 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background:
-    radial-gradient(ellipse at 50% 50%, rgba(56, 189, 248, 0.06) 0%, transparent 70%),
-    var(--color-bg);
+  background: var(--color-bg);
   padding: var(--space-lg);
+  transition:
+    background var(--transition-normal),
+    color var(--transition-normal);
 }
 
 .login__card {
@@ -20,10 +24,11 @@
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-lg);
   padding: var(--space-2xl);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.45),
-    0 2px 8px rgba(0, 0, 0, 0.30),
-    0 0 0 1px rgba(255, 255, 255, 0.04);
+  box-shadow: var(--shadow-lg);
+  transition:
+    background var(--transition-normal),
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal);
 }
 
 .login__header {
@@ -34,7 +39,7 @@
 
 .login__brand {
   font-family: var(--font-data);
-  font-size: var(--text-xl, 1.375rem);
+  font-size: var(--text-xl);
   font-weight: 800;
   letter-spacing: 0.2em;
   color: var(--color-text-primary);
@@ -46,7 +51,7 @@
 
 .login__subtitle {
   font-family: var(--font-ui);
-  font-size: var(--text-xs, 0.6875rem);
+  font-size: var(--text-xs);
   color: var(--color-text-muted);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -61,10 +66,10 @@
 
 .login__error {
   font-family: var(--font-ui);
-  font-size: var(--text-sm, 0.8125rem);
+  font-size: var(--text-sm);
   color: var(--color-negative);
-  background: rgba(248, 113, 113, 0.08);
-  border: 1px solid rgba(248, 113, 113, 0.2);
+  background: var(--color-negative-dim);
+  border: 1px solid var(--color-negative-dim);
   border-radius: var(--radius-sm);
   padding: var(--space-sm) var(--space-md);
 }
@@ -77,31 +82,34 @@
 
 .field__label {
   font-family: var(--font-ui);
-  font-size: var(--text-xs, 0.6875rem);
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
-/* Override global input styles for login fields */
+/* Input fields inherit global form styles; override only what is needed. */
 .login__form input {
   font-family: var(--font-ui);
-  font-size: var(--text-base, 0.9375rem);
+  font-size: var(--text-base);
   color: var(--color-text-primary);
-  background: var(--color-surface-raised, #151820);
+  background: var(--color-surface-raised);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-sm);
   padding: 12px var(--space-md);
   outline: none;
   width: 100%;
   box-sizing: border-box;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    background var(--transition-normal),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .login__form input:focus {
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px var(--color-accent-glow, rgba(56, 189, 248, 0.25));
+  box-shadow: 0 0 0 3px var(--color-accent-dim);
 }
 
 .login__form input::placeholder {
@@ -110,29 +118,33 @@
 
 .field__error {
   font-family: var(--font-ui);
-  font-size: var(--text-xs, 0.6875rem);
+  font-size: var(--text-xs);
   color: var(--color-negative);
 }
 
 .login__submit {
   font-family: var(--font-ui);
   font-weight: 700;
-  font-size: var(--text-base, 0.9375rem);
-  color: var(--color-bg);
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover, #0EA5E9) 100%);
+  font-size: var(--text-base);
+  /* White text on accent background works for both dark (#4DA3FF) and light (#0062CC) */
+  color: #FFFFFF;
+  background: var(--color-accent);
   border: none;
   border-radius: var(--radius-sm);
   padding: 12px var(--space-md);
   cursor: pointer;
-  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
   margin-top: var(--space-sm);
   height: 48px;
   width: 100%;
-  box-shadow: var(--shadow-glow, 0 0 20px rgba(56, 189, 248, 0.15));
 }
 
 .login__submit:hover:not(:disabled) {
-  box-shadow: 0 0 32px rgba(56, 189, 248, 0.35);
+  background: var(--color-accent-hover);
+  box-shadow: var(--shadow-glow);
   transform: translateY(-1px);
 }
 
@@ -144,7 +156,7 @@
 
 .login__hint {
   font-family: var(--font-data);
-  font-size: var(--text-xs, 0.6875rem);
+  font-size: var(--text-xs);
   color: var(--color-text-dim);
   text-align: center;
   margin-top: var(--space-lg);

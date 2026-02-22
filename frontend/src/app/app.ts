@@ -1,10 +1,11 @@
-import { Component, computed, inject, viewChild } from '@angular/core';
+import { Component, computed, inject, viewChild, OnInit } from '@angular/core';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { TopbarComponent } from './layout/topbar/topbar.component';
 import { AuthService } from './core/services/auth.service';
+import { ThemeService } from './core/services/theme.service';
 
 const PAGE_TITLES: Record<string, string> = {
   dashboard: 'Dashboard',
@@ -19,9 +20,10 @@ const PAGE_TITLES: Record<string, string> = {
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
+export class App implements OnInit {
   private readonly router = inject(Router);
   readonly authService = inject(AuthService);
+  readonly themeService = inject(ThemeService);
 
   readonly sidebar = viewChild<SidebarComponent>('sidebar');
 
@@ -40,8 +42,12 @@ export class App {
   protected readonly sidebarMargin = computed(() => {
     const sb = this.sidebar();
     if (!sb) return 'var(--sidebar-width)';
-    return sb.collapsed() ? '56px' : 'var(--sidebar-width)';
+    return sb.collapsed() ? 'var(--sidebar-collapsed)' : 'var(--sidebar-width)';
   });
+
+  ngOnInit(): void {
+    // Theme is applied automatically via ThemeService effect
+  }
 
   onMenuToggle(): void {
     this.sidebar()?.toggleMobile();

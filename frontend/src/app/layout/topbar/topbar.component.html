@@ -4,6 +4,9 @@
     <h1 class="topbar__title">{{ pageTitle() }}</h1>
   </div>
   <div class="topbar__actions">
+    <button class="topbar__theme-btn" (click)="cycleTheme()" [title]="'Theme: ' + themeService.label()">
+      {{ themeService.icon() }}
+    </button>
     <span class="topbar__role">{{ auth.user()?.role }}</span>
     <span class="topbar__user">{{ auth.displayName() }}</span>
     <button class="topbar__logout" (click)="logout()">Abmelden</button>

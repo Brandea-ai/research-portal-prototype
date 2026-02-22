@@ -5,6 +5,59 @@
 
 ---
 
+## 22.02.2026 - Session 4: Design System v3.0 — Light/Dark/System Theme (2 parallele Sonnet 4.6 Agents)
+
+**Dauer:** ~15 Min (Foundation + 2 parallele Agents)
+**Methode:** Main Agent für Foundation (ThemeService, styles.css, Sidebar, Topbar), dann 2 Sonnet 4.6 Agents in Git-Worktrees
+
+**Motivation:**
+- Armend: Design v2.0 "wirkt billig", kein helles Design vorhanden
+- Sidebar-Collapsed zeigt Active State nicht
+- Kontrast immer noch zu schwach
+- Gesamteindruck nicht "hochwertig"
+
+**ThemeService (NEU):**
+- Signal-basiert: `theme = signal<Theme>('system')`
+- `resolvedTheme` computed Signal für Chart.js und andere Konsumenten
+- `cycle()`: dark → light → system → dark
+- localStorage-Persistenz (`rp_theme`)
+- `effect()` setzt `data-theme` auf `<html>` Element
+
+**styles.css v3.0 (komplett neugeschrieben):**
+- Dark: `#0B0D12` / `#12151C` / `#4DA3FF` / `#2DD4A0`
+- Light: `#F5F6F8` / `#FFFFFF` / `#0062CC` / `#00875A`
+- System: `@media (prefers-color-scheme: light)` mit `[data-theme="system"]`
+- Shadows differenziert pro Theme (Dark stärker, Light subtiler)
+- `color-scheme: dark/light` für native Browser-Anpassung
+
+**Sidebar-Redesign:**
+- Logo-Mark: Farbiger "R"-Square (32x32), immer sichtbar
+- Buchstaben-Initialen (D, R, W, A) für jeden Nav-Eintrag
+- Active State in Collapsed: Accent-Hintergrund auf Initial-Buchstabe
+- `.hidden` Klasse statt `--hidden` Modifier
+
+**Agent A — Dashboard + Login:**
+- `getChartColors()` Helper gibt theme-abhängige Farben zurück
+- `effect()` im Constructor rebuildet Charts bei Theme-Wechsel
+- `:host`-Overrides komplett entfernt (verhinderten Theme-Wechsel)
+- Login: Gradient entfernt, alles via CSS-Variablen
+
+**Agent B — 5 Component CSS Files:**
+- reports, securities, report-detail, report-form, analysts
+- Alle hardcoded Fallback-Werte entfernt
+- Gradient-Buttons durch solides Accent + Weiß ersetzt
+- Theme-Transitions auf Cards und Containern
+
+**Erkenntnisse:**
+- `[data-theme]` Attribut + CSS-Variablen = sauberstes Theme-System für Angular
+- Chart.js braucht expliziten Destroy + Rebuild bei Theme-Wechsel
+- 10 alte Worktrees aufgeräumt (aus vorherigen Sessions akkumuliert)
+- Build: 292.83 KB, 0 Fehler, 0 Warnings (+7 KB durch ThemeService)
+
+**Nächster Schritt:** Commit, Push, Vercel Deploy
+
+---
+
 ## 22.02.2026 - Session 4: Design Overhaul v2.0 (2 parallele Sonnet 4.6 Agents)
 
 **Dauer:** ~8 Min (Foundation + 2 parallele Agents)

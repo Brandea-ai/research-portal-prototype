@@ -3,7 +3,7 @@
 > Dynamischer Tracker. Wird nach jeder Arbeitseinheit aktualisiert.
 
 **Letzte Aktualisierung:** 22.02.2026
-**Gesamtfortschritt:** 15/48 Tasks (31%) + Design Overhaul v2.0
+**Gesamtfortschritt:** 15/48 Tasks (31%) + Design Overhaul v2.0 + Theme System v3.0
 
 ---
 
@@ -65,6 +65,7 @@
 
 | Datum | Änderung | Begründung |
 |-------|----------|------------|
+| 22.02.2026 | Design System v3.0: ThemeService (Light/Dark/System), styles.css Rewrite, Sidebar-Redesign (Collapsed Active State), Theme-Toggle, 16 Dateien geändert | 2 parallele Sonnet 4.6 Agents, Build 292.83 KB |
 | 22.02.2026 | Design Overhaul v2.0: styles.css Rewrite, Chart.js Dashboard (Doughnut+Bar), 9 Component-CSS Rewrites, 15 Dateien geändert | 2 parallele Sonnet 4.6 Agents, Build 285.77 KB |
 | 22.02.2026 | P1-14+P2-15 parallel abgeschlossen: Responsive Design (Sidebar collapsible, Hamburger, Mobile), Cypress E2E (5 Specs, 49 Tests) | Parallele Subagents, 0 Konflikte |
 | 22.02.2026 | P1-12+P1-13 parallel abgeschlossen: Report CRUD (Form, Edit, Delete), RxJS State (BehaviorSubject, auto-Refresh), Integration beider Features | Parallele Subagents + manuelle Integration |

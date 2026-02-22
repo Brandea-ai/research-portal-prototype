@@ -3,12 +3,22 @@
 > Wird nach jeder Arbeitseinheit aktualisiert. Referenz: `_claude-tasks/STATUS.md`
 
 **Letzte Aktualisierung:** 22.02.2026
-**Aktueller Task:** Design Overhaul v2.0 abgeschlossen, P2-16 Backend Unit Tests (nächster)
-**Status:** P0 komplett (7/7), P1 komplett (7/7), P2 in Arbeit (1/13) + Design Overhaul
+**Aktueller Task:** Design System v3.0 (Light/Dark/System Theme) abgeschlossen, P2-16 Backend Unit Tests (nächster)
+**Status:** P0 komplett (7/7), P1 komplett (7/7), P2 in Arbeit (1/13) + Design v2.0 + Theme v3.0
 
 ---
 
 ## Was wurde zuletzt gemacht
+
+### Session 4 (22.02.2026): Design System v3.0 — Theme Toggle
+
+1. ThemeService: Signal-basiert mit cycle() (dark → light → system), localStorage, effect()
+2. styles.css v3.0: Komplettes Dual-Palette-System (Dark + Light) via [data-theme] Attribut
+3. Sidebar-Redesign: Logo-Mark ("R"), Buchstaben-Initialen, Collapsed Active State
+4. Topbar: Theme-Toggle-Button (Sonne/Mond/Halbkreis)
+5. Dashboard: Theme-aware Chart.js (getChartColors() + effect() für Auto-Rebuild)
+6. 5 Component CSS Files: Alle hardcoded Farben durch CSS-Variablen ersetzt
+7. Build: 292.83 KB, 0 Fehler, 0 Warnings
 
 ### Session 4 (22.02.2026): Design Overhaul v2.0
 
@@ -55,7 +65,7 @@ Keine aktuell.
 - **Frontend:** 5 Feature-Seiten + Detail + CRUD-Form, Login, Responsive Layout-Shell
 - **State:** ReportStateService (BehaviorSubject + auto-Refresh nach CRUD)
 - **Tests:** 5 Cypress Specs, 49 E2E Tests (nicht ausgeführt, da Backend nicht läuft)
-- **Build:** 282.66 KB Initial Bundle, 0 Fehler, 0 Warnings
+- **Build:** 292.83 KB Initial Bundle, 0 Fehler, 0 Warnings
 - **Deploy:** Vercel (auto) + Fly.io (manuell)
 
 JAVA_HOME: `export JAVA_HOME="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"`

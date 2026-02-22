@@ -34,55 +34,70 @@
 
 ## Design-System
 
-### Farbschema v2.0 (STRIKT einhalten)
+### Farbschema v3.0 — Theme System (STRIKT einhalten)
+
+**Theme-Mechanismus:** `[data-theme]` Attribut auf `<html>`, gesteuert durch ThemeService (Signal-basiert)
+**3 Modi:** Dark (Default), Light, System (folgt OS-Präferenz)
 
 ```css
-/* Core Palette — Warm Dark (nicht kalt-schwarz) */
---color-bg:             #08090C;   /* Warmer Near-Black Hintergrund */
---color-surface:        #0F1117;   /* Cards, Panels */
---color-surface-raised: #151820;   /* Erhöhte Karten, Modals */
---color-surface-alt:    #1A1E28;   /* Hover States, alternating rows */
---color-surface-hover:  #1E2330;   /* Aktive Hover-States */
+/* === DARK THEME (Default) === */
+--color-bg:             #0B0D12;
+--color-surface:        #12151C;
+--color-surface-raised: #181C26;
+--color-surface-alt:    #1E2330;
+--color-surface-hover:  #252A38;
+--color-border:         #1E2330;
+--color-border-light:   #2A3040;
+--color-text-primary:   #ECEEF2;
+--color-text-secondary: #A0AAB8;
+--color-text-muted:     #6C7A8D;
+--color-text-dim:       #4A5568;
+--color-accent:         #4DA3FF;
+--color-accent-hover:   #3B8EE8;
+--color-positive:       #2DD4A0;
+--color-negative:       #F87171;
+--color-neutral:        #94A3B8;
+--color-warning:        #FBBF24;
 
-/* Borders */
---color-border:         #1E2330;   /* Subtile Trennlinien */
---color-border-light:   #2A3040;   /* Stärkere Trennlinien */
---color-border-accent:  rgba(56, 189, 248, 0.15); /* Accent-Borders */
-
-/* Text — Höherer Kontrast */
---color-text-primary:   #F0F2F5;   /* Primäre Labels (weicher als reines Weiß) */
---color-text-secondary: #A0AAB8;   /* Sekundäre Labels */
---color-text-muted:     #6C7A8D;   /* Tertiäre Labels, Datum */
---color-text-dim:       #4A5568;   /* Placeholder, deaktiviert */
-
-/* Accent: Institutional Blue */
---color-accent:       #38BDF8;   /* Active States, CTAs */
---color-accent-hover: #0EA5E9;   /* Hover-Zustand */
---color-accent-dim:   rgba(56, 189, 248, 0.08);  /* Subtle Background */
---color-accent-glow:  rgba(56, 189, 248, 0.25);  /* Glow-Effekte */
-
-/* Semantisch — Grün für Positiv (nicht Blau!) */
---color-positive:     #34D399;   /* BUY, positive Deltas (Grün) */
---color-negative:     #F87171;   /* SELL, negative Deltas */
---color-neutral:      #94A3B8;   /* HOLD, neutral */
---color-warning:      #FBBF24;   /* Warnungen */
+/* === LIGHT THEME === */
+--color-bg:             #F5F6F8;
+--color-surface:        #FFFFFF;
+--color-surface-raised: #F0F1F3;
+--color-surface-alt:    #E8EAF0;
+--color-surface-hover:  #DFE2EA;
+--color-border:         #D8DCE4;
+--color-border-light:   #C0C6D0;
+--color-text-primary:   #1A1D24;
+--color-text-secondary: #4A5060;
+--color-text-muted:     #6C7688;
+--color-text-dim:       #9AA0B0;
+--color-accent:         #0062CC;
+--color-accent-hover:   #004FA3;
+--color-positive:       #00875A;
+--color-negative:       #CC2936;
+--color-neutral:        #5A6474;
+--color-warning:        #C27800;
 ```
 
-### Shadow-System (Layered Depth)
+### Shadow-System (Theme-abhängig)
 ```css
---shadow-card:       0 2px 8px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.03);
---shadow-card-hover: 0 8px 24px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06);
---shadow-glow:       0 0 20px rgba(56, 189, 248, 0.15);
+/* Dark */
+--shadow-card:       0 2px 8px rgba(0,0,0,0.30), 0 0 0 1px rgba(255,255,255,0.04);
+--shadow-card-hover: 0 8px 24px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.06);
+
+/* Light */
+--shadow-card:       0 1px 4px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+--shadow-card-hover: 0 4px 16px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.06);
 ```
 
 ### Accent-Regel (Bloomberg-Prinzip)
-`#38BDF8` wird NUR verwendet für:
+Accent wird NUR verwendet für:
 - Active/Selected States in der Navigation
 - CTA-Buttons (primär)
 - Fokus-Ringe bei Formularen
 - Ticker-Symbole und Accent-Highlights
 
-`#34D399` (Grün) wird für BUY-Ratings und positive Deltas verwendet.
+Positive (Grün) wird für BUY-Ratings und positive Deltas verwendet.
 
 NIEMALS Accent für: großflächige Hintergründe, dekorative Elemente
 

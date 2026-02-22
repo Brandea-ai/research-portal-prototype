@@ -1,31 +1,37 @@
 <aside class="sidebar" [class.sidebar--collapsed]="collapsed()" [class.sidebar--mobile-open]="mobileOpen()">
   <div class="sidebar__logo">
-    <span class="sidebar__logo-text">RESEARCH</span>
-    <span class="sidebar__logo-sub" [class.sidebar__logo-sub--hidden]="collapsed()">PORTAL</span>
-    <button class="sidebar__toggle" (click)="toggle()">{{ collapsed() ? '\u25B6' : '\u25C0' }}</button>
+    <span class="sidebar__logo-mark">R</span>
+    <span class="sidebar__logo-text" [class.hidden]="collapsed()">
+      <span class="sidebar__logo-name">RESEARCH</span>
+      <span class="sidebar__logo-sub">PORTAL</span>
+    </span>
   </div>
 
   <nav class="sidebar__nav">
     <a class="sidebar__link" routerLink="/dashboard" routerLinkActive="sidebar__link--active" (click)="closeMobile()">
-      <span class="sidebar__link-text" [class.sidebar__link-text--hidden]="collapsed()">Dashboard</span>
+      <span class="sidebar__link-initial">D</span>
+      <span class="sidebar__link-label" [class.hidden]="collapsed()">Dashboard</span>
     </a>
     <a class="sidebar__link" routerLink="/reports" routerLinkActive="sidebar__link--active" (click)="closeMobile()">
-      <span class="sidebar__link-text" [class.sidebar__link-text--hidden]="collapsed()">Reports</span>
+      <span class="sidebar__link-initial">R</span>
+      <span class="sidebar__link-label" [class.hidden]="collapsed()">Reports</span>
     </a>
     <a class="sidebar__link" routerLink="/securities" routerLinkActive="sidebar__link--active" (click)="closeMobile()">
-      <span class="sidebar__link-text" [class.sidebar__link-text--hidden]="collapsed()">Wertschriften</span>
+      <span class="sidebar__link-initial">W</span>
+      <span class="sidebar__link-label" [class.hidden]="collapsed()">Wertschriften</span>
     </a>
     <a class="sidebar__link" routerLink="/analysts" routerLinkActive="sidebar__link--active" (click)="closeMobile()">
-      <span class="sidebar__link-text" [class.sidebar__link-text--hidden]="collapsed()">Analysten</span>
+      <span class="sidebar__link-initial">A</span>
+      <span class="sidebar__link-label" [class.hidden]="collapsed()">Analysten</span>
     </a>
   </nav>
 
   <div class="sidebar__footer">
-    <span class="sidebar__version" [class.sidebar__version--hidden]="collapsed()">v1.0 Prototype</span>
+    <button class="sidebar__toggle" (click)="toggle()">{{ collapsed() ? '\u25B6' : '\u25C0' }}</button>
+    <span class="sidebar__version" [class.hidden]="collapsed()">v1.0</span>
   </div>
 </aside>
 
-<!-- Mobile Overlay -->
 @if (mobileOpen()) {
   <div class="sidebar-overlay" (click)="closeMobile()"></div>
 }
