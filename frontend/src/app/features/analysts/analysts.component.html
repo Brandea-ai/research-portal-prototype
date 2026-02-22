@@ -1,0 +1,40 @@
+<div class="page">
+  <div class="page__header">
+    <h2 class="page__title">Analysten</h2>
+    <span class="page__count">{{ analysts().length }} Analysten</span>
+  </div>
+
+  @if (loading()) {
+    <p class="loading">Daten werden geladen...</p>
+  } @else {
+    <div class="analyst-grid">
+      @for (analyst of analysts(); track analyst.id) {
+        <div class="analyst-card">
+          <div class="analyst-card__header">
+            <span class="analyst-card__name">{{ analyst.name }}</span>
+            <span class="analyst-card__stars">{{ starDisplay(analyst.starRating) }}</span>
+          </div>
+          <span class="analyst-card__title">{{ analyst.title }}</span>
+          <span class="analyst-card__dept">{{ analyst.department }}</span>
+
+          <div class="analyst-card__stats">
+            <div class="stat">
+              <span class="stat__label">Accuracy 12M</span>
+              <span class="stat__value">{{ analyst.accuracy12m | number:'1.1-1' }}%</span>
+            </div>
+            <div class="stat">
+              <span class="stat__label">Coverage</span>
+              <span class="stat__value">{{ analyst.coverageUniverse.length }}</span>
+            </div>
+          </div>
+
+          <div class="analyst-card__coverage">
+            @for (ticker of analyst.coverageUniverse; track ticker) {
+              <span class="ticker-tag">{{ ticker }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

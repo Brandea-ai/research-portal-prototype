@@ -1,0 +1,39 @@
+<div class="page">
+  <div class="page__header">
+    <h2 class="page__title">Wertschriften</h2>
+    <span class="page__count">{{ securities().length }} Titel</span>
+  </div>
+
+  @if (loading()) {
+    <p class="loading">Daten werden geladen...</p>
+  } @else {
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Ticker</th>
+            <th>Name</th>
+            <th>ISIN</th>
+            <th>Sektor</th>
+            <th>Branche</th>
+            <th>Börse</th>
+            <th class="text-right">Marktkapitalisierung</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (sec of securities(); track sec.id) {
+            <tr>
+              <td class="cell-ticker">{{ sec.ticker }}</td>
+              <td class="cell-name">{{ sec.name }}</td>
+              <td class="cell-isin">{{ sec.isin }}</td>
+              <td>{{ sec.sector }}</td>
+              <td class="cell-dim">{{ sec.industry }}</td>
+              <td class="cell-exchange">{{ sec.exchange }}</td>
+              <td class="text-right mono">{{ sec.currency }} {{ formatMarketCap(sec.marketCap) }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

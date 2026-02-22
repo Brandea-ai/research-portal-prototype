@@ -1,0 +1,131 @@
+.page {
+  padding: var(--space-lg);
+}
+
+.page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--space-lg);
+}
+
+.page__title {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.page__count {
+  font-family: var(--font-data);
+  font-size: 0.75rem;
+  color: var(--color-text-dim);
+}
+
+.loading {
+  font-family: var(--font-ui);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+}
+
+.data-table thead th {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--color-border-light);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.data-table tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  transition: background var(--transition-fast);
+}
+
+.data-table tbody tr:hover {
+  background: var(--color-surface-alt);
+  cursor: pointer;
+}
+
+.data-table tbody td {
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text-primary);
+  vertical-align: middle;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.mono {
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
+}
+
+.text-positive {
+  color: var(--color-positive);
+}
+
+.text-negative {
+  color: var(--color-negative);
+}
+
+.cell-title {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.cell-type {
+  font-family: var(--font-data);
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+}
+
+.cell-date {
+  font-family: var(--font-data);
+  font-size: 0.75rem;
+  color: var(--color-text-dim);
+  white-space: nowrap;
+}
+
+.rating {
+  font-family: var(--font-data);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.rating--positive { color: var(--color-positive); }
+.rating--negative { color: var(--color-negative); }
+.rating--neutral { color: var(--color-neutral); }
+
+.rating-change {
+  font-family: var(--font-data);
+  font-size: 0.625rem;
+  color: var(--color-text-dim);
+  margin-left: var(--space-xs);
+}
+
+.rating-change::before {
+  content: '\25C0 ';
+}

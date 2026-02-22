@@ -1,0 +1,50 @@
+<div class="page">
+  <div class="page__header">
+    <h2 class="page__title">Research Reports</h2>
+    <span class="page__count">{{ reports().length }} Reports</span>
+  </div>
+
+  @if (loading()) {
+    <p class="loading">Daten werden geladen...</p>
+  } @else {
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Titel</th>
+            <th>Typ</th>
+            <th>Rating</th>
+            <th class="text-right">Kursziel</th>
+            <th class="text-right">Kurs</th>
+            <th class="text-right">Upside</th>
+            <th>Datum</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (report of reports(); track report.id) {
+            <tr>
+              <td class="cell-title">{{ report.title }}</td>
+              <td class="cell-type">{{ report.reportType }}</td>
+              <td>
+                <span class="rating" [class]="'rating--' + ratingClass(report.rating)">
+                  {{ formatRating(report.rating) }}
+                </span>
+                @if (report.ratingChanged) {
+                  <span class="rating-change">
+                    {{ report.previousRating ? formatRating(report.previousRating) : '' }}
+                  </span>
+                }
+              </td>
+              <td class="text-right mono">CHF {{ report.targetPrice | number:'1.2-2' }}</td>
+              <td class="text-right mono">CHF {{ report.currentPrice | number:'1.2-2' }}</td>
+              <td class="text-right mono" [class]="report.impliedUpside > 0 ? 'text-positive' : 'text-negative'">
+                {{ report.impliedUpside | number:'1.1-1' }}%
+              </td>
+              <td class="cell-date">{{ report.publishedAt | date:'dd.MM.yyyy' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

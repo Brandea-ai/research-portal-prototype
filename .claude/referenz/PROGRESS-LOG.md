@@ -5,6 +5,39 @@
 
 ---
 
+## 22.02.2026 - Session 3: P0-06 Frontend Grundstruktur
+
+**Dauer:** ~30 Min
+**Was wurde gemacht:**
+- 3 TypeScript Models (Analyst, Security, Report) mit strenger Typisierung
+- 3 HTTP Services mit Observable<T> und environment.apiUrl
+- Sidebar-Komponente: Fixed 220px, RouterLink/RouterLinkActive, Accent-Farbe für aktiven Link
+- Topbar-Komponente: Dynamischer Seitentitel via input() Signal
+- Dashboard: 4 KPI-Cards (Reports, Wertschriften, Analysten, Rating-Änderungen) + 5 neueste Reports
+- Reports-Tabelle: 7 Spalten, Rating-Farbcodierung (BUY=accent, SELL=rot, HOLD=neutral)
+- Securities-Tabelle: Ticker in Accent, formatMarketCap (Bio./Mrd./Mio.)
+- Analysts Card-Grid: Unicode-Sterne, Coverage-Tags, Accuracy
+- App Shell: Sidebar + Content-Area (Topbar + router-outlet)
+- 4 Lazy-loaded Routes mit dynamischem Import
+- tsconfig.json Path-Aliases (@core/*, @features/*, @shared/*)
+- Build verifiziert: 264 KB Initial Bundle, 0 Fehler
+
+**Architektur-Entscheidungen:**
+- `inject(Router)` statt Constructor Injection → ermöglicht toSignal() in Feld-Initialisierern
+- `export type` im Barrel-File → kompatibel mit isolatedModules
+- computed() Signal für ratingChangedCount → Arrow Functions nicht in Angular Templates erlaubt
+- Alle Pipes (DatePipe, DecimalPipe) explizit in Standalone Component imports
+
+**Erkenntnisse:**
+- Angular 21 mit `toSignal()` macht Router-Events elegant reaktiv (Observable → Signal)
+- `isolatedModules` erfordert `export type` für reine Interface-Re-Exports
+- Angular Template Parser erlaubt keine Arrow Functions → computed Signals nutzen
+- Standalone Components brauchen explizite Pipe-Imports (kein globaler CommonModule)
+
+**Nächster Schritt:** P0-07 Login-Seite
+
+---
+
 ## 22.02.2026 - Session 2 (Fortsetzung): P0-05 Backend REST API
 
 **Dauer:** ~25 Min
