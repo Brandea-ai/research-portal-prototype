@@ -5,6 +5,34 @@
 
 ---
 
+## 22.02.2026 - Session 2 (Fortsetzung): P0-05 Backend REST API
+
+**Dauer:** ~25 Min
+**Was wurde gemacht:**
+- 5 DTOs: ReportDto, CreateReportRequest (mit Bean Validation), SecurityDto, AnalystDto, ErrorResponse
+- 3 API-Mapper: ReportApiMapper (mit automatischer impliedUpside-Berechnung), SecurityApiMapper, AnalystApiMapper
+- 3 Application Services: ReportService (GetReports + ManageReport), SecurityService, AnalystService
+- ResourceNotFoundException als Custom Exception (lokalisierte deutsche Fehlermeldungen)
+- 3 REST Controller: ReportController (7 Endpoints), SecurityController (3 Endpoints), AnalystController (2 Endpoints)
+- GlobalExceptionHandler: @RestControllerAdvice für 404, Validation, IllegalArgument
+- CORS aktualisiert: `allowedOriginPatterns` statt `allowedOrigins` (Vercel Preview-Wildcards)
+- Alle 12 Endpoints live getestet: 10 Reports, 10 Securities, 5 Analysts, 404-Error
+
+**Architektur-Entscheidungen:**
+- DTOs verwenden Strings für Enums (JSON-Stabilität)
+- Services implementieren Use-Case-Ports (Controller kennt nur Interfaces)
+- ReportApiMapper berechnet impliedUpside und ratingChanged automatisch
+- allowedOriginPatterns für Vercel Preview-URL-Wildcards
+
+**Erkenntnisse:**
+- `allowedOrigins` unterstützt keine Wildcards in der Mitte → `allowedOriginPatterns` verwenden
+- Bean Validation + GlobalExceptionHandler = saubere, strukturierte Fehlermeldungen automatisch
+- Die hexagonale Architektur steht jetzt komplett: Web-Adapter (Ein) → Domain → Persistence-Adapter (Aus)
+
+**Nächster Schritt:** P0-06 Frontend Grundstruktur
+
+---
+
 ## 22.02.2026 - Session 2 (Fortsetzung): P0-04 Backend Persistence Layer
 
 **Dauer:** ~20 Min
