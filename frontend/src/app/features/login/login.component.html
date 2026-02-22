@@ -1,0 +1,51 @@
+<div class="login">
+  <div class="login__card">
+    <div class="login__header">
+      <span class="login__brand">RESEARCH</span>
+      <span class="login__brand login__brand--dim">PORTAL</span>
+    </div>
+    <p class="login__subtitle">Equity Research Platform</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login__form">
+      @if (error()) {
+        <div class="login__error">{{ error() }}</div>
+      }
+
+      <div class="field">
+        <label class="field__label" for="username">Benutzername</label>
+        <input
+          id="username"
+          type="text"
+          formControlName="username"
+          autocomplete="username"
+          placeholder="analyst"
+        />
+        @if (form.controls.username.touched && form.controls.username.errors) {
+          <span class="field__error">Mindestens 3 Zeichen</span>
+        }
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="password">Passwort</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+          placeholder="analyst"
+        />
+        @if (form.controls.password.touched && form.controls.password.errors) {
+          <span class="field__error">Mindestens 3 Zeichen</span>
+        }
+      </div>
+
+      <button type="submit" class="login__submit" [disabled]="form.invalid && form.touched">
+        Anmelden
+      </button>
+    </form>
+
+    <p class="login__hint">
+      Demo: analyst / analyst oder admin / admin
+    </p>
+  </div>
+</div>

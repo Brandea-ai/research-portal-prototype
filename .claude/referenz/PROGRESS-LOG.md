@@ -5,6 +5,34 @@
 
 ---
 
+## 22.02.2026 - Session 3 (Fortsetzung): P0-07 Login-Seite
+
+**Dauer:** ~15 Min
+**Was wurde gemacht:**
+- User-Model mit 3 Rollen (ANALYST, SENIOR_ANALYST, ADMIN)
+- AuthService: Mock-Auth mit 2 hardcoded Usern, Signals für reaktiven State, sessionStorage
+- Functional Auth-Guard: CanActivateFn mit inject(), Redirect zu /login
+- Login-Komponente: Reactive Form mit FormBuilder, Validation (required + minLength)
+- Login-Design: Zentrierte Card auf schwarzem Hintergrund, Accent nur auf Submit
+- Routes: authGuard auf dashboard, reports, securities, analysts
+- App Shell: @if(authService.isLoggedIn()) für bedingtes Sidebar/Topbar-Layout
+- Topbar: Rolle-Badge (ANALYST/ADMIN in Accent), Benutzername, Abmelden-Button
+
+**Architektur-Entscheidungen:**
+- sessionStorage statt localStorage (Session endet beim Tab-Schließen, Banking-Standard)
+- inject() statt Constructor durchgehend (konsistent, vermeidet Timing-Probleme)
+- Mock-Users als Record<string, {password, user}> (einfach erweiterbar)
+- Functional Guard statt Class-based (Angular 15+ Best Practice)
+
+**Erkenntnisse:**
+- FormBuilder als Feld-Initialisierer braucht inject() (gleicher Timing-Fehler wie Router)
+- P0 ist jetzt komplett: 7/7 Tasks in einer Session erledigt
+- Die Login-Seite zeigt Reactive Forms und Auth-Architektur Kompetenz
+
+**Nächster Schritt:** P1-08 Dashboard View (Erweiterung)
+
+---
+
 ## 22.02.2026 - Session 3: P0-06 Frontend Grundstruktur
 
 **Dauer:** ~30 Min

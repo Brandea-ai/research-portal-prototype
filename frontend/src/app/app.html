@@ -1,7 +1,11 @@
-<app-sidebar />
-<div class="app-content">
-  <app-topbar [pageTitle]="pageTitle()" />
-  <main class="app-main">
-    <router-outlet />
-  </main>
-</div>
+@if (authService.isLoggedIn()) {
+  <app-sidebar />
+  <div class="app-content">
+    <app-topbar [pageTitle]="pageTitle()" />
+    <main class="app-main">
+      <router-outlet />
+    </main>
+  </div>
+} @else {
+  <router-outlet />
+}

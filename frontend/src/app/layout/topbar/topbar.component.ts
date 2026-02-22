@@ -1,4 +1,5 @@
-import { Component, input } from '@angular/core';
+import { Component, input, inject } from '@angular/core';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-topbar',
@@ -8,4 +9,9 @@ import { Component, input } from '@angular/core';
 })
 export class TopbarComponent {
   pageTitle = input<string>('Dashboard');
+  readonly auth = inject(AuthService);
+
+  logout(): void {
+    this.auth.logout();
+  }
 }

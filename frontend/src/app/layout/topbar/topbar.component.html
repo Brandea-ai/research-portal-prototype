@@ -1,6 +1,8 @@
 <header class="topbar">
   <h1 class="topbar__title">{{ pageTitle() }}</h1>
   <div class="topbar__actions">
-    <span class="topbar__user">Demo User</span>
+    <span class="topbar__role">{{ auth.user()?.role }}</span>
+    <span class="topbar__user">{{ auth.displayName() }}</span>
+    <button class="topbar__logout" (click)="logout()">Abmelden</button>
   </div>
 </header>

@@ -3,7 +3,7 @@
 > Dynamischer Tracker. Wird nach jeder Arbeitseinheit aktualisiert.
 
 **Letzte Aktualisierung:** 22.02.2026
-**Gesamtfortschritt:** 6/48 Tasks (12%)
+**Gesamtfortschritt:** 7/48 Tasks (14%)
 
 ---
 
@@ -11,7 +11,7 @@
 
 | Phase | Tasks | Erledigt | Status |
 |-------|-------|----------|--------|
-| P0: Fundament | 7 | 6/7 | [~] In Arbeit |
+| P0: Fundament | 7 | 7/7 | [x] Abgeschlossen |
 | P1: Kernfeatures | 7 | 0/7 | [ ] Wartet auf P0 |
 | P2: Professionalität | 13 | 0/13 | [ ] Wartet auf P1 |
 
@@ -27,7 +27,7 @@
 | P0-04 | Backend Persistence Layer | [x] | P0-03 | Erledigt 22.02.2026 |
 | P0-05 | Backend REST API | [x] | P0-04 | Erledigt 22.02.2026 |
 | P0-06 | Frontend Grundstruktur | [x] | P0-01, P0-02 | Erledigt 22.02.2026 |
-| P0-07 | Login-Seite | [ ] | P0-06 | |
+| P0-07 | Login-Seite | [x] | P0-06 | Erledigt 22.02.2026 |
 
 ## P1: Kernfeatures (0/7)
 
@@ -65,6 +65,7 @@
 
 | Datum | Änderung | Begründung |
 |-------|----------|------------|
+| 22.02.2026 | P0-07 abgeschlossen: Login-Seite, Auth-Service, Guard, Logout, Rollen-Badge | Build OK, P0 komplett |
 | 22.02.2026 | P0-06 abgeschlossen: 3 Models, 3 Services, 2 Layout-Komp., 4 Feature-Komp., App Shell, 4 Lazy Routes, 264 KB Bundle | Build OK, 0 Fehler |
 | 22.02.2026 | P0-05 abgeschlossen: 5 DTOs, 3 Mapper, 3 Services, 3 Controller, Exception Handler, 12 Endpoints live | Alle Tests bestanden |
 | 22.02.2026 | P0-04 abgeschlossen: 3 JPA Entities, 3 Repos, 3 Mapper, 3 Adapters, 25 Demo-Datensätze | BUILD SUCCESS, App startet |

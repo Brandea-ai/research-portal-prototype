@@ -4,6 +4,7 @@ import { filter, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { TopbarComponent } from './layout/topbar/topbar.component';
+import { AuthService } from './core/services/auth.service';
 
 const PAGE_TITLES: Record<string, string> = {
   dashboard: 'Dashboard',
@@ -20,6 +21,7 @@ const PAGE_TITLES: Record<string, string> = {
 })
 export class App {
   private readonly router = inject(Router);
+  readonly authService = inject(AuthService);
 
   private readonly currentRoute = toSignal(
     this.router.events.pipe(

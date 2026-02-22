@@ -23,8 +23,37 @@
   gap: var(--space-md);
 }
 
+.topbar__role {
+  font-family: var(--font-data);
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: var(--color-accent-dim);
+  padding: 2px var(--space-sm);
+  border-radius: var(--radius-sm);
+}
+
 .topbar__user {
   font-family: var(--font-ui);
   font-size: 0.75rem;
   color: var(--color-text-muted);
+}
+
+.topbar__logout {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  color: var(--color-text-dim);
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 2px var(--space-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.topbar__logout:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-border-light);
 }
