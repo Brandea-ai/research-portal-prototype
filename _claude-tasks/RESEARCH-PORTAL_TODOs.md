@@ -5,7 +5,7 @@
 
 **Erstellt:** 22.02.2026
 **Letzte Aktualisierung:** 22.02.2026
-**Gesamtstatus:** 13/48 (27%)
+**Gesamtstatus:** 15/48 (31%)
 
 ---
 
@@ -131,13 +131,13 @@
 - [x] Error Handling mit catchError
 **DoD:** State-Änderungen propagieren korrekt durch die App — **ERREICHT 22.02.2026**
 
-### P1-14: Responsive Design
-- [ ] Sidebar: Collapsible auf Tablet, Hidden auf Mobile
-- [ ] Detail-Panel: Full-Screen Modal auf Mobile
-- [ ] Tabelle: Horizontal scrollbar auf Mobile
-- [ ] Touch-freundliche Interaktionen
-- [ ] Breakpoints: 1024px, 768px
-**DoD:** Alle Views auf Desktop, Tablet, Mobile funktional
+### P1-14: Responsive Design ✓
+- [x] Sidebar: Collapsible auf Tablet, Hidden auf Mobile
+- [x] Detail-Panel: Full-Screen Modal auf Mobile
+- [x] Tabelle: Horizontal scrollbar auf Mobile
+- [x] Touch-freundliche Interaktionen
+- [x] Breakpoints: 1024px, 768px
+**DoD:** Alle Views auf Desktop, Tablet, Mobile funktional — **ERREICHT 22.02.2026**
 
 ---
 
@@ -145,13 +145,13 @@
 
 > Diese Tasks heben den Prototyp von "gut" auf "beeindruckend".
 
-### P2-15: Cypress E2E Tests
-- [ ] Login Flow Test
-- [ ] Report CRUD Test
-- [ ] Filter + Sortierung Test
-- [ ] Navigation Test
-- [ ] Responsive Test (Viewport-Wechsel)
-**DoD:** 5+ E2E Tests laufen grün
+### P2-15: Cypress E2E Tests ✓
+- [x] Login Flow Test
+- [x] Report CRUD Test
+- [x] Filter + Sortierung Test
+- [x] Navigation Test
+- [x] Responsive Test (Viewport-Wechsel)
+**DoD:** 5+ E2E Tests laufen grün — **ERREICHT 22.02.2026**
 
 ### P2-16: Backend Unit Tests (TDD)
 - [ ] Service Layer Tests (JUnit 5 + Mockito)

@@ -1,7 +1,7 @@
 @if (authService.isLoggedIn()) {
-  <app-sidebar />
-  <div class="app-content">
-    <app-topbar [pageTitle]="pageTitle()" />
+  <app-sidebar #sidebar />
+  <div class="app-content" [style.margin-left]="sidebarMargin()">
+    <app-topbar [pageTitle]="pageTitle()" (menuToggle)="onMenuToggle()" />
     <main class="app-main">
       <router-outlet />
     </main>

@@ -5,6 +5,47 @@
 
 ---
 
+## 22.02.2026 - Session 4: P1-14 + P2-15 (Parallele Subagents)
+
+**Dauer:** ~5 Min (Parallel, real ~5 Min pro Agent)
+**Methode:** 2 Subagents in isolierten Git-Worktrees, gleichzeitig
+
+**P1-14 Responsive Design:**
+- Sidebar: collapsed Signal + mobileOpen Signal mit MediaQueryList Listener
+- Tablet (≤1024px): Sidebar auf 56px eingeklappt, Toggle-Button (Unicode ◀/▶)
+- Mobile (≤768px): Sidebar per translateX(-100%) versteckt, Overlay bei mobileOpen
+- Topbar: Hamburger-Button (☰) via output() an App Shell, nur auf Mobile sichtbar
+- App Shell: viewChild für Sidebar-Referenz, sidebarMargin computed Signal
+- Reports-Tabelle: Analyst/Kurs/Upside Spalten auf Mobile ausgeblendet (.hide-mobile)
+- DestroyRef für sauberes Cleanup der MediaQuery-Listener
+
+**P2-15 Cypress E2E Tests:**
+- Cypress 15.10 installiert + konfiguriert
+- Custom cy.login() Command mit formControlName-Selektoren
+- 5 Test-Specs mit 49 Tests:
+  - auth.cy.ts (6): Login, Logout, Invalid Credentials, Redirect
+  - dashboard.cy.ts (8): KPI-Cards, Reports, Analysten, Coverage
+  - reports.cy.ts (13): Tabelle, Filter, Suche, Navigation, Detail
+  - navigation.cy.ts (8): Alle Views, Active State, Topbar
+  - securities.cy.ts (12): Tabelle, Filter, Suche, Sortierung
+- npm Scripts: cy:open, cy:run, e2e
+
+**Architektur-Entscheidungen:**
+- MediaQueryList + Signal statt CSS-only (Angular muss Sidebar-Breite kennen für margin-left)
+- output() statt EventEmitter (Angular 17+ Best Practice)
+- viewChild() statt @ViewChild Decorator (Angular 17+ Signal-based)
+- Cypress Custom Command für Login statt Page Object (einfacher für Prototyp)
+
+**Erkenntnisse:**
+- P1 ist jetzt komplett: 7/7 Tasks
+- Parallele Worktrees funktionieren zum 4. Mal perfekt
+- Kombinierter Build: 282.66 KB Initial, 0 Fehler, 0 Warnings
+- Bundle-Anstieg von +6 KB durch Sidebar-Logik (Signals, MediaQuery, ViewChild)
+
+**Nächster Schritt:** P2-16 Backend Unit Tests + P2-17 XPath Report Import
+
+---
+
 ## 22.02.2026 - Session 4: P1-12 + P1-13 (Parallele Subagents + Integration)
 
 **Dauer:** ~8 Min (Parallel + Integration)

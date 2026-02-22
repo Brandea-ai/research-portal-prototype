@@ -17,21 +17,21 @@
 
 ---
 
-## Phase 1: Kernfeatures (7 Tasks) — IN ARBEIT (6/7)
+## Phase 1: Kernfeatures (7 Tasks) — ABGESCHLOSSEN
 - [x] P1-08: Dashboard View (KPIs, letzte Reports, Live-Updates)
 - [x] P1-09: Research Reports Tabelle (PrimeNG, Filter, Sort, Suche)
 - [x] P1-10: Report Detail-Ansicht (Split-View, Rating, Finanzdaten)
 - [x] P1-11: Securities View (Wertschriften-Tabelle, Verlinkung)
 - [x] P1-12: Report CRUD (Create, Edit, Delete, Validation)
 - [x] P1-13: RxJS State Management (BehaviorSubject, reaktive Filter)
-- [ ] P1-14: Responsive Design (Sidebar, Tabelle, Detail, Mobile)
+- [x] P1-14: Responsive Design (Sidebar, Tabelle, Detail, Mobile)
 
 **Gate:** Alle Features funktional, responsive, keine Konsolen-Fehler
 
 ---
 
 ## Phase 2: Professionalität (13 Tasks)
-- [ ] P2-15: Cypress E2E Tests (5+ Tests grün)
+- [x] P2-15: Cypress E2E Tests (5+ Tests grün)
 - [ ] P2-16: Backend Unit Tests (>70% Coverage)
 - [ ] P2-17: XPath Report Import (XML Parser, Beispiel-XML)
 - [ ] P2-18: CI/CD Pipeline (Jenkins, GitLab, Harness, Nexus)

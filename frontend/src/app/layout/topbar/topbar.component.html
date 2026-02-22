@@ -1,5 +1,8 @@
 <header class="topbar">
-  <h1 class="topbar__title">{{ pageTitle() }}</h1>
+  <div class="topbar__left">
+    <button class="topbar__menu-btn" (click)="onMenuToggle()">&#9776;</button>
+    <h1 class="topbar__title">{{ pageTitle() }}</h1>
+  </div>
   <div class="topbar__actions">
     <span class="topbar__role">{{ auth.user()?.role }}</span>
     <span class="topbar__user">{{ auth.displayName() }}</span>

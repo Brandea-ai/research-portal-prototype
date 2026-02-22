@@ -65,13 +65,13 @@
           <tr>
             <th>Titel</th>
             <th>Typ</th>
-            <th>Analyst</th>
+            <th class="hide-mobile">Analyst</th>
             <th>Rating</th>
             <th class="text-right sortable" (click)="toggleSort('targetPrice')">
               Kursziel{{ getSortIndicator('targetPrice') }}
             </th>
-            <th class="text-right">Kurs</th>
-            <th class="text-right sortable" (click)="toggleSort('impliedUpside')">
+            <th class="text-right hide-mobile">Kurs</th>
+            <th class="text-right sortable hide-mobile" (click)="toggleSort('impliedUpside')">
               Upside{{ getSortIndicator('impliedUpside') }}
             </th>
             <th class="sortable" (click)="toggleSort('publishedAt')">
@@ -86,7 +86,7 @@
               <td>
                 <span class="type-badge">{{ formatType(report.reportType) }}</span>
               </td>
-              <td class="cell-analyst">{{ getAnalystName(report.analystId) }}</td>
+              <td class="cell-analyst hide-mobile">{{ getAnalystName(report.analystId) }}</td>
               <td>
                 <span class="rating" [class]="'rating--' + ratingClass(report.rating)">
                   {{ formatRating(report.rating) }}
@@ -96,8 +96,8 @@
                 }
               </td>
               <td class="text-right mono">CHF {{ report.targetPrice | number:'1.2-2' }}</td>
-              <td class="text-right mono">CHF {{ report.currentPrice | number:'1.2-2' }}</td>
-              <td class="text-right mono" [class]="report.impliedUpside >= 0 ? 'text-right mono text-positive' : 'text-right mono text-negative'">
+              <td class="text-right mono hide-mobile">CHF {{ report.currentPrice | number:'1.2-2' }}</td>
+              <td class="text-right mono hide-mobile" [class]="report.impliedUpside >= 0 ? 'text-right mono hide-mobile text-positive' : 'text-right mono hide-mobile text-negative'">
                 {{ report.impliedUpside | number:'1.1-1' }}%
               </td>
               <td class="cell-date">{{ report.publishedAt | date:'dd.MM.yyyy' }}</td>

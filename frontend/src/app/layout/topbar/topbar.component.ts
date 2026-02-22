@@ -1,4 +1,4 @@
-import { Component, input, inject } from '@angular/core';
+import { Component, input, inject, output } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -9,9 +9,14 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class TopbarComponent {
   pageTitle = input<string>('Dashboard');
+  menuToggle = output<void>();
   readonly auth = inject(AuthService);
 
   logout(): void {
     this.auth.logout();
+  }
+
+  onMenuToggle(): void {
+    this.menuToggle.emit();
   }
 }

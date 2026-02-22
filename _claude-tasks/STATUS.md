@@ -3,7 +3,7 @@
 > Dynamischer Tracker. Wird nach jeder Arbeitseinheit aktualisiert.
 
 **Letzte Aktualisierung:** 22.02.2026
-**Gesamtfortschritt:** 13/48 Tasks (27%)
+**Gesamtfortschritt:** 15/48 Tasks (31%)
 
 ---
 
@@ -12,8 +12,8 @@
 | Phase | Tasks | Erledigt | Status |
 |-------|-------|----------|--------|
 | P0: Fundament | 7 | 7/7 | [x] Abgeschlossen |
-| P1: Kernfeatures | 7 | 6/7 | [~] In Arbeit |
-| P2: Professionalität | 13 | 0/13 | [ ] Wartet auf P1 |
+| P1: Kernfeatures | 7 | 7/7 | [x] Abgeschlossen |
+| P2: Professionalität | 13 | 1/13 | [~] In Arbeit |
 
 ---
 
@@ -29,7 +29,7 @@
 | P0-06 | Frontend Grundstruktur | [x] | P0-01, P0-02 | Erledigt 22.02.2026 |
 | P0-07 | Login-Seite | [x] | P0-06 | Erledigt 22.02.2026 |
 
-## P1: Kernfeatures (6/7) — IN ARBEIT
+## P1: Kernfeatures (7/7) — ABGESCHLOSSEN
 
 | Nr | Task | Status | Abhängig von | Bemerkung |
 |----|------|--------|-------------|-----------|
@@ -39,13 +39,13 @@
 | P1-11 | Securities View | [x] | P0-05, P0-06 | Erledigt 22.02.2026, parallel |
 | P1-12 | Report CRUD | [x] | P1-09 | Erledigt 22.02.2026, parallel |
 | P1-13 | RxJS State Management | [x] | P1-09 | Erledigt 22.02.2026, parallel |
-| P1-14 | Responsive Design | [ ] | P1-08 bis P1-12 | |
+| P1-14 | Responsive Design | [x] | P1-08 bis P1-12 | Erledigt 22.02.2026, parallel |
 
-## P2: Professionalität (0/13) — WARTET AUF P1
+## P2: Professionalität (1/13) — IN ARBEIT
 
 | Nr | Task | Status | Abhängig von | Bemerkung |
 |----|------|--------|-------------|-----------|
-| P2-15 | Cypress E2E Tests | [ ] | P1 komplett | |
+| P2-15 | Cypress E2E Tests | [x] | P1 komplett | Erledigt 22.02.2026, parallel |
 | P2-16 | Backend Unit Tests | [ ] | P0-05 | Kann parallel zu P1 |
 | P2-17 | XPath Report Import | [ ] | P0-05 | |
 | P2-18 | CI/CD Pipeline (Jenkins, GitLab, Harness, Nexus) | [ ] | P0-01 | Kann parallel |
@@ -65,6 +65,7 @@
 
 | Datum | Änderung | Begründung |
 |-------|----------|------------|
+| 22.02.2026 | P1-14+P2-15 parallel abgeschlossen: Responsive Design (Sidebar collapsible, Hamburger, Mobile), Cypress E2E (5 Specs, 49 Tests) | Parallele Subagents, 0 Konflikte |
 | 22.02.2026 | P1-12+P1-13 parallel abgeschlossen: Report CRUD (Form, Edit, Delete), RxJS State (BehaviorSubject, auto-Refresh), Integration beider Features | Parallele Subagents + manuelle Integration |
 | 22.02.2026 | P1-10+P1-11 parallel abgeschlossen: Report Detail-Ansicht (Route, Rating, Thesis), Securities erweitert (Sort, Filter, letzte Empfehlung) | Parallele Subagents, 0 Konflikte |
 | 22.02.2026 | Steuerungsdateien-Synchronisation: 7 Inkonsistenzen behoben | System kohärent |

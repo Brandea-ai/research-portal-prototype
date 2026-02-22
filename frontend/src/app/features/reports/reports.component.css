@@ -56,4 +56,5 @@
   .filter-bar__controls { flex-direction: column; }
   .filter-group, .filter-group--search { min-width: 100%; }
   .cell-title { max-width: 180px; }
+  .hide-mobile { display: none; }
 }

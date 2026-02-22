@@ -8,6 +8,12 @@
   padding: 0 var(--space-lg);
 }
 
+.topbar__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
 .topbar__title {
   font-family: var(--font-ui);
   font-size: 0.875rem;
@@ -56,4 +62,34 @@
 .topbar__logout:hover {
   color: var(--color-text-primary);
   border-color: var(--color-border-light);
+}
+
+/* Hamburger Menu Button */
+.topbar__menu-btn {
+  display: none;
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-xs);
+  transition: color var(--transition-fast);
+}
+
+.topbar__menu-btn:hover {
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 768px) {
+  .topbar__menu-btn {
+    display: block;
+  }
+
+  .topbar__role {
+    display: none;
+  }
+
+  .topbar__user {
+    display: none;
+  }
 }
