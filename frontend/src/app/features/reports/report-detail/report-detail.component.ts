@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { Component, OnInit, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { forkJoin } from 'rxjs';
@@ -16,7 +16,8 @@ import { Security } from '../../../core/models/security.model';
   standalone: true,
   imports: [RouterLink, DatePipe, DecimalPipe],
   templateUrl: './report-detail.component.html',
-  styleUrl: './report-detail.component.css'
+  styleUrl: './report-detail.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReportDetailComponent implements OnInit {
 

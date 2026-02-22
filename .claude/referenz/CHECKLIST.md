@@ -37,8 +37,8 @@
 - [x] P2-18: CI/CD Pipeline (Jenkinsfile, .gitlab-ci.yml, Harness, SonarQube)
 - [x] P2-19: Audit Trail (AOP @Aspect, @AfterReturning, AuditController, 21 Tests)
 - [x] P2-20: API Dokumentation (Springdoc OpenAPI 2.8.6, Swagger UI, 12 Endpoints)
-- [ ] P2-21: Performance Optimierung (Lazy Load, OnPush, Bundle Size)
-- [ ] P2-22: Datenexport (CSV/Excel)
+- [x] P2-21: Performance Optimierung (OnPush 7/7 Komponenten, Lazy Load verifiziert, 307 KB Bundle)
+- [x] P2-22: Datenexport (CSV Semikolon + Excel mit Apache POI, 13 Tests)
 - [ ] P2-23: PDF Report Export
 - [ ] P2-24: Session Timeout + Security Headers
 - [x] P2-25: Keyboard Shortcuts (vim-style 2-Key Combos, RxJS, Overlay)

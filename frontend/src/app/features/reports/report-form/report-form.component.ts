@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { Component, OnInit, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
@@ -16,7 +16,8 @@ import { Report, CreateReportRequest } from '../../../core/models/report.model';
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './report-form.component.html',
-  styleUrl: './report-form.component.css'
+  styleUrl: './report-form.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReportFormComponent implements OnInit {
 

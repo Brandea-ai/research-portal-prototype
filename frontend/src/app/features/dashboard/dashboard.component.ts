@@ -8,6 +8,7 @@ import {
   effect,
   ElementRef,
   viewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Chart, registerables } from 'chart.js';
@@ -27,6 +28,7 @@ Chart.register(...registerables);
   imports: [DatePipe, DecimalPipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   reports = signal<Report[]>([]);

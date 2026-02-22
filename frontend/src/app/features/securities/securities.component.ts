@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, computed, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, computed, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -16,7 +16,8 @@ type SortDirection = 'asc' | 'desc';
   standalone: true,
   imports: [FormsModule],
   templateUrl: './securities.component.html',
-  styleUrl: './securities.component.css'
+  styleUrl: './securities.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SecuritiesComponent implements OnInit, OnDestroy {
 
