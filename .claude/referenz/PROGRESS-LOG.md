@@ -5,6 +5,44 @@
 
 ---
 
+## 22.02.2026 - Session 4: P1-10 + P1-11 (Parallele Subagents)
+
+**Dauer:** ~5 Min (Parallel, real ~4 Min pro Agent)
+**Methode:** 2 Subagents in isolierten Git-Worktrees, gleichzeitig
+
+**P1-10 Report Detail-Ansicht:**
+- ReportDetailComponent als eigene Route /reports/:id (Lazy-loaded)
+- Report laden via switchMap auf ActivatedRoute paramMap
+- Analyst + Security via forkJoin nachladen
+- 10+ computed() Signals (Farbklassen, Formatierung, Sichtbarkeit)
+- Rating-Sektion: 4-Spalten-Grid (Empfehlung, Kursziel, Kurs, Upside)
+- Meta: Analyst (Name, Dept), Wertschrift (Ticker, Name, Sektor), Risikolevel
+- Executive Summary Panel + Investment-These (Katalysatoren + Risiken)
+- Tags als Badges, Fehlerbehandlung, Responsive (4→2→1 Spalten)
+- Reports-Tabelle: Klick auf Zeile navigiert via Router zu /reports/:id
+
+**P1-11 Securities View:**
+- Sortierung: Name, Sektor, MarketCap (Unicode-Pfeile, Signal-basiert)
+- Filter: Sektor-Dropdown (dynamisch aus Daten) + Debounced Suchfeld (300ms)
+- Neue Spalte "Letzte Empfehlung": neuester Report pro Security via Map
+- Klick navigiert zu /reports?security=TICKER
+- Responsive: ISIN, Branche, Börse auf Mobile ausgeblendet (.hide-mobile)
+- inject() Pattern, OnDestroy Cleanup mit destroy$ Subject
+
+**Architektur-Entscheidungen:**
+- Eigene Route /reports/:id statt Split-View (einfacher, mobil-freundlicher)
+- forkJoin für paralleles Laden von Analyst + Security (effizienter)
+- latestReportMap als computed() Signal (cached, reaktiv)
+
+**Erkenntnisse:**
+- Parallele Worktrees funktionieren erneut perfekt (2. Mal)
+- Kombinierter Build: 276 KB Initial, 0 Fehler
+- Report Detail als eigener Lazy Chunk: 13.74 kB
+
+**Nächster Schritt:** P1-12 Report CRUD + P1-13 RxJS State Management
+
+---
+
 ## 22.02.2026 - Session 4: Steuerungsdateien-Synchronisation
 
 **Dauer:** ~10 Min

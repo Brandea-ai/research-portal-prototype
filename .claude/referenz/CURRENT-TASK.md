@@ -3,48 +3,42 @@
 > Wird nach jeder Arbeitseinheit aktualisiert. Referenz: `_claude-tasks/STATUS.md`
 
 **Letzte Aktualisierung:** 22.02.2026
-**Aktueller Task:** Steuerungsdateien-Synchronisation (dann P1-10)
-**Status:** P0 komplett (7/7), P1 in Arbeit (2/7)
+**Aktueller Task:** P1-12 Report CRUD (nächster)
+**Status:** P0 komplett (7/7), P1 in Arbeit (4/7)
 
 ---
 
 ## Was wurde zuletzt gemacht
 
-### Session 3 (22.02.2026): P1-08 + P1-09 (Parallel)
+### Session 4 (22.02.2026): P1-10 + P1-11 (Parallel)
 
-**P1-08 Dashboard View:**
-1. KPI-Cards verbessert (font-data, 2.25rem, Untertitel, Hover)
-2. latestReports als computed() mit Datum-Sortierung
-3. Top Analysten (NEU): Top 3 nach accuracy12m, Rang, Sterne
-4. Coverage-Übersicht (NEU): Sektoren, Ticker, Avg. Accuracy
-5. 5 computed() Signals, vollständig responsive
+**P1-10 Report Detail-Ansicht:**
+1. ReportDetailComponent: Eigene Route /reports/:id, Lazy-loaded
+2. Report via switchMap auf ActivatedRoute paramMap geladen
+3. Analyst + Security via forkJoin nachgeladen
+4. 10+ computed() Signals für Farbklassen, Formatierung, Sichtbarkeit
+5. Rating-Sektion: 4-Spalten-Grid (Empfehlung, Kursziel, Kurs, Upside)
+6. Meta-Informationen: Analyst, Wertschrift, Risikolevel
+7. Executive Summary + Investment-These (Katalysatoren/Risiken) + Tags
+8. Responsive: 4→2→1 Spalten, Thesis-Grid stackt
+9. Reports-Tabelle: Klick auf Zeile navigiert zu Detail
 
-**P1-09 Reports Tabelle:**
-1. Sortierung via Unicode-Pfeile (▲/▼), 3 sortierbare Spalten
-2. Filter: Typ-Dropdown, Rating-Dropdown, Debounced Suchfeld (RxJS Subject + 300ms)
-3. Analyst-Spalte via AnalystService Map<id, name>
-4. Rating-Change Indikator, Typ-Badges, Leerer-Zustand
-5. computed() für gefilterte+sortierte Liste
+**P1-11 Securities View:**
+1. Sortierung: Name, Sektor, MarketCap (Unicode-Pfeile)
+2. Filter: Sektor-Dropdown (dynamisch) + Debounced Suchfeld (300ms)
+3. Neue Spalte "Letzte Empfehlung": Rating des neuesten Reports pro Wertschrift
+4. Klick navigiert zu /reports?security=TICKER
+5. Responsive: ISIN, Branche, Börse auf Mobile ausgeblendet
+6. inject() statt Constructor, OnDestroy Cleanup
 
 **Methode:** 2 parallele Subagents in isolierten Git-Worktrees, 0 Merge-Konflikte
-
-### Davor: P0-07 Login-Seite
-
-1. User-Model mit 3 Rollen (ANALYST, SENIOR_ANALYST, ADMIN)
-2. AuthService mit Signals, Mock-Users, sessionStorage-Persistenz
-3. Functional Auth-Guard (CanActivateFn) mit Redirect zu /login
-4. Login-Komponente: Reactive Form, Validation, Error-Handling
-5. App Shell: Bedingtes Layout (Sidebar/Topbar nur wenn eingeloggt)
-6. Topbar: Rolle-Badge + Benutzername + Abmelden-Button
 
 ## Was steht als Nächstes an
 
 **P1 Kernfeatures (Fortsetzung):**
-1. **P1-10:** Report Detail-Ansicht (Split-View, Rating, Finanzdaten)
-2. **P1-11:** Securities View (Wertschriften-Tabelle, Verlinkung)
-3. **P1-12:** Report CRUD (Create, Edit, Delete, Validation)
-4. **P1-13:** RxJS State Management (BehaviorSubject, reaktive Filter)
-5. **P1-14:** Responsive Design (Sidebar, Tabelle, Detail, Mobile)
+1. **P1-12:** Report CRUD (Create, Edit, Delete, Reactive Form)
+2. **P1-13:** RxJS State Management (BehaviorSubject, auto-Update nach CRUD)
+3. **P1-14:** Responsive Design (Sidebar collapsible, Mobile-Optimierung)
 
 ## Offene Fragen / Blocker
 
@@ -52,10 +46,9 @@ Keine aktuell.
 
 ## Kontext für die nächste Session
 
-- **Backend:** Hexagonale Architektur, 12 REST Endpoints, 25 Demo-Datensätze
-- **Frontend:** 4 Feature-Seiten, Login mit Auth-Guard, Layout-Shell
-- **Auth:** Mock-Auth mit 2 Usern (analyst/admin), sessionStorage
-- **Deploy:** Vercel (Frontend auto) + Fly.io (Backend manuell)
+- **Backend:** 12 REST Endpoints, CRUD-Endpoints existieren bereits (POST, PUT, DELETE)
+- **Frontend:** 5 Feature-Seiten + Detail-Ansicht, Login, Layout-Shell
 - **Build:** 276 KB Initial Bundle, 0 Fehler
+- **Deploy:** Vercel (auto) + Fly.io (manuell)
 
 JAVA_HOME: `export JAVA_HOME="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"`

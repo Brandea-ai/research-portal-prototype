@@ -1,6 +1,7 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ReportService } from '../../core/services/report.service';
@@ -29,6 +30,8 @@ const RATING_ORDER: Record<string, number> = {
   styleUrl: './reports.component.css'
 })
 export class ReportsComponent implements OnInit {
+
+  private readonly router = inject(Router);
 
   reports = signal<Report[]>([]);
   analysts = signal<Map<number, string>>(new Map());
@@ -168,5 +171,9 @@ export class ReportsComponent implements OnInit {
   formatFilterLabel(value: string): string {
     if (value === 'ALL') return 'Alle';
     return value.replace(/_/g, ' ');
+  }
+
+  openReport(id: number): void {
+    this.router.navigate(['/reports', id]);
   }
 }

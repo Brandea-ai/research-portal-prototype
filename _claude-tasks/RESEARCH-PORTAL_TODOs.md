@@ -5,7 +5,7 @@
 
 **Erstellt:** 22.02.2026
 **Letzte Aktualisierung:** 22.02.2026
-**Gesamtstatus:** 9/48 (18%)
+**Gesamtstatus:** 11/48 (23%)
 
 ---
 
@@ -95,21 +95,24 @@
 - [ ] Frozen erste Spalte (Datum/Ticker) → Nicht nötig bei aktueller Breite
 **DoD:** Tabelle zeigt alle Reports, Filter/Sort/Suche funktionieren — **ERREICHT 22.02.2026**
 
-### P1-10: Report Detail-Ansicht
-- [ ] Split-View: Tabelle links, Detail rechts
-- [ ] Rating mit Farbcodierung (BUY=Accent, SELL=Rot, HOLD=Grau)
-- [ ] Kursziel + Upside-Berechnung
-- [ ] Executive Summary
-- [ ] Investmentthese (Catalysts, Key Risks)
-- [ ] Financial Estimates Tabelle
-**DoD:** Klick auf Report-Zeile zeigt Detail im rechten Panel
+### P1-10: Report Detail-Ansicht ✓
+- [x] Split-View: Tabelle links, Detail rechts → Eigene Route /reports/:id
+- [x] Rating mit Farbcodierung (BUY=Accent, SELL=Rot, HOLD=Grau)
+- [x] Kursziel + Upside-Berechnung
+- [x] Executive Summary
+- [x] Investmentthese (Catalysts, Key Risks)
+- [ ] Financial Estimates Tabelle → Nicht im Datenmodell, verschoben auf P2
+**DoD:** Klick auf Report-Zeile zeigt Detail im rechten Panel — **ERREICHT 22.02.2026**
 
-### P1-11: Securities/Wertschriften View
-- [ ] Datenintensive Tabelle (alle Schweizer Wertschriften)
-- [ ] Spalten: Ticker, Name, Sektor, Kurs, MarketCap, letzte Empfehlung
-- [ ] Pagination (25 pro Seite)
-- [ ] Klick auf Wertschrift zeigt zugehörige Reports
-**DoD:** Wertschriften-Tabelle mit Verlinkung zu Reports
+### P1-11: Securities/Wertschriften View ✓
+- [x] Datenintensive Tabelle (alle Schweizer Wertschriften)
+- [x] Spalten: Ticker, Name, Sektor, Kurs, MarketCap, letzte Empfehlung
+- [ ] Pagination (25 pro Seite) → Nicht nötig bei 10 Demo-Datensätzen
+- [x] Klick auf Wertschrift zeigt zugehörige Reports → Navigiert zu /reports?security=TICKER
+- [x] Sortierung (Name, Sektor, MarketCap) mit Unicode-Pfeilen (NEU)
+- [x] Sektor-Filter + Debounced Suchfeld (NEU)
+- [x] Responsive: ISIN/Branche/Börse auf Mobile ausgeblendet (NEU)
+**DoD:** Wertschriften-Tabelle mit Verlinkung zu Reports — **ERREICHT 22.02.2026**
 
 ### P1-12: Research Report CRUD
 - [ ] Neuen Report erstellen (Reactive Form)

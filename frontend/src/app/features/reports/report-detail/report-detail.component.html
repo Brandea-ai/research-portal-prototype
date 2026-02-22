@@ -1,0 +1,140 @@
+@if (loading()) {
+  <div class="page">
+    <p class="loading-text">Report wird geladen...</p>
+  </div>
+} @else if (error()) {
+  <div class="page">
+    <a class="back-link" routerLink="/reports">Zurück zur Übersicht</a>
+    <p class="error-text">{{ error() }}</p>
+  </div>
+} @else if (report(); as r) {
+  <div class="page">
+
+    <!-- Header -->
+    <div class="detail-header">
+      <a class="back-link" routerLink="/reports">Zurück zur Übersicht</a>
+      <h1 class="detail-title">{{ r.title }}</h1>
+      <div class="detail-meta-row">
+        <span class="type-badge">{{ formattedReportType() }}</span>
+        <span class="detail-date">{{ r.publishedAt | date:'dd. MMMM yyyy' }}</span>
+      </div>
+    </div>
+
+    <!-- Rating + Kursziel -->
+    <div class="rating-section">
+      <div class="rating-card">
+        <span class="section-label">Empfehlung</span>
+        <div class="rating-display">
+          <span class="rating-value" [class]="'text--' + ratingColorClass()">{{ formattedRating() }}</span>
+          @if (r.ratingChanged && r.previousRating) {
+            <div class="rating-change">
+              <span class="rating-arrow">von</span>
+              <span class="rating-prev-value" [class]="'text--' + previousRatingColorClass()">{{ formattedPreviousRating() }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="rating-card">
+        <span class="section-label">Kursziel</span>
+        <span class="price-value">CHF {{ r.targetPrice | number:'1.2-2' }}</span>
+        @if (r.previousTarget !== null) {
+          <span class="price-prev">zuvor CHF {{ r.previousTarget | number:'1.2-2' }}</span>
+        }
+      </div>
+
+      <div class="rating-card">
+        <span class="section-label">Aktueller Kurs</span>
+        <span class="price-value">CHF {{ r.currentPrice | number:'1.2-2' }}</span>
+      </div>
+
+      <div class="rating-card">
+        <span class="section-label">Implied Upside</span>
+        <span class="upside-value" [class]="'text--' + upsideColorClass()">{{ r.impliedUpside | number:'1.1-1' }}%</span>
+      </div>
+    </div>
+
+    <!-- Meta-Informationen -->
+    <div class="meta-section">
+      <div class="meta-grid">
+        @if (analyst(); as a) {
+          <div class="meta-block">
+            <span class="section-label">Analyst</span>
+            <span class="meta-primary">{{ a.name }}</span>
+            <span class="meta-secondary">{{ a.department }}</span>
+          </div>
+        }
+
+        @if (security(); as s) {
+          <div class="meta-block">
+            <span class="section-label">Wertschrift</span>
+            <span class="meta-primary">
+              <span class="ticker">{{ s.ticker }}</span>
+              {{ s.name }}
+            </span>
+            <span class="meta-secondary">{{ s.sector }}</span>
+          </div>
+        }
+
+        @if (r.riskLevel) {
+          <div class="meta-block">
+            <span class="section-label">Risikolevel</span>
+            <span class="meta-primary" [class]="'text--' + riskLevelColorClass()">{{ formattedRiskLevel() }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Executive Summary -->
+    @if (r.executiveSummary) {
+      <div class="content-section">
+        <h2 class="section-title">Zusammenfassung</h2>
+        <div class="summary-panel">
+          <p class="summary-text">{{ r.executiveSummary }}</p>
+        </div>
+      </div>
+    }
+
+    <!-- Investment-These -->
+    @if (hasInvestmentThesis()) {
+      <div class="content-section">
+        <h2 class="section-title">Investment-These</h2>
+        <div class="thesis-grid">
+          @if (hasCatalysts()) {
+            <div class="thesis-block">
+              <h3 class="thesis-subtitle">Katalysatoren</h3>
+              <ul class="thesis-list thesis-list--positive">
+                @for (catalyst of r.investmentCatalysts; track catalyst) {
+                  <li class="thesis-item">{{ catalyst }}</li>
+                }
+              </ul>
+            </div>
+          }
+          @if (hasRisks()) {
+            <div class="thesis-block">
+              <h3 class="thesis-subtitle">Risiken</h3>
+              <ul class="thesis-list thesis-list--negative">
+                @for (risk of r.keyRisks; track risk) {
+                  <li class="thesis-item">{{ risk }}</li>
+                }
+              </ul>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Tags -->
+    @if (hasTags()) {
+      <div class="content-section">
+        <h2 class="section-title">Tags</h2>
+        <div class="tags-row">
+          @for (tag of r.tags; track tag) {
+            <span class="tag-badge">{{ tag }}</span>
+          }
+        </div>
+      </div>
+    }
+
+  </div>
+}

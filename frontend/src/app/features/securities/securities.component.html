@@ -1,7 +1,43 @@
 <div class="page">
   <div class="page__header">
     <h2 class="page__title">Wertschriften</h2>
-    <span class="page__count">{{ securities().length }} Titel</span>
+    <span class="page__count">{{ filteredSecurities().length }} von {{ securities().length }} Titel</span>
+  </div>
+
+  <!-- Filter-Leiste -->
+  <div class="filter-bar">
+    <div class="filter-bar__controls">
+      <div class="filter-group">
+        <label class="filter-label" for="filter-sector">Sektor</label>
+        <select
+          id="filter-sector"
+          class="filter-select"
+          [ngModel]="filterSector()"
+          (ngModelChange)="filterSector.set($event)">
+          @for (sector of availableSectors(); track sector) {
+            <option [value]="sector">{{ formatSectorLabel(sector) }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group filter-group--search">
+        <label class="filter-label" for="filter-search">Suche</label>
+        <input
+          id="filter-search"
+          type="text"
+          class="filter-input"
+          placeholder="Ticker oder Name..."
+          [ngModel]="searchTerm()"
+          (ngModelChange)="onSearchInput($event)" />
+      </div>
+    </div>
+
+    @if (activeFilterCount() > 0) {
+      <div class="filter-bar__status">
+        <span class="filter-count">{{ activeFilterCount() }} Filter aktiv</span>
+        <button class="filter-reset" (click)="resetFilters()">Filter zurücksetzen</button>
+      </div>
+    }
   </div>
 
   @if (loading()) {
@@ -12,24 +48,45 @@
         <thead>
           <tr>
             <th>Ticker</th>
-            <th>Name</th>
-            <th>ISIN</th>
-            <th>Sektor</th>
-            <th>Branche</th>
-            <th>Börse</th>
-            <th class="text-right">Marktkapitalisierung</th>
+            <th class="sortable" (click)="toggleSort('name')">
+              Name{{ getSortIndicator('name') }}
+            </th>
+            <th class="hide-mobile">ISIN</th>
+            <th class="sortable" (click)="toggleSort('sector')">
+              Sektor{{ getSortIndicator('sector') }}
+            </th>
+            <th class="hide-mobile">Branche</th>
+            <th class="hide-mobile">Börse</th>
+            <th class="text-right sortable" (click)="toggleSort('marketCap')">
+              Marktkapitalisierung{{ getSortIndicator('marketCap') }}
+            </th>
+            <th>Letzte Empfehlung</th>
           </tr>
         </thead>
         <tbody>
-          @for (sec of securities(); track sec.id) {
-            <tr>
+          @for (sec of filteredSecurities(); track sec.id) {
+            <tr (click)="navigateToReports(sec)">
               <td class="cell-ticker">{{ sec.ticker }}</td>
               <td class="cell-name">{{ sec.name }}</td>
-              <td class="cell-isin">{{ sec.isin }}</td>
+              <td class="cell-isin hide-mobile">{{ sec.isin }}</td>
               <td>{{ sec.sector }}</td>
-              <td class="cell-dim">{{ sec.industry }}</td>
-              <td class="cell-exchange">{{ sec.exchange }}</td>
+              <td class="cell-dim hide-mobile">{{ sec.industry }}</td>
+              <td class="cell-exchange hide-mobile">{{ sec.exchange }}</td>
               <td class="text-right mono">{{ sec.currency }} {{ formatMarketCap(sec.marketCap) }}</td>
+              <td>
+                @if (getLatestRating(sec.id); as rating) {
+                  <span class="rating" [class]="'rating--' + ratingClass(rating)">
+                    {{ formatRating(rating) }}
+                  </span>
+                } @else {
+                  <span class="cell-dim">&mdash;</span>
+                }
+              </td>
+            </tr>
+          }
+          @if (filteredSecurities().length === 0) {
+            <tr>
+              <td class="empty-state" colspan="8">Keine Wertschriften gefunden</td>
             </tr>
           }
         </tbody>

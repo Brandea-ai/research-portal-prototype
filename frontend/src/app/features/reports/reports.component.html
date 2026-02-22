@@ -78,7 +78,7 @@
         </thead>
         <tbody>
           @for (report of filteredReports(); track report.id) {
-            <tr>
+            <tr (click)="openReport(report.id)">
               <td class="cell-title">{{ report.title }}</td>
               <td>
                 <span class="type-badge">{{ formatType(report.reportType) }}</span>
