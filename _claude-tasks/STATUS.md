@@ -3,7 +3,7 @@
 > Dynamischer Tracker. Wird nach jeder Arbeitseinheit aktualisiert.
 
 **Letzte Aktualisierung:** 22.02.2026
-**Gesamtfortschritt:** 11/48 Tasks (23%)
+**Gesamtfortschritt:** 13/48 Tasks (27%)
 
 ---
 
@@ -12,7 +12,7 @@
 | Phase | Tasks | Erledigt | Status |
 |-------|-------|----------|--------|
 | P0: Fundament | 7 | 7/7 | [x] Abgeschlossen |
-| P1: Kernfeatures | 7 | 4/7 | [~] In Arbeit |
+| P1: Kernfeatures | 7 | 6/7 | [~] In Arbeit |
 | P2: Professionalität | 13 | 0/13 | [ ] Wartet auf P1 |
 
 ---
@@ -29,7 +29,7 @@
 | P0-06 | Frontend Grundstruktur | [x] | P0-01, P0-02 | Erledigt 22.02.2026 |
 | P0-07 | Login-Seite | [x] | P0-06 | Erledigt 22.02.2026 |
 
-## P1: Kernfeatures (4/7) — IN ARBEIT
+## P1: Kernfeatures (6/7) — IN ARBEIT
 
 | Nr | Task | Status | Abhängig von | Bemerkung |
 |----|------|--------|-------------|-----------|
@@ -37,8 +37,8 @@
 | P1-09 | Research Reports Tabelle | [x] | P0-05, P0-06 | Erledigt 22.02.2026, parallel |
 | P1-10 | Report Detail-Ansicht | [x] | P1-09 | Erledigt 22.02.2026, parallel |
 | P1-11 | Securities View | [x] | P0-05, P0-06 | Erledigt 22.02.2026, parallel |
-| P1-12 | Report CRUD | [ ] | P1-09 | |
-| P1-13 | RxJS State Management | [ ] | P1-09 | |
+| P1-12 | Report CRUD | [x] | P1-09 | Erledigt 22.02.2026, parallel |
+| P1-13 | RxJS State Management | [x] | P1-09 | Erledigt 22.02.2026, parallel |
 | P1-14 | Responsive Design | [ ] | P1-08 bis P1-12 | |
 
 ## P2: Professionalität (0/13) — WARTET AUF P1
@@ -65,6 +65,7 @@
 
 | Datum | Änderung | Begründung |
 |-------|----------|------------|
+| 22.02.2026 | P1-12+P1-13 parallel abgeschlossen: Report CRUD (Form, Edit, Delete), RxJS State (BehaviorSubject, auto-Refresh), Integration beider Features | Parallele Subagents + manuelle Integration |
 | 22.02.2026 | P1-10+P1-11 parallel abgeschlossen: Report Detail-Ansicht (Route, Rating, Thesis), Securities erweitert (Sort, Filter, letzte Empfehlung) | Parallele Subagents, 0 Konflikte |
 | 22.02.2026 | Steuerungsdateien-Synchronisation: 7 Inkonsistenzen behoben | System kohärent |
 | 22.02.2026 | P1-08+P1-09 parallel abgeschlossen: Dashboard erweitert (Top Analysten, Coverage), Reports mit Sort/Filter/Search | Parallele Subagents, 0 Konflikte |

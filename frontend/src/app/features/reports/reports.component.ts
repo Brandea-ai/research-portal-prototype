@@ -4,10 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { ReportService } from '../../core/services/report.service';
+import { ReportStateService } from '../../core/services/report-state.service';
 import { AnalystService } from '../../core/services/analyst.service';
 import { Report } from '../../core/models/report.model';
-import { Analyst } from '../../core/models/analyst.model';
 
 type SortColumn = 'publishedAt' | 'rating' | 'targetPrice' | 'impliedUpside';
 type SortDirection = 'asc' | 'desc';
@@ -101,16 +100,15 @@ export class ReportsComponent implements OnInit {
     return result;
   });
 
-  constructor(
-    private readonly reportService: ReportService,
-    private readonly analystService: AnalystService
-  ) {}
+  private readonly reportState = inject(ReportStateService);
+  private readonly analystService = inject(AnalystService);
 
   ngOnInit(): void {
-    this.reportService.getAll().subscribe(data => {
-      this.reports.set(data);
-      this.loading.set(false);
+    this.reportState.reports$.subscribe(data => this.reports.set(data));
+    this.reportState.loading$.subscribe(loading => {
+      if (!loading && this.reports().length >= 0) this.loading.set(false);
     });
+    this.reportState.loadReports();
 
     this.analystService.getAll().subscribe(data => {
       const map = new Map<number, string>();
@@ -175,5 +173,9 @@ export class ReportsComponent implements OnInit {
 
   openReport(id: number): void {
     this.router.navigate(['/reports', id]);
+  }
+
+  createReport(): void {
+    this.router.navigate(['/reports/new']);
   }
 }

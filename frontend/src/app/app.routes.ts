@@ -15,6 +15,18 @@ export const routes: Routes = [
       import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },
   {
+    path: 'reports/new',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/reports/report-form/report-form.component').then(m => m.ReportFormComponent)
+  },
+  {
+    path: 'reports/:id/edit',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/reports/report-form/report-form.component').then(m => m.ReportFormComponent)
+  },
+  {
     path: 'reports/:id',
     canActivate: [authGuard],
     loadComponent: () =>

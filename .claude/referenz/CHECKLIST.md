@@ -17,13 +17,13 @@
 
 ---
 
-## Phase 1: Kernfeatures (7 Tasks) — IN ARBEIT (4/7)
+## Phase 1: Kernfeatures (7 Tasks) — IN ARBEIT (6/7)
 - [x] P1-08: Dashboard View (KPIs, letzte Reports, Live-Updates)
 - [x] P1-09: Research Reports Tabelle (PrimeNG, Filter, Sort, Suche)
 - [x] P1-10: Report Detail-Ansicht (Split-View, Rating, Finanzdaten)
 - [x] P1-11: Securities View (Wertschriften-Tabelle, Verlinkung)
-- [ ] P1-12: Report CRUD (Create, Edit, Delete, Validation)
-- [ ] P1-13: RxJS State Management (BehaviorSubject, reaktive Filter)
+- [x] P1-12: Report CRUD (Create, Edit, Delete, Validation)
+- [x] P1-13: RxJS State Management (BehaviorSubject, reaktive Filter)
 - [ ] P1-14: Responsive Design (Sidebar, Tabelle, Detail, Mobile)
 
 **Gate:** Alle Features funktional, responsive, keine Konsolen-Fehler

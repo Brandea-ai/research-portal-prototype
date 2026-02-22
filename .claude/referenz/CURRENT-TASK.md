@@ -3,42 +3,45 @@
 > Wird nach jeder Arbeitseinheit aktualisiert. Referenz: `_claude-tasks/STATUS.md`
 
 **Letzte Aktualisierung:** 22.02.2026
-**Aktueller Task:** P1-12 Report CRUD (nächster)
-**Status:** P0 komplett (7/7), P1 in Arbeit (4/7)
+**Aktueller Task:** P1-14 Responsive Design (nächster)
+**Status:** P0 komplett (7/7), P1 in Arbeit (6/7)
 
 ---
 
 ## Was wurde zuletzt gemacht
 
-### Session 4 (22.02.2026): P1-10 + P1-11 (Parallel)
+### Session 4 (22.02.2026): P1-12 + P1-13 (Parallel + Integration)
 
-**P1-10 Report Detail-Ansicht:**
-1. ReportDetailComponent: Eigene Route /reports/:id, Lazy-loaded
-2. Report via switchMap auf ActivatedRoute paramMap geladen
-3. Analyst + Security via forkJoin nachgeladen
-4. 10+ computed() Signals für Farbklassen, Formatierung, Sichtbarkeit
-5. Rating-Sektion: 4-Spalten-Grid (Empfehlung, Kursziel, Kurs, Upside)
-6. Meta-Informationen: Analyst, Wertschrift, Risikolevel
-7. Executive Summary + Investment-These (Katalysatoren/Risiken) + Tags
-8. Responsive: 4→2→1 Spalten, Thesis-Grid stackt
-9. Reports-Tabelle: Klick auf Zeile navigiert zu Detail
+**P1-12 Report CRUD:**
+1. ReportFormComponent: Reactive Form mit FormBuilder via inject()
+2. Create + Edit Mode (Route-Erkennung via ActivatedRoute snapshot)
+3. forkJoin für paralleles Laden von Analyst + Security Dropdowns
+4. Validation: required, minLength, min(0.01) für Kursziel
+5. Edit/Delete Buttons in Report-Detail, Delete-Bestätigung
+6. Routes: /reports/new, /reports/:id/edit (Lazy-loaded)
 
-**P1-11 Securities View:**
-1. Sortierung: Name, Sektor, MarketCap (Unicode-Pfeile)
-2. Filter: Sektor-Dropdown (dynamisch) + Debounced Suchfeld (300ms)
-3. Neue Spalte "Letzte Empfehlung": Rating des neuesten Reports pro Wertschrift
-4. Klick navigiert zu /reports?security=TICKER
-5. Responsive: ISIN, Branche, Börse auf Mobile ausgeblendet
-6. inject() statt Constructor, OnDestroy Cleanup
+**P1-13 RxJS State Management:**
+1. ReportStateService: BehaviorSubject + loaded-Flag für Cache
+2. CRUD-Methoden: createReport(), updateReport(), deleteReport()
+3. Auto-Refresh via tap(() => this.refresh()) nach jeder Mutation
+4. Dashboard, Reports, Securities nutzen jetzt ReportStateService
+5. "Neuer Report" Button in Reports-Liste
 
-**Methode:** 2 parallele Subagents in isolierten Git-Worktrees, 0 Merge-Konflikte
+**Integration:**
+- report-form nutzt reportState.createReport/updateReport statt reportService direkt
+- report-detail nutzt reportState.deleteReport statt reportService.delete
+- Alle CRUD-Pfade lösen automatischen State-Refresh aus
+
+**Methode:** 2 parallele Subagents + manuelle Integration für übergreifende Verdrahtung
 
 ## Was steht als Nächstes an
 
-**P1 Kernfeatures (Fortsetzung):**
-1. **P1-12:** Report CRUD (Create, Edit, Delete, Reactive Form)
-2. **P1-13:** RxJS State Management (BehaviorSubject, auto-Update nach CRUD)
-3. **P1-14:** Responsive Design (Sidebar collapsible, Mobile-Optimierung)
+**P1 Kernfeatures (letzter Task):**
+1. **P1-14:** Responsive Design (Sidebar collapsible, Mobile-Optimierung)
+
+**Danach P2 Professionalität:**
+1. **P2-15:** Cypress E2E Tests
+2. **P2-16:** Backend Unit Tests
 
 ## Offene Fragen / Blocker
 
@@ -47,8 +50,9 @@ Keine aktuell.
 ## Kontext für die nächste Session
 
 - **Backend:** 12 REST Endpoints, CRUD-Endpoints existieren bereits (POST, PUT, DELETE)
-- **Frontend:** 5 Feature-Seiten + Detail-Ansicht, Login, Layout-Shell
-- **Build:** 276 KB Initial Bundle, 0 Fehler
+- **Frontend:** 5 Feature-Seiten + Detail + CRUD-Form, Login, Layout-Shell
+- **State:** ReportStateService (BehaviorSubject + auto-Refresh nach CRUD)
+- **Build:** 276.75 KB Initial Bundle, 0 Fehler, 0 Warnings
 - **Deploy:** Vercel (auto) + Fly.io (manuell)
 
 JAVA_HOME: `export JAVA_HOME="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"`

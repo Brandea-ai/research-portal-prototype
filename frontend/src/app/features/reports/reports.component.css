@@ -4,7 +4,10 @@
   align-items: baseline; margin-bottom: var(--space-lg);
 }
 .page__title { font-family: var(--font-ui); font-size: 0.875rem; font-weight: 600; color: var(--color-text-primary); margin: 0; }
+.page__header-actions { display: flex; align-items: center; gap: var(--space-md); }
 .page__count { font-family: var(--font-data); font-size: 0.75rem; color: var(--color-text-dim); }
+.btn-create { font-family: var(--font-ui); font-size: 0.75rem; font-weight: 500; color: var(--color-bg); background: var(--color-accent); border: none; border-radius: var(--radius-sm); padding: var(--space-sm) var(--space-md); cursor: pointer; transition: background var(--transition-fast); white-space: nowrap; }
+.btn-create:hover { background: var(--color-accent-hover); }
 .loading { font-family: var(--font-ui); color: var(--color-text-muted); font-size: 0.875rem; }
 
 /* Filter */

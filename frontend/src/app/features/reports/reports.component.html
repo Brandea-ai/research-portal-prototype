@@ -1,7 +1,10 @@
 <div class="page">
   <div class="page__header">
     <h2 class="page__title">Research Reports</h2>
-    <span class="page__count">{{ filteredReports().length }} von {{ reports().length }} Reports</span>
+    <div class="page__header-actions">
+      <span class="page__count">{{ filteredReports().length }} von {{ reports().length }} Reports</span>
+      <button class="btn-create" (click)="createReport()">Neuer Report</button>
+    </div>
   </div>
 
   <!-- Filter-Leiste -->

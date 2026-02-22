@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, signal, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Subject, forkJoin } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { SecurityService } from '../../core/services/security.service';
-import { ReportService } from '../../core/services/report.service';
+import { ReportStateService } from '../../core/services/report-state.service';
 import { Security } from '../../core/models/security.model';
 import { Report } from '../../core/models/report.model';
 
@@ -21,7 +21,7 @@ type SortDirection = 'asc' | 'desc';
 export class SecuritiesComponent implements OnInit, OnDestroy {
 
   private readonly securityService = inject(SecurityService);
-  private readonly reportService = inject(ReportService);
+  private readonly reportState = inject(ReportStateService);
   private readonly router = inject(Router);
 
   securities = signal<Security[]>([]);
@@ -101,12 +101,10 @@ export class SecuritiesComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    forkJoin({
-      securities: this.securityService.getAll(),
-      reports: this.reportService.getAll()
-    }).subscribe(({ securities, reports }) => {
-      this.securities.set(securities);
-      this.reports.set(reports);
+    this.reportState.loadReports();
+    this.reportState.reports$.subscribe(data => this.reports.set(data));
+    this.securityService.getAll().subscribe(data => {
+      this.securities.set(data);
       this.loading.set(false);
     });
 

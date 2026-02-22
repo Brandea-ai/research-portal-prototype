@@ -5,6 +5,47 @@
 
 ---
 
+## 22.02.2026 - Session 4: P1-12 + P1-13 (Parallele Subagents + Integration)
+
+**Dauer:** ~8 Min (Parallel + Integration)
+**Methode:** 2 Subagents in isolierten Git-Worktrees + manuelle Integration
+
+**P1-12 Report CRUD:**
+- ReportFormComponent: Reactive Form mit FormBuilder via inject()
+- Create + Edit Mode (Route-Erkennung via ActivatedRoute snapshot)
+- forkJoin für paralleles Laden von Analyst/Security-Dropdowns
+- Validation: required, minLength(5/20), min(0.01) für Kursziel
+- Edit/Delete Buttons in ReportDetailComponent
+- Delete-Bestätigung mit showDeleteConfirm Signal
+- 3 neue Routes: /reports/new, /reports/:id/edit (Lazy-loaded)
+
+**P1-13 RxJS State Management:**
+- ReportStateService: BehaviorSubject<Report[]> + loaded-Flag
+- CRUD-Methoden: createReport(), updateReport(), deleteReport()
+- Auto-Refresh via tap(() => this.refresh()) nach jeder Mutation
+- reports$ Observable für alle Subscriber
+- Dashboard, Reports, Securities auf ReportStateService umgestellt
+- "Neuer Report" Button in Reports-Liste
+
+**Integration (nach Merge):**
+- report-form: ReportStateService statt ReportService für create/update
+- report-detail: ReportStateService statt ReportService für delete
+- Alle CRUD-Pfade lösen automatischen State-Refresh aus
+
+**Architektur-Entscheidungen:**
+- BehaviorSubject statt Signal für reports (wegen async pipe Kompatibilität und RxJS-Skill-Nachweis)
+- loaded-Flag verhindert doppeltes Laden (loadReports() ist idempotent)
+- tap() für Side-Effects (Refresh) nach CRUD-Operationen
+
+**Erkenntnisse:**
+- Parallele Worktrees + manuelle Integration = sicherer Ansatz bei überlappenden Abhängigkeiten
+- CSS-Budget von 6kB auf 10kB erhöht (report-detail.css = 7.3 kB)
+- Kombinierter Build: 276.75 KB Initial, 0 Fehler, 0 Warnings
+
+**Nächster Schritt:** P1-14 Responsive Design
+
+---
+
 ## 22.02.2026 - Session 4: P1-10 + P1-11 (Parallele Subagents)
 
 **Dauer:** ~5 Min (Parallel, real ~4 Min pro Agent)

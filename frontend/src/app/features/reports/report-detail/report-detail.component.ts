@@ -1,9 +1,10 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ReportService } from '../../../core/services/report.service';
+import { ReportStateService } from '../../../core/services/report-state.service';
 import { AnalystService } from '../../../core/services/analyst.service';
 import { SecurityService } from '../../../core/services/security.service';
 import { Report } from '../../../core/models/report.model';
@@ -20,7 +21,9 @@ import { Security } from '../../../core/models/security.model';
 export class ReportDetailComponent implements OnInit {
 
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly reportService = inject(ReportService);
+  private readonly reportState = inject(ReportStateService);
   private readonly analystService = inject(AnalystService);
   private readonly securityService = inject(SecurityService);
 
@@ -29,6 +32,7 @@ export class ReportDetailComponent implements OnInit {
   security = signal<Security | null>(null);
   loading = signal(true);
   error = signal<string | null>(null);
+  showDeleteConfirm = signal(false);
 
   ratingColorClass = computed(() => {
     const r = this.report();
@@ -141,6 +145,28 @@ export class ReportDetailComponent implements OnInit {
       error: () => {
         this.loading.set(false);
       }
+    });
+  }
+
+  editReport(): void {
+    const r = this.report();
+    if (r) this.router.navigate(['/reports', r.id, 'edit']);
+  }
+
+  confirmDelete(): void {
+    this.showDeleteConfirm.set(true);
+  }
+
+  cancelDelete(): void {
+    this.showDeleteConfirm.set(false);
+  }
+
+  deleteReport(): void {
+    const r = this.report();
+    if (!r) return;
+    this.reportState.deleteReport(r.id).subscribe({
+      next: () => this.router.navigate(['/reports']),
+      error: () => this.error.set('Report konnte nicht gelöscht werden.')
     });
   }
 }

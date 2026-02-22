@@ -5,7 +5,7 @@
 
 **Erstellt:** 22.02.2026
 **Letzte Aktualisierung:** 22.02.2026
-**Gesamtstatus:** 11/48 (23%)
+**Gesamtstatus:** 13/48 (27%)
 
 ---
 
@@ -114,22 +114,22 @@
 - [x] Responsive: ISIN/Branche/Börse auf Mobile ausgeblendet (NEU)
 **DoD:** Wertschriften-Tabelle mit Verlinkung zu Reports — **ERREICHT 22.02.2026**
 
-### P1-12: Research Report CRUD
-- [ ] Neuen Report erstellen (Reactive Form)
-- [ ] Report bearbeiten
-- [ ] Report löschen (mit Bestätigung)
-- [ ] Analyst + Security Auswahl (Dropdowns)
-- [ ] Rating + Kursziel Eingabe
-- [ ] Validation aller Felder
-**DoD:** Vollständiger CRUD-Zyklus funktioniert end-to-end
+### P1-12: Research Report CRUD ✓
+- [x] Neuen Report erstellen (Reactive Form)
+- [x] Report bearbeiten
+- [x] Report löschen (mit Bestätigung)
+- [x] Analyst + Security Auswahl (Dropdowns)
+- [x] Rating + Kursziel Eingabe
+- [x] Validation aller Felder
+**DoD:** Vollständiger CRUD-Zyklus funktioniert end-to-end — **ERREICHT 22.02.2026**
 
-### P1-13: RxJS State Management
-- [ ] ReportStateService mit BehaviorSubject
-- [ ] Automatische Aktualisierung nach CRUD
-- [ ] Filter-State reaktiv
-- [ ] Debounced Suchfeld
-- [ ] Error Handling mit catchError
-**DoD:** State-Änderungen propagieren korrekt durch die App
+### P1-13: RxJS State Management ✓
+- [x] ReportStateService mit BehaviorSubject
+- [x] Automatische Aktualisierung nach CRUD
+- [x] Filter-State reaktiv
+- [x] Debounced Suchfeld
+- [x] Error Handling mit catchError
+**DoD:** State-Änderungen propagieren korrekt durch die App — **ERREICHT 22.02.2026**
 
 ### P1-14: Responsive Design
 - [ ] Sidebar: Collapsible auf Tablet, Hidden auf Mobile

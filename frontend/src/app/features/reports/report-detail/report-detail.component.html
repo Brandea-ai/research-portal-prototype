@@ -20,6 +20,20 @@
       </div>
     </div>
 
+    <!-- Actions -->
+    <div class="detail-actions">
+      <button class="btn-edit" (click)="editReport()">Bearbeiten</button>
+      <button class="btn-delete" (click)="confirmDelete()">Löschen</button>
+    </div>
+
+    @if (showDeleteConfirm()) {
+      <div class="delete-confirm">
+        <span class="delete-confirm__text">Report wirklich löschen?</span>
+        <button class="btn-delete-confirm" (click)="deleteReport()">Ja, löschen</button>
+        <button class="btn-cancel" (click)="cancelDelete()">Abbrechen</button>
+      </div>
+    }
+
     <!-- Rating + Kursziel -->
     <div class="rating-section">
       <div class="rating-card">

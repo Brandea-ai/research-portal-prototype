@@ -1,6 +1,6 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { ReportService } from '../../core/services/report.service';
+import { ReportStateService } from '../../core/services/report-state.service';
 import { SecurityService } from '../../core/services/security.service';
 import { AnalystService } from '../../core/services/analyst.service';
 import { Report } from '../../core/models/report.model';
@@ -54,14 +54,13 @@ export class DashboardComponent implements OnInit {
     return tickers.size;
   });
 
-  constructor(
-    private readonly reportService: ReportService,
-    private readonly securityService: SecurityService,
-    private readonly analystService: AnalystService
-  ) {}
+  private readonly reportState = inject(ReportStateService);
+  private readonly securityService = inject(SecurityService);
+  private readonly analystService = inject(AnalystService);
 
   ngOnInit(): void {
-    this.reportService.getAll().subscribe(data => this.reports.set(data));
+    this.reportState.reports$.subscribe(data => this.reports.set(data));
+    this.reportState.loadReports();
     this.securityService.getAll().subscribe(data => this.securities.set(data));
     this.analystService.getAll().subscribe(data => {
       this.analysts.set(data);
