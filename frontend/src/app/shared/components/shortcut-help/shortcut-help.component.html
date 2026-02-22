@@ -1,0 +1,37 @@
+@if (shortcutService.isHelpOpen()) {
+  <div class="shortcut-overlay" (click)="onOverlayClick($event)">
+    <div class="shortcut-card">
+      <div class="shortcut-card__header">
+        <h2 class="shortcut-card__title">Tastenkürzel</h2>
+        <span class="shortcut-card__subtitle">Bloomberg-Style Keyboard Shortcuts</span>
+      </div>
+
+      <div class="shortcut-card__body">
+        @for (entry of shortcutService.groupedShortcuts() | keyvalue; track entry.key) {
+          <div class="shortcut-group">
+            <h3 class="shortcut-group__title">{{ entry.key }}</h3>
+            <div class="shortcut-group__list">
+              @for (shortcut of entry.value; track shortcut.keys) {
+                <div class="shortcut-row">
+                  <span class="shortcut-row__keys">
+                    @for (k of splitKeys(shortcut.keys); track k; let last = $last) {
+                      <kbd>{{ k }}</kbd>
+                      @if (!last) {
+                        <span class="shortcut-row__separator">dann</span>
+                      }
+                    }
+                  </span>
+                  <span class="shortcut-row__label">{{ shortcut.label }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="shortcut-card__footer">
+        Drücke <kbd>Esc</kbd> oder <kbd>?</kbd> zum Schliessen
+      </div>
+    </div>
+  </div>
+}

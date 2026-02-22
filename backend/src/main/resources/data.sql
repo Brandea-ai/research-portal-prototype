@@ -169,3 +169,43 @@ VALUES (10, 1, 8, '2026-02-20 09:30:00', 'FLASH',
     'CDMO-Nachfrageboom (GLP-1, ADC)|Visp Kapazitätsausbau|Neuer CEO-Fokus|Margin Recovery',
     'Kapazitätsüberangebot CDMO|Kundenkonzentration|Execution-Risiko Grossinvestition',
     'Upgrade|Healthcare|CDMO|Biologics');
+
+-- ────────────────────────────────────────────────
+-- AUDIT LOG (Demo-Daten für FINMA-Compliance-Nachweis)
+-- ────────────────────────────────────────────────
+
+INSERT INTO audit_log (id, timestamp, action, entity_type, entity_id, user_id, user_name, user_role, details, ip_address)
+VALUES (1, '2026-01-15 08:30:00', 'CREATE', 'REPORT', 1, 'l.meier', 'Dr. Lukas Meier', 'ANALYST', 'Report ''Nestlé SA: Defensive Qualität in unsicheren Zeiten'' erstellt (Typ: INITIATION)', '10.0.1.42');
+
+INSERT INTO audit_log (id, timestamp, action, entity_type, entity_id, user_id, user_name, user_role, details, ip_address)
+VALUES (2, '2026-01-22 07:15:00', 'CREATE', 'REPORT', 2, 's.brunner', 'Sarah Brunner', 'ANALYST', 'Report ''UBS Group: Credit Suisse Integration auf Kurs'' erstellt (Typ: UPDATE)', '10.0.1.43');
+
+INSERT INTO audit_log (id, timestamp, action, entity_type, entity_id, user_id, user_name, user_role, details, ip_address)
+VALUES (3, '2026-01-22 07:16:00', 'UPDATE', 'REPORT', 2, 's.brunner', 'Sarah Brunner', 'ANALYST', 'Rating-Änderung: HOLD auf BUY (UBS Group AG)', '10.0.1.43');
+
+INSERT INTO audit_log (id, timestamp, action, entity_type, entity_id, user_id, user_name, user_role, details, ip_address)
+VALUES (4, '2026-02-01 06:45:00', 'CREATE', 'REPORT', 3, 'l.meier', 'Dr. Lukas Meier', 'ANALYST', 'Report ''Novartis Q4 2025: Pipeline liefert, Entresto treibt'' erstellt (Typ: QUARTERLY)', '10.0.1.42');
+
+INSERT INTO audit_log (id, timestamp, action, entity_type, entity_id, user_id, user_name, user_role, details, ip_address)
+VALUES (5, '2026-02-05 09:00:00', 'CREATE', 'REPORT', 4, 'm.keller', 'Marc Keller', 'ANALYST', 'Report ''ABB: Elektrifizierungs-Boom bestätigt'' erstellt (Typ: FLASH)', '10.0.1.44');
+
+INSERT INTO audit_log (id, timestamp, action, entity_type, entity_id, user_id, user_name, user_role, details, ip_address)
+VALUES (6, '2026-02-08 08:00:00', 'CREATE', 'REPORT', 5, 's.brunner', 'Sarah Brunner', 'ANALYST', 'Report ''Swiss Re: Rückversicherungs-Zyklus intakt'' erstellt (Typ: DEEP_DIVE)', '10.0.1.43');
+
+INSERT INTO audit_log (id, timestamp, action, entity_type, entity_id, user_id, user_name, user_role, details, ip_address)
+VALUES (7, '2026-02-10 07:30:00', 'CREATE', 'REPORT', 6, 'l.meier', 'Dr. Lukas Meier', 'ANALYST', 'Report ''Roche: Obesity-Pipeline als Game Changer'' erstellt (Typ: UPDATE)', '10.0.1.42');
+
+INSERT INTO audit_log (id, timestamp, action, entity_type, entity_id, user_id, user_name, user_role, details, ip_address)
+VALUES (8, '2026-02-10 07:31:00', 'UPDATE', 'REPORT', 6, 'l.meier', 'Dr. Lukas Meier', 'ANALYST', 'Rating-Änderung: SELL auf HOLD (Roche Holding AG)', '10.0.1.42');
+
+INSERT INTO audit_log (id, timestamp, action, entity_type, entity_id, user_id, user_name, user_role, details, ip_address)
+VALUES (9, '2026-02-15 11:00:00', 'VIEW', 'REPORT', 1, 'a.widmer', 'Dr. Anna Widmer', 'COMPLIANCE', 'Compliance-Review: Report ''Nestlé SA'' geprüft', '10.0.1.50');
+
+INSERT INTO audit_log (id, timestamp, action, entity_type, entity_id, user_id, user_name, user_role, details, ip_address)
+VALUES (10, '2026-02-20 09:30:00', 'CREATE', 'REPORT', 10, 'l.meier', 'Dr. Lukas Meier', 'ANALYST', 'Report ''Lonza: Kapazitätsausbau Visp signalisiert Zuversicht'' erstellt (Typ: FLASH)', '10.0.1.42');
+
+INSERT INTO audit_log (id, timestamp, action, entity_type, entity_id, user_id, user_name, user_role, details, ip_address)
+VALUES (11, '2026-02-20 09:31:00', 'UPDATE', 'REPORT', 10, 'l.meier', 'Dr. Lukas Meier', 'ANALYST', 'Rating-Änderung: BUY auf STRONG_BUY (Lonza Group AG)', '10.0.1.42');
+
+INSERT INTO audit_log (id, timestamp, action, entity_type, entity_id, user_id, user_name, user_role, details, ip_address)
+VALUES (12, '2026-02-21 14:00:00', 'EXPORT', 'REPORT', 3, 't.gerber', 'Thomas Gerber', 'ANALYST', 'PDF-Export: Report ''Novartis Q4 2025'' exportiert', '10.0.1.45');

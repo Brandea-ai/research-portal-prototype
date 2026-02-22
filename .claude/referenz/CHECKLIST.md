@@ -35,13 +35,13 @@
 - [x] P2-16: Backend Unit Tests (70 Tests, 0 Failures, ~75-80% Coverage)
 - [x] P2-17: XPath Report Import (XML Parser, 5 XPath-Expressions, 28 Tests)
 - [x] P2-18: CI/CD Pipeline (Jenkinsfile, .gitlab-ci.yml, Harness, SonarQube)
-- [ ] P2-19: Audit Trail (Activity Log, AOP Logging)
+- [x] P2-19: Audit Trail (AOP @Aspect, @AfterReturning, AuditController, 21 Tests)
 - [x] P2-20: API Dokumentation (Springdoc OpenAPI 2.8.6, Swagger UI, 12 Endpoints)
 - [ ] P2-21: Performance Optimierung (Lazy Load, OnPush, Bundle Size)
 - [ ] P2-22: Datenexport (CSV/Excel)
 - [ ] P2-23: PDF Report Export
 - [ ] P2-24: Session Timeout + Security Headers
-- [ ] P2-25: Keyboard Shortcuts (Bloomberg-Style)
+- [x] P2-25: Keyboard Shortcuts (vim-style 2-Key Combos, RxJS, Overlay)
 - [ ] P2-26: i18n Vorbereitung (DE/FR/EN)
 - [ ] P2-27: Git-Flow Branching Strategie
 

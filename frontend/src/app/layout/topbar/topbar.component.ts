@@ -1,6 +1,7 @@
 import { Component, input, inject, output } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { ThemeService } from '../../core/services/theme.service';
+import { KeyboardShortcutService } from '../../core/services/keyboard-shortcut.service';
 
 @Component({
   selector: 'app-topbar',
@@ -13,6 +14,7 @@ export class TopbarComponent {
   menuToggle = output<void>();
   readonly auth = inject(AuthService);
   readonly themeService = inject(ThemeService);
+  readonly shortcutService = inject(KeyboardShortcutService);
 
   logout(): void {
     this.auth.logout();
@@ -24,5 +26,9 @@ export class TopbarComponent {
 
   cycleTheme(): void {
     this.themeService.cycle();
+  }
+
+  openShortcuts(): void {
+    this.shortcutService.openHelp();
   }
 }

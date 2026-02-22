@@ -4,6 +4,9 @@
     <h1 class="topbar__title">{{ pageTitle() }}</h1>
   </div>
   <div class="topbar__actions">
+    <button class="topbar__shortcut-hint" (click)="openShortcuts()" title="Tastenkürzel anzeigen (?)">
+      <kbd>?</kbd> Shortcuts
+    </button>
     <button class="topbar__theme-btn" (click)="cycleTheme()" [title]="'Theme: ' + themeService.label()">
       {{ themeService.icon() }}
     </button>

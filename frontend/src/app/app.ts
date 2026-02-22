@@ -4,8 +4,10 @@ import { filter, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { TopbarComponent } from './layout/topbar/topbar.component';
+import { ShortcutHelpComponent } from './shared/components/shortcut-help/shortcut-help.component';
 import { AuthService } from './core/services/auth.service';
 import { ThemeService } from './core/services/theme.service';
+import { KeyboardShortcutService } from './core/services/keyboard-shortcut.service';
 
 const PAGE_TITLES: Record<string, string> = {
   dashboard: 'Dashboard',
@@ -16,7 +18,7 @@ const PAGE_TITLES: Record<string, string> = {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SidebarComponent, TopbarComponent],
+  imports: [RouterOutlet, SidebarComponent, TopbarComponent, ShortcutHelpComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -24,6 +26,7 @@ export class App implements OnInit {
   private readonly router = inject(Router);
   readonly authService = inject(AuthService);
   readonly themeService = inject(ThemeService);
+  private readonly keyboardShortcuts = inject(KeyboardShortcutService);
 
   readonly sidebar = viewChild<SidebarComponent>('sidebar');
 
