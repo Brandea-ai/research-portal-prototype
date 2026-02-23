@@ -1,0 +1,239 @@
+<div class="settings">
+
+  <!-- Page Header -->
+  <div class="settings__header">
+    <h1 class="settings__title">{{ 'SETTINGS.TITLE' | translate }}</h1>
+    <span class="settings__subtitle">{{ 'SETTINGS.SUBTITLE' | translate }}</span>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="loading-state">
+      <span class="loading-dot"></span>
+      <span class="loading-text">{{ 'SETTINGS.LOADING' | translate }}</span>
+    </div>
+  }
+
+  @if (!loading()) {
+    <!-- ============================
+         SECTION 1: System Info
+         ============================ -->
+    <section class="settings-section settings-section--1">
+      <div class="section-label">{{ 'SETTINGS.SYSTEM_INFO' | translate }}</div>
+
+      <div class="card-grid card-grid--3">
+        <!-- App Info Card -->
+        <div class="settings-card">
+          <div class="settings-card__header">
+            <span class="settings-card__title">{{ 'SETTINGS.APP_INFO' | translate }}</span>
+          </div>
+          <div class="settings-card__body">
+            @if (systemInfo(); as info) {
+              <div class="info-row">
+                <span class="info-row__label">{{ 'SETTINGS.APP_NAME' | translate }}</span>
+                <span class="info-row__value">{{ info.name }}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-row__label">{{ 'SETTINGS.VERSION' | translate }}</span>
+                <span class="info-row__value info-row__value--mono">{{ info.version }}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-row__label">{{ 'SETTINGS.STATUS' | translate }}</span>
+                <span class="status-badge status-badge--positive">{{ info.status }}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-row__label">{{ 'SETTINGS.JAVA_VERSION' | translate }}</span>
+                <span class="info-row__value info-row__value--mono">{{ info.javaVersion }}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-row__label">{{ 'SETTINGS.UPTIME' | translate }}</span>
+                <span class="info-row__value info-row__value--mono">{{ uptimeFormatted() }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Entity Counts Card -->
+        <div class="settings-card">
+          <div class="settings-card__header">
+            <span class="settings-card__title">{{ 'SETTINGS.ENTITY_COUNTS' | translate }}</span>
+          </div>
+          <div class="settings-card__body">
+            @if (systemStats(); as stats) {
+              <div class="stat-grid">
+                <div class="stat-item">
+                  <span class="stat-item__value">{{ stats.reportCount }}</span>
+                  <span class="stat-item__label">{{ 'SETTINGS.REPORTS' | translate }}</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-item__value">{{ stats.analystCount }}</span>
+                  <span class="stat-item__label">{{ 'SETTINGS.ANALYSTS' | translate }}</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-item__value">{{ stats.securityCount }}</span>
+                  <span class="stat-item__label">{{ 'SETTINGS.SECURITIES' | translate }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Environment Card -->
+        <div class="settings-card">
+          <div class="settings-card__header">
+            <span class="settings-card__title">{{ 'SETTINGS.ENVIRONMENT' | translate }}</span>
+          </div>
+          <div class="settings-card__body">
+            @if (systemInfo(); as info) {
+              <div class="info-row">
+                <span class="info-row__label">{{ 'SETTINGS.DESCRIPTION' | translate }}</span>
+                <span class="info-row__value">{{ info.description }}</span>
+              </div>
+            }
+            @if (metrics(); as m) {
+              <div class="info-row">
+                <span class="info-row__label">{{ 'SETTINGS.UPTIME' | translate }}</span>
+                <span class="info-row__value info-row__value--mono">{{ m.uptime }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         SECTION 2: Data Validation
+         ============================ -->
+    <section class="settings-section settings-section--2">
+      <div class="section-label">{{ 'SETTINGS.DATA_VALIDATION' | translate }}</div>
+
+      <div class="settings-card settings-card--wide">
+        <div class="settings-card__header">
+          <span class="settings-card__title">{{ 'SETTINGS.VALIDATION_STATUS' | translate }}</span>
+          @if (validation(); as v) {
+            <span class="status-badge" [class.status-badge--positive]="!v.hasIssues" [class.status-badge--negative]="v.hasIssues">
+              {{ v.hasIssues ? ('SETTINGS.ISSUES_FOUND' | translate) : ('SETTINGS.ALL_OK' | translate) }}
+            </span>
+          }
+        </div>
+
+        @if (validation(); as v) {
+          <div class="settings-card__body">
+            <!-- Timing info -->
+            <div class="validation-timing">
+              <div class="info-row">
+                <span class="info-row__label">{{ 'SETTINGS.LAST_VALIDATION' | translate }}</span>
+                <span class="info-row__value info-row__value--mono">{{ v.lastRunAt | date:'dd.MM.yyyy HH:mm' }}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-row__label">{{ 'SETTINGS.NEXT_RUN' | translate }}</span>
+                <span class="info-row__value info-row__value--mono">{{ v.nextRunAt | date:'dd.MM.yyyy HH:mm' }}</span>
+              </div>
+            </div>
+
+            <!-- Category Grid -->
+            <div class="validation-grid">
+              <div class="validation-item" [class.validation-item--ok]="v.orphanedReports === 0" [class.validation-item--issue]="v.orphanedReports > 0">
+                <span class="validation-item__count">{{ v.orphanedReports }}</span>
+                <span class="validation-item__label">{{ 'SETTINGS.ORPHANED_REPORTS' | translate }}</span>
+              </div>
+              <div class="validation-item" [class.validation-item--ok]="v.invalidSecurityRefs === 0" [class.validation-item--issue]="v.invalidSecurityRefs > 0">
+                <span class="validation-item__count">{{ v.invalidSecurityRefs }}</span>
+                <span class="validation-item__label">{{ 'SETTINGS.INVALID_SECURITY_REFS' | translate }}</span>
+              </div>
+              <div class="validation-item" [class.validation-item--ok]="v.negativeMarketCaps === 0" [class.validation-item--issue]="v.negativeMarketCaps > 0">
+                <span class="validation-item__count">{{ v.negativeMarketCaps }}</span>
+                <span class="validation-item__label">{{ 'SETTINGS.NEGATIVE_MARKET_CAPS' | translate }}</span>
+              </div>
+              <div class="validation-item" [class.validation-item--ok]="v.invalidAccuracies === 0" [class.validation-item--issue]="v.invalidAccuracies > 0">
+                <span class="validation-item__count">{{ v.invalidAccuracies }}</span>
+                <span class="validation-item__label">{{ 'SETTINGS.INVALID_ACCURACIES' | translate }}</span>
+              </div>
+            </div>
+
+            <!-- Total + Action -->
+            <div class="validation-footer">
+              <div class="validation-total">
+                <span class="validation-total__label">{{ 'SETTINGS.TOTAL_ISSUES' | translate }}</span>
+                <span class="validation-total__value" [class.validation-total__value--ok]="v.totalIssues === 0" [class.validation-total__value--issue]="v.totalIssues > 0">{{ v.totalIssues }}</span>
+              </div>
+              <button class="btn btn--accent" [disabled]="validationRunning()" (click)="onRunValidation()">
+                {{ validationRunning() ? ('SETTINGS.RUNNING' | translate) : ('SETTINGS.RUN_VALIDATION' | translate) }}
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- ============================
+         SECTION 3: API Metrics
+         ============================ -->
+    <section class="settings-section settings-section--3">
+      <div class="section-label">{{ 'SETTINGS.API_METRICS' | translate }}</div>
+
+      @if (metrics(); as m) {
+        <div class="card-grid card-grid--3">
+          <!-- KPI Cards -->
+          <div class="settings-card">
+            <div class="settings-card__header">
+              <span class="settings-card__title">{{ 'SETTINGS.OVERVIEW' | translate }}</span>
+            </div>
+            <div class="settings-card__body">
+              <div class="stat-grid stat-grid--2">
+                <div class="stat-item">
+                  <span class="stat-item__value">{{ m.totalRequests }}</span>
+                  <span class="stat-item__label">{{ 'SETTINGS.TOTAL_REQUESTS' | translate }}</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-item__value">{{ m.totalErrors }}</span>
+                  <span class="stat-item__label">{{ 'SETTINGS.TOTAL_ERRORS' | translate }}</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-item__value">{{ m.avgResponseTimeMs | number:'1.1-1' }}ms</span>
+                  <span class="stat-item__label">{{ 'SETTINGS.AVG_RESPONSE_TIME' | translate }}</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-item__value" [class.stat-item__value--ok]="errorRate() < 5" [class.stat-item__value--warn]="errorRate() >= 5">{{ errorRate() | number:'1.1-1' }}%</span>
+                  <span class="stat-item__label">{{ 'SETTINGS.ERROR_RATE' | translate }}</span>
+                </div>
+              </div>
+              <div class="info-row info-row--spaced">
+                <span class="info-row__label">{{ 'SETTINGS.UPTIME' | translate }}</span>
+                <span class="info-row__value info-row__value--mono">{{ m.uptime }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Endpoints Card -->
+          <div class="settings-card settings-card--span-2">
+            <div class="settings-card__header">
+              <span class="settings-card__title">{{ 'SETTINGS.TOP_ENDPOINTS' | translate }}</span>
+              <span class="settings-card__count">{{ topEndpoints().length }} Endpoints</span>
+            </div>
+            <div class="settings-card__body settings-card__body--no-pad">
+              <div class="endpoint-list">
+                @for (ep of topEndpoints(); track ep.endpoint) {
+                  <div class="endpoint-row">
+                    <span class="endpoint-row__name">{{ ep.endpoint }}</span>
+                    <span class="endpoint-row__count">{{ ep.count }}</span>
+                  </div>
+                }
+                @if (topEndpoints().length === 0) {
+                  <div class="endpoint-empty">{{ 'SETTINGS.NO_DATA' | translate }}</div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="metrics-footer">
+          <button class="btn btn--danger" [disabled]="metricsResetting()" (click)="onResetMetrics()">
+            {{ metricsResetting() ? ('SETTINGS.RESETTING' | translate) : ('SETTINGS.RESET_METRICS' | translate) }}
+          </button>
+        </div>
+      }
+    </section>
+  }
+</div>

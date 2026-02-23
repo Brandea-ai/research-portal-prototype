@@ -63,6 +63,12 @@ export const routes: Routes = [
       import('./features/analysts/analysts.component').then(m => m.AnalystsComponent)
   },
   {
+    path: 'settings',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/settings/settings.component').then(m => m.SettingsComponent)
+  },
+  {
     path: 'forbidden',
     loadComponent: () =>
       import('./features/error-pages/forbidden/forbidden.component').then(m => m.ForbiddenComponent)
