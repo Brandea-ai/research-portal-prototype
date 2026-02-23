@@ -10,6 +10,7 @@ import { SecurityService } from '../../../core/services/security.service';
 import { Report } from '../../../core/models/report.model';
 import { Analyst } from '../../../core/models/analyst.model';
 import { Security } from '../../../core/models/security.model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-report-detail',
@@ -160,6 +161,11 @@ export class ReportDetailComponent implements OnInit {
 
   cancelDelete(): void {
     this.showDeleteConfirm.set(false);
+  }
+
+  exportPdf(): void {
+    const r = this.report();
+    if (r) window.open(`${environment.apiUrl}/export/reports/${r.id}/pdf`, '_blank');
   }
 
   deleteReport(): void {

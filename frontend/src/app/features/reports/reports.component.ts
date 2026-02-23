@@ -7,6 +7,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ReportStateService } from '../../core/services/report-state.service';
 import { AnalystService } from '../../core/services/analyst.service';
 import { Report } from '../../core/models/report.model';
+import { environment } from '../../../environments/environment';
 
 type SortColumn = 'publishedAt' | 'rating' | 'targetPrice' | 'impliedUpside';
 type SortDirection = 'asc' | 'desc';
@@ -178,5 +179,13 @@ export class ReportsComponent implements OnInit {
 
   createReport(): void {
     this.router.navigate(['/reports/new']);
+  }
+
+  exportCsv(): void {
+    window.open(`${environment.apiUrl}/export/reports/csv`, '_blank');
+  }
+
+  exportExcel(): void {
+    window.open(`${environment.apiUrl}/export/reports/excel`, '_blank');
   }
 }

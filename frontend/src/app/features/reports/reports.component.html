@@ -3,6 +3,10 @@
     <h2 class="page__title">Research Reports</h2>
     <div class="page__header-actions">
       <span class="page__count">{{ filteredReports().length }} von {{ reports().length }} Reports</span>
+      <div class="export-group">
+        <button class="btn-export" (click)="exportCsv()">CSV</button>
+        <button class="btn-export" (click)="exportExcel()">Excel</button>
+      </div>
       <button class="btn-create" (click)="createReport()">Neuer Report</button>
     </div>
   </div>
