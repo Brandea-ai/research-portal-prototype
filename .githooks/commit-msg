@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+# =============================================================================
+# Commit-msg Hook — Research Portal Prototype
+# =============================================================================
+# Wird automatisch nach dem Eingeben der Commit-Message ausgeführt.
+# Prüft ob die Commit-Message dem Conventional-Commits-Format entspricht.
+#
+# Erlaubtes Format:
+#   <typ>(<scope>): <beschreibung>
+#   <typ>: <beschreibung>
+#
+# Beispiele:
+#   feat(auth): OAuth2 PKCE Flow eingeführt
+#   fix: NullPointerException bei leerem Suchbegriff behoben
+#   docs: Git-Flow Strategie dokumentiert
+#
+# Einrichtung (einmalig):
+#   git config core.hooksPath .githooks
+# =============================================================================
+
+set -euo pipefail
+
+# Farbcodes
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+# Commit-Message aus Datei lesen (erster Parameter ist Pfad zur Message-Datei)
+COMMIT_MSG_FILE="$1"
+COMMIT_MSG=$(cat "${COMMIT_MSG_FILE}")
+
+# Erste Zeile der Commit-Message (Header)
+COMMIT_HEADER=$(echo "${COMMIT_MSG}" | head -n 1)
+
+# =============================================================================
+# Conventional Commits Pattern
+# =============================================================================
+# Format: type(scope): description
+# - type: Pflichtfeld, einer der erlaubten Typen
+# - (scope): Optional, in Klammern
+# - !: Optional, markiert Breaking Change
+# - description: Pflichtfeld, mindestens 3 Zeichen
+
+ALLOWED_TYPES="feat|fix|refactor|test|docs|chore|ci|perf"
+
+# Regex-Pattern für Conventional Commits
+CONVENTIONAL_PATTERN="^(${ALLOWED_TYPES})(\([a-z0-9_-]+\))?(!)?: .{3,}$"
+
+# Muster die erlaubt sind ohne Validierung (Merge-Commits, Reverts etc.)
+MERGE_PATTERN="^Merge "
+REVERT_PATTERN="^Revert "
+INITIAL_PATTERN="^Initial commit"
+
+# =============================================================================
+# Prüfungen
+# =============================================================================
+
+# Merge- und Revert-Commits überspringen
+if echo "${COMMIT_HEADER}" | grep -qE "${MERGE_PATTERN}|${REVERT_PATTERN}|${INITIAL_PATTERN}"; then
+  exit 0
+fi
+
+# WIP-Commits: Warnung, aber kein Fehler
+if echo "${COMMIT_HEADER}" | grep -iqE "^(WIP|wip)[\s:]"; then
+  echo -e "${YELLOW}! Warnung: WIP-Commit — Bitte vor dem PR in finale Commits aufteilen${NC}"
+  exit 0
+fi
+
+# Conventional Commits Format prüfen
+if ! echo "${COMMIT_HEADER}" | grep -qE "${CONVENTIONAL_PATTERN}"; then
+  echo ""
+  echo -e "${RED}✗ Commit-Message entspricht nicht den Conventional Commits${NC}"
+  echo ""
+  echo -e "${YELLOW}Deine Commit-Message:${NC}"
+  echo "  ${COMMIT_HEADER}"
+  echo ""
+  echo -e "${YELLOW}Erlaubtes Format:${NC}"
+  echo "  <typ>(<scope>): <beschreibung>"
+  echo "  <typ>: <beschreibung>"
+  echo ""
+  echo -e "${YELLOW}Erlaubte Typen:${NC}"
+  echo "  feat     — Neues Feature"
+  echo "  fix      — Bugfix"
+  echo "  refactor — Refactoring"
+  echo "  test     — Tests"
+  echo "  docs     — Dokumentation"
+  echo "  chore    — Build/Tooling/Abhängigkeiten"
+  echo "  ci       — CI/CD-Konfiguration"
+  echo "  perf     — Performance-Verbesserung"
+  echo ""
+  echo -e "${YELLOW}Beispiele:${NC}"
+  echo "  feat(auth): OAuth2 PKCE Flow eingeführt"
+  echo "  fix: NullPointerException bei leerem Suchbegriff behoben"
+  echo "  refactor(api): Repository-Schicht entkoppelt"
+  echo "  docs: Git-Flow Strategie dokumentiert"
+  echo "  feat(auth)!: Breaking Change — neues Token-Format"
+  echo ""
+  echo -e "${YELLOW}Dokumentation:${NC} https://www.conventionalcommits.org/"
+  echo ""
+  exit 1
+fi
+
+# Header-Länge prüfen (max. 72 Zeichen)
+HEADER_LENGTH=${#COMMIT_HEADER}
+if [ "${HEADER_LENGTH}" -gt 72 ]; then
+  echo ""
+  echo -e "${YELLOW}! Warnung: Commit-Header ist ${HEADER_LENGTH} Zeichen lang (empfohlen: max. 72)${NC}"
+  echo "  Kürze die Beschreibung oder verlagere Details in den Body"
+  echo ""
+  # Nur Warnung, kein Fehler
+fi
+
+# Beschreibung darf nicht mit Punkt enden
+if echo "${COMMIT_HEADER}" | grep -qE '\.$'; then
+  echo ""
+  echo -e "${YELLOW}! Warnung: Commit-Header endet mit einem Punkt${NC}"
+  echo "  Konvention: Kein Punkt am Ende des Headers"
+  echo ""
+fi
+
+echo -e "${GREEN}✓ Commit-Message Format korrekt${NC}"
+exit 0

@@ -42,8 +42,8 @@
 - [x] P2-23: PDF Report Export (OpenPDF 2.0.3, Rating-Farbcodierung, Footer, 10 Tests)
 - [x] P2-24: Session Timeout (30min, Keep-Alive, Warning) + Security Headers (8 OWASP Headers)
 - [x] P2-25: Keyboard Shortcuts (vim-style 2-Key Combos, RxJS, Overlay)
-- [ ] P2-26: i18n Vorbereitung (DE/FR/EN)
-- [ ] P2-27: Git-Flow Branching Strategie
+- [x] P2-26: i18n Vorbereitung (ngx-translate v17, DE/FR/EN, LanguageSwitcher, 330 KB Bundle)
+- [x] P2-27: Git-Flow Branching (CONTRIBUTING.md, Git-Hooks, MR-Templates, docs/git-flow.md)
 
 **Gate:** Tests grün, Pipeline valide, Swagger erreichbar, Exports funktionieren
 

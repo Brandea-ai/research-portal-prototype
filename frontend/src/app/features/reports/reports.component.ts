@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ReportStateService } from '../../core/services/report-state.service';
 import { AnalystService } from '../../core/services/analyst.service';
 import { Report } from '../../core/models/report.model';
@@ -25,7 +26,7 @@ const RATING_ORDER: Record<string, number> = {
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [DatePipe, DecimalPipe, FormsModule],
+  imports: [DatePipe, DecimalPipe, FormsModule, TranslatePipe],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

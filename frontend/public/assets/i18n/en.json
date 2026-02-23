@@ -1,0 +1,85 @@
+{
+  "NAV": {
+    "DASHBOARD": "Dashboard",
+    "REPORTS": "Reports",
+    "SECURITIES": "Securities",
+    "ANALYSTS": "Analysts"
+  },
+  "TOPBAR": {
+    "SHORTCUTS": "Shortcuts",
+    "LOGOUT": "Logout",
+    "THEME_LABEL": "Theme"
+  },
+  "DASHBOARD": {
+    "KPI": {
+      "REPORTS_LABEL": "Reports",
+      "REPORTS_SUB": "Published Analyses",
+      "SECURITIES_LABEL": "Securities",
+      "SECURITIES_SUB": "In Coverage Universe",
+      "ANALYSTS_LABEL": "Analysts",
+      "ANALYSTS_SUB": "Active Researchers",
+      "RATING_CHANGES_LABEL": "Rating Changes",
+      "RATING_CHANGES_SUB": "Adjusted Recommendations"
+    },
+    "CHARTS": {
+      "RATING_DISTRIBUTION": "Recommendation Distribution",
+      "TOTAL": "Total",
+      "SECTOR_REPORTS": "Reports by Sector",
+      "SECTORS": "Sectors"
+    },
+    "LATEST_REPORTS": {
+      "TITLE": "Latest Reports",
+      "SHOWN": "shown"
+    },
+    "TABLE": {
+      "TITLE": "Title",
+      "TYPE": "Type",
+      "RATING": "Rating",
+      "UPSIDE": "Upside",
+      "TARGET": "Target Price",
+      "DATE": "Date"
+    },
+    "TOP_ANALYSTS": {
+      "TITLE": "Top Analysts",
+      "SUBTITLE": "by Accuracy 12M"
+    },
+    "COVERAGE": {
+      "TITLE": "Coverage Overview",
+      "SECTORS": "Sectors",
+      "TICKERS": "Tickers Covered",
+      "AVG_ACCURACY": "Avg. Accuracy 12M"
+    },
+    "LOADING": "Loading data..."
+  },
+  "REPORTS": {
+    "PAGE_TITLE": "Research Reports",
+    "COUNT": "{{filtered}} of {{total}} Reports",
+    "NEW_REPORT": "New Report",
+    "FILTERS": {
+      "TYPE_LABEL": "Type",
+      "RATING_LABEL": "Rating",
+      "SEARCH_LABEL": "Search",
+      "SEARCH_PLACEHOLDER": "Search by title...",
+      "ACTIVE_FILTERS": "{{count}} filter(s) active",
+      "RESET": "Reset filters"
+    },
+    "TABLE": {
+      "TITLE": "Title",
+      "TYPE": "Type",
+      "ANALYST": "Analyst",
+      "RATING": "Rating",
+      "TARGET_PRICE": "Target Price",
+      "PRICE": "Price",
+      "UPSIDE": "Upside",
+      "DATE": "Date"
+    },
+    "LOADING": "Loading data...",
+    "EMPTY": "No reports found"
+  },
+  "LANGUAGE": {
+    "LABEL": "Language",
+    "DE": "DE",
+    "FR": "FR",
+    "EN": "EN"
+  }
+}

@@ -4,14 +4,15 @@
     <h1 class="topbar__title">{{ pageTitle() }}</h1>
   </div>
   <div class="topbar__actions">
-    <button class="topbar__shortcut-hint" (click)="openShortcuts()" title="Tastenkürzel anzeigen (?)">
-      <kbd>?</kbd> Shortcuts
+    <app-language-switcher></app-language-switcher>
+    <button class="topbar__shortcut-hint" (click)="openShortcuts()" [title]="'TOPBAR.SHORTCUTS' | translate">
+      <kbd>?</kbd> {{ 'TOPBAR.SHORTCUTS' | translate }}
     </button>
-    <button class="topbar__theme-btn" (click)="cycleTheme()" [title]="'Theme: ' + themeService.label()">
+    <button class="topbar__theme-btn" (click)="cycleTheme()" [title]="('TOPBAR.THEME_LABEL' | translate) + ': ' + themeService.label()">
       {{ themeService.icon() }}
     </button>
     <span class="topbar__role">{{ auth.user()?.role }}</span>
     <span class="topbar__user">{{ auth.displayName() }}</span>
-    <button class="topbar__logout" (click)="logout()">Abmelden</button>
+    <button class="topbar__logout" (click)="logout()">{{ 'TOPBAR.LOGOUT' | translate }}</button>
   </div>
 </header>

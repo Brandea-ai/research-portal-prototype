@@ -3,7 +3,7 @@
 > Dynamischer Tracker. Wird nach jeder Arbeitseinheit aktualisiert.
 
 **Letzte Aktualisierung:** 23.02.2026
-**Gesamtfortschritt:** 25/48 Tasks (52%) + Design Overhaul v2.0 + Theme System v3.0
+**Gesamtfortschritt:** 27/48 Tasks (56%) + Design Overhaul v2.0 + Theme System v3.0
 
 ---
 
@@ -13,7 +13,7 @@
 |-------|-------|----------|--------|
 | P0: Fundament | 7 | 7/7 | [x] Abgeschlossen |
 | P1: Kernfeatures | 7 | 7/7 | [x] Abgeschlossen |
-| P2: Professionalität | 13 | 11/13 | [~] In Arbeit |
+| P2: Professionalität | 13 | 13/13 | [x] Abgeschlossen |
 
 ---
 
@@ -41,7 +41,7 @@
 | P1-13 | RxJS State Management | [x] | P1-09 | Erledigt 22.02.2026, parallel |
 | P1-14 | Responsive Design | [x] | P1-08 bis P1-12 | Erledigt 22.02.2026, parallel |
 
-## P2: Professionalität (11/13) — IN ARBEIT
+## P2: Professionalität (13/13) — ABGESCHLOSSEN
 
 | Nr | Task | Status | Abhängig von | Bemerkung |
 |----|------|--------|-------------|-----------|
@@ -56,8 +56,8 @@
 | P2-23 | PDF Report Export | [x] | P1-10 | Erledigt 23.02.2026, OpenPDF 2.0.3, 10 Tests, parallel |
 | P2-24 | Session Timeout + Security | [x] | P0-07 | Erledigt 23.02.2026, 8 Headers, 30min Timeout, 21 Tests, parallel |
 | P2-25 | Keyboard Shortcuts | [x] | P1-09 | Erledigt 23.02.2026, vim-style Combos, parallel |
-| P2-26 | i18n Vorbereitung | [ ] | P0-06 | Neu: Selbst-Audit |
-| P2-27 | Git-Flow Branching | [ ] | P0-01 | Neu: Selbst-Audit |
+| P2-26 | i18n Vorbereitung | [x] | P0-06 | Erledigt 23.02.2026, ngx-translate v17, DE/FR/EN, 330 KB Bundle, parallel |
+| P2-27 | Git-Flow Branching | [x] | P0-01 | Erledigt 23.02.2026, CONTRIBUTING.md, Git-Hooks, MR-Templates, parallel |
 
 ---
 
@@ -65,6 +65,7 @@
 
 | Datum | Änderung | Begründung |
 |-------|----------|------------|
+| 23.02.2026 | P2-26+P2-27 parallel: i18n Vorbereitung (ngx-translate v17, DE/FR/EN, LanguageSwitcher, 330 KB Bundle) + Git-Flow Branching (CONTRIBUTING.md, Git-Hooks, MR-Templates, git-flow.md) | 2 parallele Sonnet 4.6 Agents, P2 komplett, 163 Tests |
 | 23.02.2026 | P2-23+P2-24 parallel: PDF Report Export (OpenPDF 2.0.3, 10 Tests) + Session Timeout + Security Headers (8 Headers, 21 Tests, SessionService) | 2 parallele Sonnet 4.6 Agents, 163 Tests gesamt |
 | 23.02.2026 | P2-21+P2-22 parallel: Performance Optimierung (OnPush 7/7, 307 KB Bundle) + Datenexport CSV/Excel (Apache POI, 13 Tests) | 2 parallele Sonnet 4.6 Agents, 132 Tests gesamt |
 | 23.02.2026 | P2-19+P2-25 parallel: Audit Trail (AOP @Aspect, 14 Dateien, 21 Tests) + Keyboard Shortcuts (vim-style, RxJS, Overlay) | 2 parallele Sonnet 4.6 Agents, 119 Tests gesamt |

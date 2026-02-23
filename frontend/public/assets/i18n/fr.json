@@ -1,0 +1,85 @@
+{
+  "NAV": {
+    "DASHBOARD": "Tableau de bord",
+    "REPORTS": "Rapports",
+    "SECURITIES": "Titres",
+    "ANALYSTS": "Analystes"
+  },
+  "TOPBAR": {
+    "SHORTCUTS": "Raccourcis",
+    "LOGOUT": "Déconnexion",
+    "THEME_LABEL": "Thème"
+  },
+  "DASHBOARD": {
+    "KPI": {
+      "REPORTS_LABEL": "Rapports",
+      "REPORTS_SUB": "Analyses publiées",
+      "SECURITIES_LABEL": "Titres",
+      "SECURITIES_SUB": "Dans l'univers de couverture",
+      "ANALYSTS_LABEL": "Analystes",
+      "ANALYSTS_SUB": "Chercheurs actifs",
+      "RATING_CHANGES_LABEL": "Changements de notation",
+      "RATING_CHANGES_SUB": "Recommandations ajustées"
+    },
+    "CHARTS": {
+      "RATING_DISTRIBUTION": "Distribution des recommandations",
+      "TOTAL": "Total",
+      "SECTOR_REPORTS": "Rapports par secteur",
+      "SECTORS": "Secteurs"
+    },
+    "LATEST_REPORTS": {
+      "TITLE": "Derniers rapports",
+      "SHOWN": "affichés"
+    },
+    "TABLE": {
+      "TITLE": "Titre",
+      "TYPE": "Type",
+      "RATING": "Notation",
+      "UPSIDE": "Potentiel",
+      "TARGET": "Objectif de cours",
+      "DATE": "Date"
+    },
+    "TOP_ANALYSTS": {
+      "TITLE": "Top Analystes",
+      "SUBTITLE": "par précision 12M"
+    },
+    "COVERAGE": {
+      "TITLE": "Aperçu de la couverture",
+      "SECTORS": "Secteurs",
+      "TICKERS": "Titres couverts",
+      "AVG_ACCURACY": "Précision moy. 12M"
+    },
+    "LOADING": "Chargement des données..."
+  },
+  "REPORTS": {
+    "PAGE_TITLE": "Rapports de recherche",
+    "COUNT": "{{filtered}} sur {{total}} rapports",
+    "NEW_REPORT": "Nouveau rapport",
+    "FILTERS": {
+      "TYPE_LABEL": "Type",
+      "RATING_LABEL": "Notation",
+      "SEARCH_LABEL": "Recherche",
+      "SEARCH_PLACEHOLDER": "Rechercher par titre...",
+      "ACTIVE_FILTERS": "{{count}} filtre(s) actif(s)",
+      "RESET": "Réinitialiser les filtres"
+    },
+    "TABLE": {
+      "TITLE": "Titre",
+      "TYPE": "Type",
+      "ANALYST": "Analyste",
+      "RATING": "Notation",
+      "TARGET_PRICE": "Objectif de cours",
+      "PRICE": "Cours",
+      "UPSIDE": "Potentiel",
+      "DATE": "Date"
+    },
+    "LOADING": "Chargement des données...",
+    "EMPTY": "Aucun rapport trouvé"
+  },
+  "LANGUAGE": {
+    "LABEL": "Langue",
+    "DE": "DE",
+    "FR": "FR",
+    "EN": "EN"
+  }
+}

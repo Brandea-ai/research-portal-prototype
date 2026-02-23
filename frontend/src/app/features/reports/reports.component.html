@@ -1,13 +1,13 @@
 <div class="page">
   <div class="page__header">
-    <h2 class="page__title">Research Reports</h2>
+    <h2 class="page__title">{{ 'REPORTS.PAGE_TITLE' | translate }}</h2>
     <div class="page__header-actions">
       <span class="page__count">{{ filteredReports().length }} von {{ reports().length }} Reports</span>
       <div class="export-group">
         <button class="btn-export" (click)="exportCsv()">CSV</button>
         <button class="btn-export" (click)="exportExcel()">Excel</button>
       </div>
-      <button class="btn-create" (click)="createReport()">Neuer Report</button>
+      <button class="btn-create" (click)="createReport()">{{ 'REPORTS.NEW_REPORT' | translate }}</button>
     </div>
   </div>
 
@@ -15,7 +15,7 @@
   <div class="filter-bar">
     <div class="filter-bar__controls">
       <div class="filter-group">
-        <label class="filter-label" for="filter-type">Typ</label>
+        <label class="filter-label" for="filter-type">{{ 'REPORTS.FILTERS.TYPE_LABEL' | translate }}</label>
         <select
           id="filter-type"
           class="filter-select"
@@ -28,7 +28,7 @@
       </div>
 
       <div class="filter-group">
-        <label class="filter-label" for="filter-rating">Rating</label>
+        <label class="filter-label" for="filter-rating">{{ 'REPORTS.FILTERS.RATING_LABEL' | translate }}</label>
         <select
           id="filter-rating"
           class="filter-select"
@@ -41,12 +41,12 @@
       </div>
 
       <div class="filter-group filter-group--search">
-        <label class="filter-label" for="filter-search">Suche</label>
+        <label class="filter-label" for="filter-search">{{ 'REPORTS.FILTERS.SEARCH_LABEL' | translate }}</label>
         <input
           id="filter-search"
           type="text"
           class="filter-input"
-          placeholder="Titel durchsuchen..."
+          [placeholder]="'REPORTS.FILTERS.SEARCH_PLACEHOLDER' | translate"
           [ngModel]="searchTerm()"
           (ngModelChange)="onSearchInput($event)" />
       </div>
@@ -54,32 +54,32 @@
 
     @if (activeFilterCount() > 0) {
       <div class="filter-bar__status">
-        <span class="filter-count">{{ activeFilterCount() }} Filter aktiv</span>
-        <button class="filter-reset" (click)="resetFilters()">Filter zurücksetzen</button>
+        <span class="filter-count">{{ activeFilterCount() }} {{ 'REPORTS.FILTERS.ACTIVE_FILTERS' | translate:{count: activeFilterCount()} }}</span>
+        <button class="filter-reset" (click)="resetFilters()">{{ 'REPORTS.FILTERS.RESET' | translate }}</button>
       </div>
     }
   </div>
 
   @if (loading()) {
-    <p class="loading">Daten werden geladen...</p>
+    <p class="loading">{{ 'REPORTS.LOADING' | translate }}</p>
   } @else {
     <div class="table-wrapper">
       <table class="data-table">
         <thead>
           <tr>
-            <th>Titel</th>
-            <th>Typ</th>
-            <th class="hide-mobile">Analyst</th>
-            <th>Rating</th>
+            <th>{{ 'REPORTS.TABLE.TITLE' | translate }}</th>
+            <th>{{ 'REPORTS.TABLE.TYPE' | translate }}</th>
+            <th class="hide-mobile">{{ 'REPORTS.TABLE.ANALYST' | translate }}</th>
+            <th>{{ 'REPORTS.TABLE.RATING' | translate }}</th>
             <th class="text-right sortable" (click)="toggleSort('targetPrice')">
-              Kursziel{{ getSortIndicator('targetPrice') }}
+              {{ 'REPORTS.TABLE.TARGET_PRICE' | translate }}{{ getSortIndicator('targetPrice') }}
             </th>
-            <th class="text-right hide-mobile">Kurs</th>
+            <th class="text-right hide-mobile">{{ 'REPORTS.TABLE.PRICE' | translate }}</th>
             <th class="text-right sortable hide-mobile" (click)="toggleSort('impliedUpside')">
-              Upside{{ getSortIndicator('impliedUpside') }}
+              {{ 'REPORTS.TABLE.UPSIDE' | translate }}{{ getSortIndicator('impliedUpside') }}
             </th>
             <th class="sortable" (click)="toggleSort('publishedAt')">
-              Datum{{ getSortIndicator('publishedAt') }}
+              {{ 'REPORTS.TABLE.DATE' | translate }}{{ getSortIndicator('publishedAt') }}
             </th>
           </tr>
         </thead>
@@ -109,7 +109,7 @@
           }
           @if (filteredReports().length === 0) {
             <tr>
-              <td class="empty-state" colspan="8">Keine Reports gefunden</td>
+              <td class="empty-state" colspan="8">{{ 'REPORTS.EMPTY' | translate }}</td>
             </tr>
           }
         </tbody>

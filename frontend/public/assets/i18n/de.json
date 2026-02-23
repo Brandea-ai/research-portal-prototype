@@ -1,0 +1,85 @@
+{
+  "NAV": {
+    "DASHBOARD": "Dashboard",
+    "REPORTS": "Reports",
+    "SECURITIES": "Wertschriften",
+    "ANALYSTS": "Analysten"
+  },
+  "TOPBAR": {
+    "SHORTCUTS": "Shortcuts",
+    "LOGOUT": "Abmelden",
+    "THEME_LABEL": "Theme"
+  },
+  "DASHBOARD": {
+    "KPI": {
+      "REPORTS_LABEL": "Reports",
+      "REPORTS_SUB": "Publizierte Analysen",
+      "SECURITIES_LABEL": "Wertschriften",
+      "SECURITIES_SUB": "Im Coverage-Universum",
+      "ANALYSTS_LABEL": "Analysten",
+      "ANALYSTS_SUB": "Aktive Researcher",
+      "RATING_CHANGES_LABEL": "Rating-Änderungen",
+      "RATING_CHANGES_SUB": "Angepasste Empfehlungen"
+    },
+    "CHARTS": {
+      "RATING_DISTRIBUTION": "Empfehlungs-Verteilung",
+      "TOTAL": "Total",
+      "SECTOR_REPORTS": "Reports nach Sektor",
+      "SECTORS": "Sektoren"
+    },
+    "LATEST_REPORTS": {
+      "TITLE": "Neueste Reports",
+      "SHOWN": "angezeigt"
+    },
+    "TABLE": {
+      "TITLE": "Titel",
+      "TYPE": "Typ",
+      "RATING": "Rating",
+      "UPSIDE": "Upside",
+      "TARGET": "Kursziel",
+      "DATE": "Datum"
+    },
+    "TOP_ANALYSTS": {
+      "TITLE": "Top Analysten",
+      "SUBTITLE": "nach Accuracy 12M"
+    },
+    "COVERAGE": {
+      "TITLE": "Coverage-Übersicht",
+      "SECTORS": "Sektoren",
+      "TICKERS": "Ticker abgedeckt",
+      "AVG_ACCURACY": "Avg. Accuracy 12M"
+    },
+    "LOADING": "Daten werden geladen..."
+  },
+  "REPORTS": {
+    "PAGE_TITLE": "Research Reports",
+    "COUNT": "{{filtered}} von {{total}} Reports",
+    "NEW_REPORT": "Neuer Report",
+    "FILTERS": {
+      "TYPE_LABEL": "Typ",
+      "RATING_LABEL": "Rating",
+      "SEARCH_LABEL": "Suche",
+      "SEARCH_PLACEHOLDER": "Titel durchsuchen...",
+      "ACTIVE_FILTERS": "{{count}} Filter aktiv",
+      "RESET": "Filter zurücksetzen"
+    },
+    "TABLE": {
+      "TITLE": "Titel",
+      "TYPE": "Typ",
+      "ANALYST": "Analyst",
+      "RATING": "Rating",
+      "TARGET_PRICE": "Kursziel",
+      "PRICE": "Kurs",
+      "UPSIDE": "Upside",
+      "DATE": "Datum"
+    },
+    "LOADING": "Daten werden geladen...",
+    "EMPTY": "Keine Reports gefunden"
+  },
+  "LANGUAGE": {
+    "LABEL": "Sprache",
+    "DE": "DE",
+    "FR": "FR",
+    "EN": "EN"
+  }
+}

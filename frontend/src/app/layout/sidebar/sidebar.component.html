@@ -10,19 +10,19 @@
   <nav class="sidebar__nav">
     <a class="sidebar__link" routerLink="/dashboard" routerLinkActive="sidebar__link--active" (click)="closeMobile()">
       <span class="sidebar__link-initial">D</span>
-      <span class="sidebar__link-label" [class.hidden]="collapsed()">Dashboard</span>
+      <span class="sidebar__link-label" [class.hidden]="collapsed()">{{ 'NAV.DASHBOARD' | translate }}</span>
     </a>
     <a class="sidebar__link" routerLink="/reports" routerLinkActive="sidebar__link--active" (click)="closeMobile()">
       <span class="sidebar__link-initial">R</span>
-      <span class="sidebar__link-label" [class.hidden]="collapsed()">Reports</span>
+      <span class="sidebar__link-label" [class.hidden]="collapsed()">{{ 'NAV.REPORTS' | translate }}</span>
     </a>
     <a class="sidebar__link" routerLink="/securities" routerLinkActive="sidebar__link--active" (click)="closeMobile()">
       <span class="sidebar__link-initial">W</span>
-      <span class="sidebar__link-label" [class.hidden]="collapsed()">Wertschriften</span>
+      <span class="sidebar__link-label" [class.hidden]="collapsed()">{{ 'NAV.SECURITIES' | translate }}</span>
     </a>
     <a class="sidebar__link" routerLink="/analysts" routerLinkActive="sidebar__link--active" (click)="closeMobile()">
       <span class="sidebar__link-initial">A</span>
-      <span class="sidebar__link-label" [class.hidden]="collapsed()">Analysten</span>
+      <span class="sidebar__link-label" [class.hidden]="collapsed()">{{ 'NAV.ANALYSTS' | translate }}</span>
     </a>
   </nav>
 

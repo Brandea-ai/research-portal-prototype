@@ -2,7 +2,7 @@
   @if (loading()) {
     <div class="loading-state">
       <div class="loading-dot"></div>
-      <span class="loading-text">Daten werden geladen...</span>
+      <span class="loading-text">{{ 'DASHBOARD.LOADING' | translate }}</span>
     </div>
   } @else {
 
@@ -10,29 +10,29 @@
     <div class="kpi-grid stagger">
 
       <div class="kpi-card">
-        <span class="kpi-card__label">Reports</span>
+        <span class="kpi-card__label">{{ 'DASHBOARD.KPI.REPORTS_LABEL' | translate }}</span>
         <span class="kpi-card__value">{{ reports().length }}</span>
-        <span class="kpi-card__sub">Publizierte Analysen</span>
+        <span class="kpi-card__sub">{{ 'DASHBOARD.KPI.REPORTS_SUB' | translate }}</span>
       </div>
 
       <div class="kpi-card">
-        <span class="kpi-card__label">Wertschriften</span>
+        <span class="kpi-card__label">{{ 'DASHBOARD.KPI.SECURITIES_LABEL' | translate }}</span>
         <span class="kpi-card__value">{{ securities().length }}</span>
-        <span class="kpi-card__sub">Im Coverage-Universum</span>
+        <span class="kpi-card__sub">{{ 'DASHBOARD.KPI.SECURITIES_SUB' | translate }}</span>
       </div>
 
       <div class="kpi-card">
-        <span class="kpi-card__label">Analysten</span>
+        <span class="kpi-card__label">{{ 'DASHBOARD.KPI.ANALYSTS_LABEL' | translate }}</span>
         <span class="kpi-card__value">{{ analysts().length }}</span>
-        <span class="kpi-card__sub">Aktive Researcher</span>
+        <span class="kpi-card__sub">{{ 'DASHBOARD.KPI.ANALYSTS_SUB' | translate }}</span>
       </div>
 
       <div class="kpi-card kpi-card--accent">
-        <span class="kpi-card__label">Rating-Änderungen</span>
+        <span class="kpi-card__label">{{ 'DASHBOARD.KPI.RATING_CHANGES_LABEL' | translate }}</span>
         <span class="kpi-card__value kpi-card__value--accent">
           {{ ratingChangedCount() }}
         </span>
-        <span class="kpi-card__sub">Angepasste Empfehlungen</span>
+        <span class="kpi-card__sub">{{ 'DASHBOARD.KPI.RATING_CHANGES_SUB' | translate }}</span>
       </div>
 
     </div>
@@ -43,8 +43,8 @@
       <!-- Doughnut: Rating Distribution -->
       <div class="chart-card chart-card--doughnut">
         <div class="chart-card__header">
-          <span class="section-label">Empfehlungs-Verteilung</span>
-          <span class="chart-card__total">{{ reports().length }} Total</span>
+          <span class="section-label">{{ 'DASHBOARD.CHARTS.RATING_DISTRIBUTION' | translate }}</span>
+          <span class="chart-card__total">{{ reports().length }} {{ 'DASHBOARD.CHARTS.TOTAL' | translate }}</span>
         </div>
         <div class="chart-card__body chart-card__body--doughnut">
           <div class="doughnut-wrap">
@@ -77,8 +77,8 @@
       <!-- Bar Chart: Sector Coverage -->
       <div class="chart-card chart-card--bar">
         <div class="chart-card__header">
-          <span class="section-label">Reports nach Sektor</span>
-          <span class="chart-card__total">{{ sectorCount() }} Sektoren</span>
+          <span class="section-label">{{ 'DASHBOARD.CHARTS.SECTOR_REPORTS' | translate }}</span>
+          <span class="chart-card__total">{{ sectorCount() }} {{ 'DASHBOARD.CHARTS.SECTORS' | translate }}</span>
         </div>
         <div class="chart-card__body">
           <canvas #sectorCanvas></canvas>
@@ -90,17 +90,17 @@
     <!-- ===== LATEST REPORTS ===== -->
     <section class="section">
       <div class="section__header">
-        <span class="section-label">Neueste Reports</span>
-        <span class="section__count">{{ latestReports().length }} angezeigt</span>
+        <span class="section-label">{{ 'DASHBOARD.LATEST_REPORTS.TITLE' | translate }}</span>
+        <span class="section__count">{{ latestReports().length }} {{ 'DASHBOARD.LATEST_REPORTS.SHOWN' | translate }}</span>
       </div>
       <div class="report-list">
         <div class="report-list__head">
-          <span class="col-title">Titel</span>
-          <span class="col-type">Typ</span>
-          <span class="col-rating">Rating</span>
-          <span class="col-upside">Upside</span>
-          <span class="col-target">Kursziel</span>
-          <span class="col-date">Datum</span>
+          <span class="col-title">{{ 'DASHBOARD.TABLE.TITLE' | translate }}</span>
+          <span class="col-type">{{ 'DASHBOARD.TABLE.TYPE' | translate }}</span>
+          <span class="col-rating">{{ 'DASHBOARD.TABLE.RATING' | translate }}</span>
+          <span class="col-upside">{{ 'DASHBOARD.TABLE.UPSIDE' | translate }}</span>
+          <span class="col-target">{{ 'DASHBOARD.TABLE.TARGET' | translate }}</span>
+          <span class="col-date">{{ 'DASHBOARD.TABLE.DATE' | translate }}</span>
         </div>
         @for (report of latestReports(); track report.id) {
           <div class="report-row" [class.report-row--changed]="report.ratingChanged">
@@ -131,8 +131,8 @@
       <!-- Top Analysten -->
       <section class="section bottom-card">
         <div class="section__header">
-          <span class="section-label">Top Analysten</span>
-          <span class="section__count">nach Accuracy 12M</span>
+          <span class="section-label">{{ 'DASHBOARD.TOP_ANALYSTS.TITLE' | translate }}</span>
+          <span class="section__count">{{ 'DASHBOARD.TOP_ANALYSTS.SUBTITLE' | translate }}</span>
         </div>
         <div class="analyst-list">
           @for (analyst of topAnalysts(); track analyst.id; let i = $index) {
@@ -154,20 +154,20 @@
       <!-- Coverage-Übersicht -->
       <section class="section bottom-card">
         <div class="section__header">
-          <span class="section-label">Coverage-Übersicht</span>
+          <span class="section-label">{{ 'DASHBOARD.COVERAGE.TITLE' | translate }}</span>
         </div>
         <div class="coverage-grid">
           <div class="coverage-stat">
             <span class="coverage-stat__value">{{ sectorCount() }}</span>
-            <span class="coverage-stat__label">Sektoren</span>
+            <span class="coverage-stat__label">{{ 'DASHBOARD.COVERAGE.SECTORS' | translate }}</span>
           </div>
           <div class="coverage-stat">
             <span class="coverage-stat__value">{{ totalCoverage() }}</span>
-            <span class="coverage-stat__label">Ticker abgedeckt</span>
+            <span class="coverage-stat__label">{{ 'DASHBOARD.COVERAGE.TICKERS' | translate }}</span>
           </div>
           <div class="coverage-stat">
             <span class="coverage-stat__value">{{ avgAccuracy() | number:'1.1-1' }}%</span>
-            <span class="coverage-stat__label">Avg. Accuracy 12M</span>
+            <span class="coverage-stat__label">{{ 'DASHBOARD.COVERAGE.AVG_ACCURACY' | translate }}</span>
           </div>
         </div>
         <div class="coverage-breakdown">

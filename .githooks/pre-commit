@@ -1,0 +1,156 @@
+#!/usr/bin/env bash
+# =============================================================================
+# Pre-commit Hook — Research Portal Prototype
+# =============================================================================
+# Wird automatisch vor jedem Commit ausgeführt.
+# Prüft: Frontend-Linting (ng lint) und Backend-Linting (mvn checkstyle:check)
+#
+# Einrichtung (einmalig):
+#   git config core.hooksPath .githooks
+# =============================================================================
+
+set -euo pipefail
+
+# Farbcodes für Ausgaben
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Hilfsfunktionen
+print_header() {
+  echo -e "\n${BLUE}=== $1 ===${NC}"
+}
+
+print_success() {
+  echo -e "${GREEN}✓ $1${NC}"
+}
+
+print_warning() {
+  echo -e "${YELLOW}! $1${NC}"
+}
+
+print_error() {
+  echo -e "${RED}✗ $1${NC}"
+}
+
+# Prüfen ob eine Datei im Staging-Bereich geändert wurde
+has_staged_changes_in() {
+  local path="$1"
+  git diff --cached --name-only | grep -q "^${path}" 2>/dev/null
+}
+
+# Repository-Root ermitteln
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+FRONTEND_DIR="${REPO_ROOT}/frontend"
+BACKEND_DIR="${REPO_ROOT}/backend"
+
+ERRORS=0
+
+print_header "Pre-commit Prüfungen"
+
+# =============================================================================
+# 1. Frontend-Linting (ng lint)
+# =============================================================================
+if has_staged_changes_in "frontend/"; then
+  print_header "Frontend Linting (ng lint)"
+
+  if [ -d "${FRONTEND_DIR}" ] && [ -f "${FRONTEND_DIR}/package.json" ]; then
+    if command -v ng &> /dev/null; then
+      if ng lint --project research-portal 2>&1; then
+        print_success "Frontend-Linting erfolgreich"
+      else
+        print_error "Frontend-Linting fehlgeschlagen"
+        print_error "Behebe die Fehler mit: cd frontend && ng lint --fix"
+        ERRORS=$((ERRORS + 1))
+      fi
+    elif [ -f "${FRONTEND_DIR}/node_modules/.bin/ng" ]; then
+      if "${FRONTEND_DIR}/node_modules/.bin/ng" lint 2>&1; then
+        print_success "Frontend-Linting erfolgreich"
+      else
+        print_error "Frontend-Linting fehlgeschlagen"
+        print_error "Behebe die Fehler mit: cd frontend && npx ng lint --fix"
+        ERRORS=$((ERRORS + 1))
+      fi
+    else
+      print_warning "Angular CLI nicht gefunden — Frontend-Linting übersprungen"
+      print_warning "Stelle sicher dass 'npm install' im frontend/ Verzeichnis ausgeführt wurde"
+    fi
+  else
+    print_warning "Frontend-Verzeichnis nicht gefunden — Linting übersprungen"
+  fi
+else
+  print_warning "Keine Frontend-Änderungen — Linting übersprungen"
+fi
+
+# =============================================================================
+# 2. Backend-Linting (mvn checkstyle:check)
+# =============================================================================
+if has_staged_changes_in "backend/"; then
+  print_header "Backend Checkstyle (mvn checkstyle:check)"
+
+  if [ -d "${BACKEND_DIR}" ] && [ -f "${BACKEND_DIR}/pom.xml" ]; then
+    if command -v mvn &> /dev/null; then
+      if mvn -f "${BACKEND_DIR}/pom.xml" checkstyle:check -q 2>&1; then
+        print_success "Backend-Checkstyle erfolgreich"
+      else
+        print_error "Backend-Checkstyle fehlgeschlagen"
+        print_error "Details: cd backend && mvn checkstyle:check"
+        ERRORS=$((ERRORS + 1))
+      fi
+    else
+      print_warning "Maven nicht gefunden — Backend-Checkstyle übersprungen"
+      print_warning "Stelle sicher dass Maven installiert und im PATH ist"
+    fi
+  else
+    print_warning "Backend-Verzeichnis oder pom.xml nicht gefunden — Checkstyle übersprungen"
+  fi
+else
+  print_warning "Keine Backend-Änderungen — Checkstyle übersprungen"
+fi
+
+# =============================================================================
+# 3. Verbotene Muster prüfen
+# =============================================================================
+print_header "Verbotene Muster prüfen"
+
+# console.log in TypeScript/JavaScript Dateien
+CONSOLE_LOG_FILES=$(git diff --cached --name-only | grep -E '\.(ts|js|tsx|jsx)$' | xargs grep -l 'console\.log' 2>/dev/null || true)
+if [ -n "${CONSOLE_LOG_FILES}" ]; then
+  print_warning "console.log gefunden in:"
+  echo "${CONSOLE_LOG_FILES}" | while read -r file; do
+    echo "  - ${file}"
+  done
+  print_warning "console.log sollte nicht in produktivem Code committed werden"
+  # Nur Warnung, kein Fehler — kann in Ausnahmefällen akzeptiert werden
+fi
+
+# Hardcodierte Secrets (einfache Prüfung)
+SECRET_PATTERNS='(password|secret|api.?key|access.?token)\s*=\s*["\x27][^"\x27]{8,}'
+SECRET_FILES=$(git diff --cached --name-only | xargs grep -iEl "${SECRET_PATTERNS}" 2>/dev/null || true)
+if [ -n "${SECRET_FILES}" ]; then
+  print_error "Mögliche hardcodierte Credentials gefunden in:"
+  echo "${SECRET_FILES}" | while read -r file; do
+    echo "  - ${file}"
+  done
+  print_error "Credentials dürfen nicht committed werden!"
+  ERRORS=$((ERRORS + 1))
+fi
+
+print_success "Muster-Prüfung abgeschlossen"
+
+# =============================================================================
+# Ergebnis
+# =============================================================================
+echo ""
+if [ "${ERRORS}" -gt 0 ]; then
+  print_error "Pre-commit Prüfung fehlgeschlagen (${ERRORS} Fehler)"
+  print_error "Behebe die Fehler und führe 'git add' erneut aus"
+  echo ""
+  exit 1
+else
+  print_success "Alle Pre-commit Prüfungen bestanden"
+  echo ""
+  exit 0
+fi
