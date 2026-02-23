@@ -1,40 +1,96 @@
 <div class="page">
   <div class="page__header">
     <h2 class="page__title">Analysten</h2>
-    <span class="page__count">{{ analysts().length }} Analysten</span>
+    <span class="page__count">{{ filteredAnalysts().length }} von {{ analysts().length }} Analysten</span>
+  </div>
+
+  <!-- Filter-Leiste -->
+  <div class="filter-bar">
+    <div class="filter-bar__controls">
+      <div class="filter-group">
+        <label class="filter-label" for="filter-department">Abteilung</label>
+        <select
+          id="filter-department"
+          class="filter-select"
+          [ngModel]="filterDepartment()"
+          (ngModelChange)="filterDepartment.set($event)">
+          @for (dept of departments(); track dept) {
+            <option [value]="dept">{{ formatDepartmentLabel(dept) }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label" for="filter-sort">Sortierung</label>
+        <select
+          id="filter-sort"
+          class="filter-select"
+          [ngModel]="sortOption()"
+          (ngModelChange)="sortOption.set($event)">
+          <option value="accuracy-desc">Accuracy (hoch\u2192niedrig)</option>
+          <option value="accuracy-asc">Accuracy (niedrig\u2192hoch)</option>
+          <option value="name-asc">Name (A\u2013Z)</option>
+          <option value="name-desc">Name (Z\u2013A)</option>
+          <option value="rating-desc">Rating (hoch\u2192niedrig)</option>
+          <option value="coverage-desc">Coverage (meiste)</option>
+        </select>
+      </div>
+
+      <div class="filter-group filter-group--search">
+        <label class="filter-label" for="filter-search">Suche</label>
+        <input
+          id="filter-search"
+          type="text"
+          class="filter-input"
+          placeholder="Analyst suchen..."
+          [ngModel]="searchTerm()"
+          (ngModelChange)="searchTerm.set($event)" />
+      </div>
+    </div>
+
+    @if (activeFilterCount() > 0) {
+      <div class="filter-bar__status">
+        <span class="filter-count">{{ activeFilterCount() }} Filter aktiv</span>
+        <button class="filter-reset" (click)="resetFilters()">Zurücksetzen</button>
+      </div>
+    }
   </div>
 
   @if (loading()) {
     <p class="loading">Daten werden geladen...</p>
   } @else {
-    <div class="analyst-grid">
-      @for (analyst of analysts(); track analyst.id) {
-        <div class="analyst-card" (click)="openAnalyst(analyst.id)">
-          <div class="analyst-card__header">
-            <span class="analyst-card__name">{{ analyst.name }}</span>
-            <span class="analyst-card__stars">{{ starDisplay(analyst.starRating) }}</span>
-          </div>
-          <span class="analyst-card__title">{{ analyst.title }}</span>
-          <span class="analyst-card__dept">{{ analyst.department }}</span>
-
-          <div class="analyst-card__stats">
-            <div class="stat">
-              <span class="stat__label">Accuracy 12M</span>
-              <span class="stat__value">{{ analyst.accuracy12m | number:'1.1-1' }}%</span>
+    @if (filteredAnalysts().length === 0) {
+      <p class="empty-state">Keine Analysten gefunden.</p>
+    } @else {
+      <div class="analyst-grid">
+        @for (analyst of filteredAnalysts(); track analyst.id) {
+          <div class="analyst-card" (click)="openAnalyst(analyst.id)">
+            <div class="analyst-card__header">
+              <span class="analyst-card__name">{{ analyst.name }}</span>
+              <span class="analyst-card__stars">{{ starDisplay(analyst.starRating) }}</span>
             </div>
-            <div class="stat">
-              <span class="stat__label">Coverage</span>
-              <span class="stat__value">{{ analyst.coverageUniverse.length }}</span>
+            <span class="analyst-card__title">{{ analyst.title }}</span>
+            <span class="analyst-card__dept">{{ analyst.department }}</span>
+
+            <div class="analyst-card__stats">
+              <div class="stat">
+                <span class="stat__label">Accuracy 12M</span>
+                <span class="stat__value">{{ analyst.accuracy12m | number:'1.1-1' }}%</span>
+              </div>
+              <div class="stat">
+                <span class="stat__label">Coverage</span>
+                <span class="stat__value">{{ analyst.coverageUniverse.length }}</span>
+              </div>
+            </div>
+
+            <div class="analyst-card__coverage">
+              @for (ticker of analyst.coverageUniverse; track ticker) {
+                <span class="ticker-tag">{{ ticker }}</span>
+              }
             </div>
           </div>
-
-          <div class="analyst-card__coverage">
-            @for (ticker of analyst.coverageUniverse; track ticker) {
-              <span class="ticker-tag">{{ ticker }}</span>
-            }
-          </div>
-        </div>
-      }
-    </div>
+        }
+      </div>
+    }
   }
 </div>
