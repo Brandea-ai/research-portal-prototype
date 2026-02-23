@@ -1,0 +1,114 @@
+<div class="audit">
+  <app-breadcrumb [items]="breadcrumbs" />
+
+  <div class="audit__header">
+    <h1 class="audit__title">{{ 'AUDIT.TITLE' | translate }}</h1>
+    <p class="audit__subtitle">{{ 'AUDIT.SUBTITLE' | translate }}</p>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <span class="loading-dot"></span>
+      <span class="loading-text">{{ 'DASHBOARD.LOADING' | translate }}</span>
+    </div>
+  } @else {
+    <div class="audit__filters">
+      <div class="filter-group">
+        <label class="filter-label" for="filterAction">{{ 'AUDIT.FILTER_ACTION' | translate }}</label>
+        <select
+          id="filterAction"
+          class="filter-select"
+          [ngModel]="filterAction()"
+          (ngModelChange)="onFilterActionChange($event)">
+          <option value="">{{ 'AUDIT.ALL' | translate }}</option>
+          <option value="CREATE">{{ 'AUDIT.CREATED' | translate }}</option>
+          <option value="UPDATE">{{ 'AUDIT.UPDATED' | translate }}</option>
+          <option value="DELETE">{{ 'AUDIT.DELETED' | translate }}</option>
+          <option value="EXPORT">{{ 'AUDIT.EXPORTED' | translate }}</option>
+          <option value="IMPORT">{{ 'AUDIT.IMPORTED' | translate }}</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label" for="filterEntity">{{ 'AUDIT.FILTER_ENTITY' | translate }}</label>
+        <select
+          id="filterEntity"
+          class="filter-select"
+          [ngModel]="filterEntityType()"
+          (ngModelChange)="onFilterEntityTypeChange($event)">
+          <option value="">{{ 'AUDIT.ALL' | translate }}</option>
+          <option value="REPORT">Report</option>
+          <option value="SECURITY">Security</option>
+          <option value="ANALYST">Analyst</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label" for="filterLimit">{{ 'AUDIT.LIMIT' | translate }}</label>
+        <select
+          id="filterLimit"
+          class="filter-select"
+          [ngModel]="limit()"
+          (ngModelChange)="onLimitChange(+$event)">
+          <option [value]="25">25</option>
+          <option [value]="50">50</option>
+          <option [value]="100">100</option>
+        </select>
+      </div>
+
+      <div class="filter-info">
+        {{ 'AUDIT.SHOWING' | translate }} {{ filteredLogs().length }}
+      </div>
+    </div>
+
+    @if (filteredLogs().length === 0) {
+      <div class="audit__empty">
+        {{ 'AUDIT.EMPTY' | translate }}
+      </div>
+    } @else {
+      <div class="audit__table-wrapper">
+        <table class="audit__table">
+          <thead>
+            <tr>
+              <th>{{ 'AUDIT.TIMESTAMP' | translate }}</th>
+              <th>{{ 'AUDIT.ACTION' | translate }}</th>
+              <th>{{ 'AUDIT.ENTITY_TYPE' | translate }}</th>
+              <th>{{ 'AUDIT.ENTITY_ID' | translate }}</th>
+              <th>{{ 'AUDIT.USER' | translate }}</th>
+              <th>{{ 'AUDIT.DETAILS' | translate }}</th>
+              <th>{{ 'AUDIT.IP_ADDRESS' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (log of filteredLogs(); track log.id) {
+              <tr class="audit__row">
+                <td class="audit__cell audit__cell--timestamp">
+                  {{ log.timestamp | date:'dd.MM.yyyy HH:mm' }}
+                </td>
+                <td class="audit__cell">
+                  <span class="audit__badge" [class]="getActionBadgeClass(log.action)">
+                    {{ log.action }}
+                  </span>
+                </td>
+                <td class="audit__cell">{{ log.entityType }}</td>
+                <td class="audit__cell">
+                  <span
+                    class="audit__entity-link"
+                    (click)="navigateToEntity(log)"
+                    (keydown.enter)="navigateToEntity(log)"
+                    tabindex="0"
+                    role="link">
+                    {{ log.entityId }}
+                  </span>
+                </td>
+                <td class="audit__cell">{{ log.userName }}</td>
+                <td class="audit__cell audit__cell--details">{{ log.details }}</td>
+                <td class="audit__cell audit__cell--ip">{{ log.ipAddress }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  }
+</div>

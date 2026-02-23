@@ -1,0 +1,168 @@
+<div class="watchlist">
+  <app-breadcrumb [items]="breadcrumbs" />
+
+  <div class="watchlist__header">
+    <div class="watchlist__header-text">
+      <h1 class="watchlist__title">{{ 'WATCHLIST.TITLE' | translate }}</h1>
+      <span class="watchlist__count">{{ entries().length }} Einträge</span>
+    </div>
+    <button class="btn btn--accent" (click)="openAddForm()">
+      {{ 'WATCHLIST.ADD' | translate }}
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="loading-state">
+      <span class="loading-dot"></span>
+      <span class="loading-text">Daten werden geladen...</span>
+    </div>
+  }
+
+  <!-- Empty State -->
+  @if (!loading() && entries().length === 0) {
+    <div class="watchlist__empty">
+      <span class="watchlist__empty-text">{{ 'WATCHLIST.EMPTY' | translate }}</span>
+      <button class="btn btn--accent" (click)="openAddForm()">
+        {{ 'WATCHLIST.ADD' | translate }}
+      </button>
+    </div>
+  }
+
+  <!-- Entries Grid -->
+  @if (!loading() && entries().length > 0) {
+    <div class="watchlist__grid">
+      @for (entry of entries(); track entry.id) {
+        <div class="watchlist-card">
+          <div class="watchlist-card__header">
+            <div class="watchlist-card__ticker-row">
+              <span class="watchlist-card__ticker" (click)="openSecurity(entry.securityId)">
+                {{ entry.securityTicker }}
+              </span>
+              <span class="watchlist-card__alert-badge" [class.watchlist-card__alert-badge--active]="entry.alertOnNewReport">
+                {{ entry.alertOnNewReport ? 'Alert aktiv' : 'Kein Alert' }}
+              </span>
+            </div>
+            <span class="watchlist-card__name">{{ entry.securityName }}</span>
+          </div>
+
+          <div class="watchlist-card__body">
+            <!-- Notes -->
+            @if (editingEntryId() === entry.id) {
+              <div class="watchlist-card__notes-edit">
+                <input
+                  class="watchlist-card__notes-input"
+                  [ngModel]="editNotesValue()"
+                  (ngModelChange)="editNotesValue.set($event)"
+                  (keydown.enter)="saveNotes(entry)"
+                  (keydown.escape)="cancelEditNotes()"
+                  placeholder="Notizen eingeben..."
+                />
+                <div class="watchlist-card__notes-actions">
+                  <button class="btn-inline btn-inline--save" (click)="saveNotes(entry)">{{ 'WATCHLIST.SAVE' | translate }}</button>
+                  <button class="btn-inline btn-inline--cancel" (click)="cancelEditNotes()">{{ 'WATCHLIST.CANCEL' | translate }}</button>
+                </div>
+              </div>
+            } @else {
+              <div class="watchlist-card__notes" (click)="startEditNotes(entry)">
+                @if (entry.notes) {
+                  <span class="watchlist-card__notes-text">{{ entry.notes }}</span>
+                } @else {
+                  <span class="watchlist-card__notes-placeholder">{{ 'WATCHLIST.NOTES' | translate }}...</span>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="watchlist-card__footer">
+            <span class="watchlist-card__added-at">
+              {{ 'WATCHLIST.ADDED_AT' | translate }}: {{ getRelativeTime(entry.addedAt) }}
+            </span>
+            <div class="watchlist-card__actions">
+              <label class="watchlist-card__toggle">
+                <input
+                  type="checkbox"
+                  [checked]="entry.alertOnNewReport"
+                  (change)="toggleAlert(entry)"
+                />
+                <span class="watchlist-card__toggle-label">{{ 'WATCHLIST.ALERT' | translate }}</span>
+              </label>
+              <button class="btn-inline btn-inline--remove" (click)="requestRemove(entry.securityId)">
+                {{ 'WATCHLIST.REMOVE' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Delete Confirm Overlay -->
+          @if (showDeleteConfirm() === entry.securityId) {
+            <div class="watchlist-card__confirm">
+              <span class="watchlist-card__confirm-text">{{ 'WATCHLIST.CONFIRM_REMOVE' | translate }}</span>
+              <div class="watchlist-card__confirm-actions">
+                <button class="btn btn--danger-sm" (click)="confirmRemove(entry.securityId)">{{ 'WATCHLIST.REMOVE' | translate }}</button>
+                <button class="btn btn--ghost" (click)="cancelRemove()">{{ 'WATCHLIST.CANCEL' | translate }}</button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Add Form Overlay -->
+  @if (showAddForm()) {
+    <div class="overlay" (click)="closeAddForm()">
+      <div class="overlay__dialog" (click)="$event.stopPropagation()">
+        <h2 class="overlay__title">{{ 'WATCHLIST.ADD' | translate }}</h2>
+
+        <div class="overlay__field">
+          <label class="overlay__label">{{ 'WATCHLIST.SELECT_SECURITY' | translate }}</label>
+          <select
+            class="overlay__select"
+            [ngModel]="selectedSecurityId()"
+            (ngModelChange)="selectedSecurityId.set($event)"
+          >
+            <option [ngValue]="null" disabled>{{ 'WATCHLIST.SELECT_SECURITY' | translate }}</option>
+            @for (sec of availableSecurities(); track sec.id) {
+              <option [ngValue]="sec.id">{{ sec.ticker }} - {{ sec.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="overlay__field">
+          <label class="overlay__label">{{ 'WATCHLIST.NOTES' | translate }}</label>
+          <textarea
+            class="overlay__textarea"
+            [ngModel]="addNotes()"
+            (ngModelChange)="addNotes.set($event)"
+            rows="3"
+            placeholder="Optionale Notizen..."
+          ></textarea>
+        </div>
+
+        <div class="overlay__field overlay__field--checkbox">
+          <label class="overlay__checkbox-label">
+            <input
+              type="checkbox"
+              [ngModel]="addAlert()"
+              (ngModelChange)="addAlert.set($event)"
+            />
+            {{ 'WATCHLIST.ALERT' | translate }}
+          </label>
+        </div>
+
+        <div class="overlay__actions">
+          <button
+            class="btn btn--accent"
+            (click)="submitAddForm()"
+            [disabled]="selectedSecurityId() === null"
+          >
+            {{ 'WATCHLIST.SAVE' | translate }}
+          </button>
+          <button class="btn btn--ghost" (click)="closeAddForm()">
+            {{ 'WATCHLIST.CANCEL' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

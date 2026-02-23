@@ -4,7 +4,9 @@
     "REPORTS": "Reports",
     "SECURITIES": "Wertschriften",
     "ANALYSTS": "Analysten",
-    "SETTINGS": "Einstellungen"
+    "SETTINGS": "Einstellungen",
+    "WATCHLIST": "Watchlist",
+    "AUDIT": "Protokoll"
   },
   "TOPBAR": {
     "SHORTCUTS": "Shortcuts",
@@ -118,10 +120,45 @@
     "RESET_METRICS": "Metriken zurücksetzen",
     "RESETTING": "Wird zurückgesetzt..."
   },
+  "WATCHLIST": {
+    "TITLE": "Meine Watchlist",
+    "ADD": "Wertschrift hinzufügen",
+    "EMPTY": "Noch keine Wertschriften auf der Watchlist.",
+    "NOTES": "Notizen",
+    "ALERT": "Alert bei neuem Report",
+    "REMOVE": "Entfernen",
+    "ADDED_AT": "Hinzugefügt",
+    "CONFIRM_REMOVE": "Wirklich entfernen?",
+    "SAVE": "Speichern",
+    "CANCEL": "Abbrechen",
+    "SELECT_SECURITY": "Wertschrift auswählen"
+  },
   "LANGUAGE": {
     "LABEL": "Sprache",
     "DE": "DE",
     "FR": "FR",
     "EN": "EN"
+  },
+  "AUDIT": {
+    "TITLE": "Audit Trail",
+    "SUBTITLE": "FINMA-konforme Protokollierung aller Systemaktionen",
+    "FILTER_ACTION": "Aktion filtern",
+    "FILTER_ENTITY": "Entitätstyp filtern",
+    "ALL": "Alle",
+    "CREATED": "Erstellt",
+    "UPDATED": "Aktualisiert",
+    "DELETED": "Gelöscht",
+    "EXPORTED": "Exportiert",
+    "IMPORTED": "Importiert",
+    "TIMESTAMP": "Zeitstempel",
+    "ACTION": "Aktion",
+    "ENTITY_TYPE": "Entitätstyp",
+    "ENTITY_ID": "ID",
+    "USER": "Benutzer",
+    "DETAILS": "Details",
+    "IP_ADDRESS": "IP-Adresse",
+    "LIMIT": "Einträge",
+    "EMPTY": "Keine Audit-Einträge gefunden.",
+    "SHOWING": "Zeige"
   }
 }

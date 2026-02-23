@@ -26,4 +26,24 @@ export class AuditService {
   getRecentLogs(limit = 10): Observable<AuditLog[]> {
     return this.http.get<AuditLog[]>(this.url, { params: { limit: limit.toString() } });
   }
+
+  getAllLogs(limit = 50): Observable<AuditLog[]> {
+    return this.http.get<AuditLog[]>(this.url, { params: { limit: limit.toString() } });
+  }
+
+  getLogsByEntity(entityType: string, entityId: number): Observable<AuditLog[]> {
+    return this.http.get<AuditLog[]>(this.url, {
+      params: { entityType, entityId: entityId.toString() },
+    });
+  }
+
+  getLogsByEntityType(entityType: string, limit = 50): Observable<AuditLog[]> {
+    return this.http.get<AuditLog[]>(this.url, {
+      params: { entityType, limit: limit.toString() },
+    });
+  }
+
+  getReportAuditTrail(reportId: number): Observable<AuditLog[]> {
+    return this.http.get<AuditLog[]>(`${this.url}/report/${reportId}`);
+  }
 }

@@ -24,9 +24,17 @@
       <span class="sidebar__link-initial">A</span>
       <span class="sidebar__link-label" [class.hidden]="collapsed()">{{ 'NAV.ANALYSTS' | translate }}</span>
     </a>
+    <a class="sidebar__link" routerLink="/watchlist" routerLinkActive="sidebar__link--active" (click)="closeMobile()">
+      <span class="sidebar__link-initial">&#9733;</span>
+      <span class="sidebar__link-label" [class.hidden]="collapsed()">{{ 'NAV.WATCHLIST' | translate }}</span>
+    </a>
     <a class="sidebar__link" routerLink="/settings" routerLinkActive="sidebar__link--active" (click)="closeMobile()">
       <span class="sidebar__link-initial">S</span>
       <span class="sidebar__link-label" [class.hidden]="collapsed()">{{ 'NAV.SETTINGS' | translate }}</span>
+    </a>
+    <a class="sidebar__link" routerLink="/audit" routerLinkActive="sidebar__link--active" (click)="closeMobile()">
+      <span class="sidebar__link-initial">P</span>
+      <span class="sidebar__link-label" [class.hidden]="collapsed()">{{ 'NAV.AUDIT' | translate }}</span>
     </a>
   </nav>
 

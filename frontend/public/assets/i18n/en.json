@@ -4,7 +4,9 @@
     "REPORTS": "Reports",
     "SECURITIES": "Securities",
     "ANALYSTS": "Analysts",
-    "SETTINGS": "Settings"
+    "SETTINGS": "Settings",
+    "WATCHLIST": "Watchlist",
+    "AUDIT": "Audit Trail"
   },
   "TOPBAR": {
     "SHORTCUTS": "Shortcuts",
@@ -118,10 +120,45 @@
     "RESET_METRICS": "Reset Metrics",
     "RESETTING": "Resetting..."
   },
+  "WATCHLIST": {
+    "TITLE": "My Watchlist",
+    "ADD": "Add Security",
+    "EMPTY": "No securities on your watchlist yet.",
+    "NOTES": "Notes",
+    "ALERT": "Alert on new report",
+    "REMOVE": "Remove",
+    "ADDED_AT": "Added",
+    "CONFIRM_REMOVE": "Really remove?",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "SELECT_SECURITY": "Select security"
+  },
   "LANGUAGE": {
     "LABEL": "Language",
     "DE": "DE",
     "FR": "FR",
     "EN": "EN"
+  },
+  "AUDIT": {
+    "TITLE": "Audit Trail",
+    "SUBTITLE": "FINMA-compliant logging of all system actions",
+    "FILTER_ACTION": "Filter action",
+    "FILTER_ENTITY": "Filter entity type",
+    "ALL": "All",
+    "CREATED": "Created",
+    "UPDATED": "Updated",
+    "DELETED": "Deleted",
+    "EXPORTED": "Exported",
+    "IMPORTED": "Imported",
+    "TIMESTAMP": "Timestamp",
+    "ACTION": "Action",
+    "ENTITY_TYPE": "Entity Type",
+    "ENTITY_ID": "ID",
+    "USER": "User",
+    "DETAILS": "Details",
+    "IP_ADDRESS": "IP Address",
+    "LIMIT": "Entries",
+    "EMPTY": "No audit entries found.",
+    "SHOWING": "Showing"
   }
 }

@@ -69,6 +69,18 @@ export const routes: Routes = [
       import('./features/settings/settings.component').then(m => m.SettingsComponent)
   },
   {
+    path: 'watchlist',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/watchlist/watchlist.component').then(m => m.WatchlistComponent)
+  },
+  {
+    path: 'audit',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/audit/audit.component').then(m => m.AuditComponent)
+  },
+  {
     path: 'forbidden',
     loadComponent: () =>
       import('./features/error-pages/forbidden/forbidden.component').then(m => m.ForbiddenComponent)

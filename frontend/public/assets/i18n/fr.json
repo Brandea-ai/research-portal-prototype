@@ -4,7 +4,9 @@
     "REPORTS": "Rapports",
     "SECURITIES": "Titres",
     "ANALYSTS": "Analystes",
-    "SETTINGS": "Paramètres"
+    "SETTINGS": "Paramètres",
+    "WATCHLIST": "Liste de suivi",
+    "AUDIT": "Journal d'audit"
   },
   "TOPBAR": {
     "SHORTCUTS": "Raccourcis",
@@ -118,10 +120,45 @@
     "RESET_METRICS": "Réinitialiser les métriques",
     "RESETTING": "Réinitialisation..."
   },
+  "WATCHLIST": {
+    "TITLE": "Ma liste de suivi",
+    "ADD": "Ajouter un titre",
+    "EMPTY": "Aucun titre dans votre liste de suivi.",
+    "NOTES": "Notes",
+    "ALERT": "Alerte nouveau rapport",
+    "REMOVE": "Supprimer",
+    "ADDED_AT": "Ajouté",
+    "CONFIRM_REMOVE": "Vraiment supprimer?",
+    "SAVE": "Enregistrer",
+    "CANCEL": "Annuler",
+    "SELECT_SECURITY": "Sélectionner un titre"
+  },
   "LANGUAGE": {
     "LABEL": "Langue",
     "DE": "DE",
     "FR": "FR",
     "EN": "EN"
+  },
+  "AUDIT": {
+    "TITLE": "Journal d'audit",
+    "SUBTITLE": "Journal conforme FINMA de toutes les actions système",
+    "FILTER_ACTION": "Filtrer l'action",
+    "FILTER_ENTITY": "Filtrer le type",
+    "ALL": "Tous",
+    "CREATED": "Créé",
+    "UPDATED": "Mis à jour",
+    "DELETED": "Supprimé",
+    "EXPORTED": "Exporté",
+    "IMPORTED": "Importé",
+    "TIMESTAMP": "Horodatage",
+    "ACTION": "Action",
+    "ENTITY_TYPE": "Type d'entité",
+    "ENTITY_ID": "ID",
+    "USER": "Utilisateur",
+    "DETAILS": "Détails",
+    "IP_ADDRESS": "Adresse IP",
+    "LIMIT": "Entrées",
+    "EMPTY": "Aucune entrée d'audit trouvée.",
+    "SHOWING": "Affichage"
   }
 }
