@@ -146,6 +146,10 @@ export class SecuritiesComponent implements OnInit, OnDestroy {
     this.searchTerm.set('');
   }
 
+  openSecurity(id: number): void {
+    this.router.navigate(['/securities', id]);
+  }
+
   navigateToReports(sec: Security): void {
     this.router.navigate(['/reports'], { queryParams: { security: sec.ticker } });
   }

@@ -1,0 +1,102 @@
+@if (loading()) {
+  <div class="page">
+    <p class="loading-text">Wertschrift wird geladen...</p>
+  </div>
+} @else if (error()) {
+  <div class="page">
+    <a class="back-link" routerLink="/securities">Zurück zur Übersicht</a>
+    <p class="error-text">{{ error() }}</p>
+  </div>
+} @else if (security(); as sec) {
+  <div class="page">
+
+    <!-- Header -->
+    <div class="detail-header">
+      <a class="back-link" routerLink="/securities">Zurück zur Übersicht</a>
+      <div class="title-row">
+        <span class="ticker-badge">{{ sec.ticker }}</span>
+        <h1 class="detail-title">{{ sec.name }}</h1>
+      </div>
+    </div>
+
+    <!-- Info-Cards Grid (4 Spalten) -->
+    <div class="info-section">
+      <div class="info-card">
+        <span class="section-label">Sektor</span>
+        <span class="info-value">{{ sec.sector }}</span>
+        <span class="info-sub">{{ sec.industry }}</span>
+      </div>
+
+      <div class="info-card">
+        <span class="section-label">Börse</span>
+        <span class="info-value info-value--data">{{ sec.exchange }}</span>
+      </div>
+
+      <div class="info-card">
+        <span class="section-label">Währung</span>
+        <span class="info-value info-value--data">{{ sec.currency }}</span>
+      </div>
+
+      <div class="info-card">
+        <span class="section-label">Marktkapitalisierung</span>
+        <span class="info-value info-value--data">{{ formattedMarketCap() }}</span>
+      </div>
+    </div>
+
+    <!-- Weitere Infos (ISIN, Asset-Klasse) -->
+    <div class="meta-section">
+      <div class="meta-grid">
+        <div class="meta-block">
+          <span class="meta-label">ISIN</span>
+          <span class="meta-value mono">{{ sec.isin }}</span>
+        </div>
+        <div class="meta-block">
+          <span class="meta-label">Asset-Klasse</span>
+          <span class="meta-value">{{ sec.assetClass }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Research Reports -->
+    <div class="content-section">
+      <h2 class="section-title">Research Reports</h2>
+      <div class="table-wrapper">
+        @if (sortedReports().length === 0) {
+          <p class="empty-state">Keine Research Reports vorhanden.</p>
+        } @else {
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Datum</th>
+                <th>Titel</th>
+                <th>Typ</th>
+                <th>Rating</th>
+                <th class="text-right">Kursziel</th>
+                <th class="text-right">Upside</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (report of sortedReports(); track report.id) {
+                <tr (click)="openReport(report.id)" class="clickable-row">
+                  <td class="cell-date">{{ report.publishedAt | date:'dd.MM.yyyy' }}</td>
+                  <td class="cell-title">{{ report.title }}</td>
+                  <td class="cell-type">{{ report.reportType }}</td>
+                  <td>
+                    <span class="rating" [class]="ratingColorClass(report.rating)">
+                      {{ formattedRating(report.rating) }}
+                    </span>
+                  </td>
+                  <td class="text-right mono">{{ sec.currency }} {{ report.targetPrice | number:'1.2-2' }}</td>
+                  <td class="text-right mono" [class]="upsideClass(report.impliedUpside)">
+                    {{ formatUpside(report.impliedUpside) }}
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    </div>
+
+  </div>
+}

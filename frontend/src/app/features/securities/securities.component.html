@@ -65,7 +65,7 @@
         </thead>
         <tbody>
           @for (sec of filteredSecurities(); track sec.id) {
-            <tr (click)="navigateToReports(sec)">
+            <tr (click)="openSecurity(sec.id)">
               <td class="cell-ticker">{{ sec.ticker }}</td>
               <td class="cell-name">{{ sec.name }}</td>
               <td class="cell-isin hide-mobile">{{ sec.isin }}</td>
