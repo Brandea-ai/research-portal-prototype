@@ -6,7 +6,8 @@
     "ANALYSTS": "Analysts",
     "SETTINGS": "Settings",
     "WATCHLIST": "Watchlist",
-    "AUDIT": "Audit Trail"
+    "AUDIT": "Audit Trail",
+    "IMPORT": "Import"
   },
   "TOPBAR": {
     "SHORTCUTS": "Shortcuts",
@@ -160,5 +161,42 @@
     "LIMIT": "Entries",
     "EMPTY": "No audit entries found.",
     "SHOWING": "Showing"
+  },
+  "IMPORT": {
+    "TITLE": "XML Import",
+    "SUBTITLE": "Import research reports from XML files",
+    "DROP_ZONE": "Drop XML file here or click",
+    "SELECTED_FILE": "Selected file",
+    "TICKER_FILTER": "Ticker filter (optional)",
+    "VALIDATE": "Validate",
+    "IMPORT": "Import",
+    "VALID": "XML is valid",
+    "INVALID": "XML is invalid",
+    "SUCCESS": "reports imported",
+    "SAMPLE": "Sample XML",
+    "DOWNLOAD_SAMPLE": "Download sample",
+    "SHOW_SAMPLE": "Show sample",
+    "REMOVE_FILE": "Remove file"
+  },
+  "VALIDATION": {
+    "TITLE": "Data Validation",
+    "SUBTITLE": "Data integrity check for the Research Portal",
+    "NO_ISSUES": "No issues",
+    "ISSUES_FOUND": "Issues found",
+    "RUN": "Run validation",
+    "RUNNING": "Running...",
+    "LAST_RUN": "Last run",
+    "NEXT_RUN": "Next run",
+    "ORPHANED_REPORTS": "Orphaned Reports",
+    "ORPHANED_DESC": "Reports without valid analyst",
+    "INVALID_SECURITY": "Invalid Security Refs",
+    "INVALID_SECURITY_DESC": "Reports with non-existing security",
+    "NEGATIVE_MARKETCAP": "Negative MarketCap",
+    "NEGATIVE_MARKETCAP_DESC": "Securities with negative market cap",
+    "INVALID_ACCURACY": "Invalid Accuracy",
+    "INVALID_ACCURACY_DESC": "Analysts with accuracy outside 0-100%",
+    "TOTAL": "Total",
+    "CATEGORIES": "categories",
+    "AUTO_INFO": "Automatic validation every 6 hours"
   }
 }

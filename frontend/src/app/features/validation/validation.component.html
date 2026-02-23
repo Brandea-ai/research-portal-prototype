@@ -1,0 +1,124 @@
+<div class="validation">
+
+  <!-- Breadcrumb -->
+  <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb>
+
+  <!-- Loading state -->
+  @if (loading()) {
+    <div class="loading-state">
+      <span class="loading-dot"></span>
+      <span class="loading-text">{{ 'DASHBOARD.LOADING' | translate }}</span>
+    </div>
+  }
+
+  <!-- Content -->
+  @if (!loading() && result(); as r) {
+
+    <!-- Header -->
+    <div class="validation__header">
+      <div class="validation__header-top">
+        <div class="validation__header-text">
+          <h1 class="validation__title">{{ 'VALIDATION.TITLE' | translate }}</h1>
+          <p class="validation__subtitle">{{ 'VALIDATION.SUBTITLE' | translate }}</p>
+        </div>
+
+        <div class="validation__header-actions">
+          <!-- Status Badge -->
+          <span class="validation__status-badge"
+                [class.validation__status-badge--ok]="!r.hasIssues"
+                [class.validation__status-badge--error]="r.hasIssues">
+            @if (r.hasIssues) {
+              {{ r.totalIssues }} {{ 'VALIDATION.ISSUES_FOUND' | translate }}
+            } @else {
+              {{ 'VALIDATION.NO_ISSUES' | translate }}
+            }
+          </span>
+
+          <!-- Run Button -->
+          <button class="validation__run-btn"
+                  [disabled]="running()"
+                  (click)="runValidation()">
+            @if (running()) {
+              {{ 'VALIDATION.RUNNING' | translate }}
+            } @else {
+              {{ 'VALIDATION.RUN' | translate }}
+            }
+          </button>
+        </div>
+      </div>
+
+      <!-- Timestamps -->
+      <div class="validation__timestamps">
+        <span class="validation__timestamp">
+          {{ 'VALIDATION.LAST_RUN' | translate }}:
+          <span class="validation__timestamp-value">{{ r.lastRunAt | date:'dd.MM.yyyy HH:mm' }}</span>
+        </span>
+        <span class="validation__timestamp">
+          {{ 'VALIDATION.NEXT_RUN' | translate }}:
+          <span class="validation__timestamp-value">{{ r.nextRunAt | date:'dd.MM.yyyy HH:mm' }}</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Validation Cards Grid -->
+    <div class="validation__grid">
+
+      <!-- 1. Orphaned Reports -->
+      <div class="validation__card">
+        <h3 class="validation__card-title">{{ 'VALIDATION.ORPHANED_REPORTS' | translate }}</h3>
+        <p class="validation__card-desc">{{ 'VALIDATION.ORPHANED_DESC' | translate }}</p>
+        <span class="validation__card-value"
+              [class.validation__card-value--ok]="r.orphanedReports === 0"
+              [class.validation__card-value--error]="r.orphanedReports > 0">
+          {{ r.orphanedReports }}
+        </span>
+      </div>
+
+      <!-- 2. Invalid Security Refs -->
+      <div class="validation__card">
+        <h3 class="validation__card-title">{{ 'VALIDATION.INVALID_SECURITY' | translate }}</h3>
+        <p class="validation__card-desc">{{ 'VALIDATION.INVALID_SECURITY_DESC' | translate }}</p>
+        <span class="validation__card-value"
+              [class.validation__card-value--ok]="r.invalidSecurityRefs === 0"
+              [class.validation__card-value--error]="r.invalidSecurityRefs > 0">
+          {{ r.invalidSecurityRefs }}
+        </span>
+      </div>
+
+      <!-- 3. Negative MarketCap -->
+      <div class="validation__card">
+        <h3 class="validation__card-title">{{ 'VALIDATION.NEGATIVE_MARKETCAP' | translate }}</h3>
+        <p class="validation__card-desc">{{ 'VALIDATION.NEGATIVE_MARKETCAP_DESC' | translate }}</p>
+        <span class="validation__card-value"
+              [class.validation__card-value--ok]="r.negativeMarketCaps === 0"
+              [class.validation__card-value--error]="r.negativeMarketCaps > 0">
+          {{ r.negativeMarketCaps }}
+        </span>
+      </div>
+
+      <!-- 4. Invalid Accuracy -->
+      <div class="validation__card">
+        <h3 class="validation__card-title">{{ 'VALIDATION.INVALID_ACCURACY' | translate }}</h3>
+        <p class="validation__card-desc">{{ 'VALIDATION.INVALID_ACCURACY_DESC' | translate }}</p>
+        <span class="validation__card-value"
+              [class.validation__card-value--ok]="r.invalidAccuracies === 0"
+              [class.validation__card-value--error]="r.invalidAccuracies > 0">
+          {{ r.invalidAccuracies }}
+        </span>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="validation__footer">
+      <p class="validation__footer-summary">
+        {{ 'VALIDATION.TOTAL' | translate }}: {{ r.totalIssues }}
+        {{ 'VALIDATION.ISSUES_FOUND' | translate }}
+        in 4 {{ 'VALIDATION.CATEGORIES' | translate }}
+      </p>
+      <p class="validation__footer-info">{{ 'VALIDATION.AUTO_INFO' | translate }}</p>
+    </div>
+
+  }
+
+</div>

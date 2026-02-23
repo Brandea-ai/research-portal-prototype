@@ -6,7 +6,8 @@
     "ANALYSTS": "Analystes",
     "SETTINGS": "Paramètres",
     "WATCHLIST": "Liste de suivi",
-    "AUDIT": "Journal d'audit"
+    "AUDIT": "Journal d'audit",
+    "IMPORT": "Import"
   },
   "TOPBAR": {
     "SHORTCUTS": "Raccourcis",
@@ -160,5 +161,42 @@
     "LIMIT": "Entrées",
     "EMPTY": "Aucune entrée d'audit trouvée.",
     "SHOWING": "Affichage"
+  },
+  "IMPORT": {
+    "TITLE": "Import XML",
+    "SUBTITLE": "Importer des rapports depuis des fichiers XML",
+    "DROP_ZONE": "Glissez un fichier XML ici ou cliquez",
+    "SELECTED_FILE": "Fichier sélectionné",
+    "TICKER_FILTER": "Filtre ticker (optionnel)",
+    "VALIDATE": "Valider",
+    "IMPORT": "Importer",
+    "VALID": "XML est valide",
+    "INVALID": "XML est invalide",
+    "SUCCESS": "rapports importés",
+    "SAMPLE": "XML exemple",
+    "DOWNLOAD_SAMPLE": "Télécharger l'exemple",
+    "SHOW_SAMPLE": "Afficher l'exemple",
+    "REMOVE_FILE": "Supprimer le fichier"
+  },
+  "VALIDATION": {
+    "TITLE": "Validation des données",
+    "SUBTITLE": "Vérification de l'intégrité des données",
+    "NO_ISSUES": "Aucun problème",
+    "ISSUES_FOUND": "Problèmes trouvés",
+    "RUN": "Lancer la validation",
+    "RUNNING": "En cours...",
+    "LAST_RUN": "Dernière exécution",
+    "NEXT_RUN": "Prochain passage",
+    "ORPHANED_REPORTS": "Rapports orphelins",
+    "ORPHANED_DESC": "Rapports sans analyste valide",
+    "INVALID_SECURITY": "Réf. titres invalides",
+    "INVALID_SECURITY_DESC": "Rapports avec titre inexistant",
+    "NEGATIVE_MARKETCAP": "MarketCap négative",
+    "NEGATIVE_MARKETCAP_DESC": "Titres avec capitalisation négative",
+    "INVALID_ACCURACY": "Accuracy invalide",
+    "INVALID_ACCURACY_DESC": "Analystes avec accuracy hors 0-100%",
+    "TOTAL": "Total",
+    "CATEGORIES": "catégories",
+    "AUTO_INFO": "Validation automatique toutes les 6 heures"
   }
 }

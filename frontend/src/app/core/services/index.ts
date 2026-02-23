@@ -3,3 +3,4 @@ export { SecurityService } from './security.service';
 export { AnalystService } from './analyst.service';
 export { AdminService } from './admin.service';
 export { WatchlistService } from './watchlist.service';
+export { ImportService } from './import.service';

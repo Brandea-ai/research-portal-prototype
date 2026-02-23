@@ -36,6 +36,10 @@
       <span class="sidebar__link-initial">P</span>
       <span class="sidebar__link-label" [class.hidden]="collapsed()">{{ 'NAV.AUDIT' | translate }}</span>
     </a>
+    <a class="sidebar__link" routerLink="/import" routerLinkActive="sidebar__link--active" (click)="closeMobile()">
+      <span class="sidebar__link-initial">X</span>
+      <span class="sidebar__link-label" [class.hidden]="collapsed()">{{ 'NAV.IMPORT' | translate }}</span>
+    </a>
   </nav>
 
   <div class="sidebar__footer">

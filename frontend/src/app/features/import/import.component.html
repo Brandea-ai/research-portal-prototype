@@ -1,0 +1,139 @@
+<div class="import">
+  <app-breadcrumb [items]="breadcrumbs" />
+
+  <header class="import__header">
+    <h1 class="import__title">{{ 'IMPORT.TITLE' | translate }}</h1>
+    <p class="import__subtitle">{{ 'IMPORT.SUBTITLE' | translate }}</p>
+  </header>
+
+  <div class="import__grid">
+
+    <!-- ============================================
+         SECTION 1: XML Import (Main Area)
+         ============================================ -->
+    <section class="import__main">
+
+      <!-- Drop Zone -->
+      <div
+        class="drop-zone"
+        [class.drop-zone--active]="dragOver()"
+        [class.drop-zone--has-file]="selectedFile()"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+        (click)="fileInput.click()"
+      >
+        @if (selectedFile(); as file) {
+          <div class="drop-zone__file">
+            <span class="drop-zone__file-name">{{ file.name }}</span>
+            <span class="drop-zone__file-size">{{ formatFileSize(file.size) }}</span>
+            <button
+              class="drop-zone__remove"
+              (click)="removeFile(); $event.stopPropagation()"
+            >{{ 'IMPORT.REMOVE_FILE' | translate }}</button>
+          </div>
+        } @else {
+          <span class="drop-zone__label">{{ 'IMPORT.DROP_ZONE' | translate }}</span>
+          <span class="drop-zone__hint">.xml</span>
+        }
+      </div>
+      <input
+        #fileInput
+        type="file"
+        accept=".xml"
+        class="drop-zone__input"
+        (change)="onFileInputChange($event)"
+      />
+
+      <!-- Ticker Filter -->
+      <div class="import__ticker">
+        <label class="import__label" for="ticker">{{ 'IMPORT.TICKER_FILTER' | translate }}</label>
+        <input
+          id="ticker"
+          type="text"
+          class="import__input"
+          placeholder="z.B. NESN"
+          [value]="tickerFilter()"
+          (input)="onTickerChange($event)"
+        />
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="import__actions">
+        <button
+          class="import__btn import__btn--validate"
+          [disabled]="!selectedFile() || loading()"
+          (click)="validate()"
+        >{{ 'IMPORT.VALIDATE' | translate }}</button>
+        <button
+          class="import__btn import__btn--import"
+          [disabled]="!selectedFile() || loading()"
+          (click)="importXml()"
+        >{{ 'IMPORT.IMPORT' | translate }}</button>
+      </div>
+
+      <!-- Loading Bar -->
+      @if (loading()) {
+        <div class="import__loading">
+          <div class="import__loading-bar"></div>
+        </div>
+      }
+
+      <!-- Validation Result -->
+      @if (validationResult(); as result) {
+        <div class="import__result">
+          @if (result.valid) {
+            <span class="import__badge import__badge--valid">{{ 'IMPORT.VALID' | translate }}</span>
+          } @else {
+            <span class="import__badge import__badge--invalid">{{ 'IMPORT.INVALID' | translate }}</span>
+          }
+          <p class="import__result-message">{{ result.message }}</p>
+        </div>
+      }
+
+      <!-- Import Result -->
+      @if (importResult(); as result) {
+        <div class="import__result">
+          @if (result.status === 'SUCCESS' || result.importedCount > 0) {
+            <span class="import__badge import__badge--valid">
+              {{ result.importedCount }} {{ 'IMPORT.SUCCESS' | translate }}
+            </span>
+            @if (result.reports.length > 0) {
+              <ul class="import__report-list">
+                @for (report of result.reports; track report.id) {
+                  <li class="import__report-item">{{ report.title }}</li>
+                }
+              </ul>
+            }
+          } @else {
+            <span class="import__badge import__badge--invalid">{{ result.status }}</span>
+          }
+        </div>
+      }
+
+    </section>
+
+    <!-- ============================================
+         SECTION 2: Sample XML (Sidebar)
+         ============================================ -->
+    <aside class="import__sidebar">
+      <h2 class="import__sidebar-title">{{ 'IMPORT.SAMPLE' | translate }}</h2>
+
+      <div class="import__sidebar-actions">
+        <button class="import__btn import__btn--secondary" (click)="downloadSample()">
+          {{ 'IMPORT.DOWNLOAD_SAMPLE' | translate }}
+        </button>
+        <button class="import__btn import__btn--secondary" (click)="toggleSample()">
+          {{ 'IMPORT.SHOW_SAMPLE' | translate }}
+        </button>
+      </div>
+
+      @if (showSample() && sampleXml()) {
+        <div class="import__code-block">
+          <pre>{{ sampleXml() }}</pre>
+        </div>
+      }
+    </aside>
+
+  </div>
+</div>

@@ -1,0 +1,428 @@
+/* ============================================
+   XML Import Component
+   Research Report XML Upload & Validation
+   All colors from global CSS variables.
+   ============================================ */
+
+/* ---- Keyframe animations ---- */
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes loadingBar {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ============================================
+   LAYOUT ROOT
+   ============================================ */
+
+.import {
+  padding: 28px 32px;
+  background: var(--color-bg);
+  min-height: 100%;
+  animation: slideUp 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
+  transition:
+    background var(--transition-normal),
+    color var(--transition-normal);
+}
+
+/* ============================================
+   PAGE HEADER
+   ============================================ */
+
+.import__header {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.import__title {
+  font-family: var(--font-ui);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.import__subtitle {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* ============================================
+   GRID LAYOUT (Main + Sidebar)
+   ============================================ */
+
+.import__grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ============================================
+   MAIN SECTION
+   ============================================ */
+
+.import__main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ============================================
+   DROP ZONE
+   ============================================ */
+
+.drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  border: 2px dashed var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  cursor: pointer;
+  transition:
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    background 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.drop-zone:hover,
+.drop-zone--active {
+  border-color: var(--color-accent);
+  background: rgba(77, 163, 255, 0.05);
+}
+
+.drop-zone--has-file {
+  border-style: solid;
+  border-color: var(--color-accent);
+}
+
+.drop-zone__label {
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+}
+
+.drop-zone__hint {
+  font-family: var(--font-data);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: 8px;
+}
+
+.drop-zone__file {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.drop-zone__file-name {
+  font-family: var(--font-data);
+  font-size: var(--text-base);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.drop-zone__file-size {
+  font-family: var(--font-data);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.drop-zone__remove {
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  color: var(--color-negative);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.drop-zone__remove:hover {
+  background: rgba(248, 113, 113, 0.1);
+}
+
+.drop-zone__input {
+  display: none;
+}
+
+/* ============================================
+   TICKER FILTER
+   ============================================ */
+
+.import__ticker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.import__label {
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.import__input {
+  font-family: var(--font-data);
+  font-size: var(--text-sm);
+  padding: 8px 12px;
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  outline: none;
+  max-width: 280px;
+  transition:
+    border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    background 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.import__input:focus {
+  border-color: var(--color-accent);
+}
+
+.import__input::placeholder {
+  color: var(--color-text-dim);
+}
+
+/* ============================================
+   ACTION BUTTONS
+   ============================================ */
+
+.import__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.import__btn {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.import__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.import__btn--validate {
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+
+.import__btn--validate:hover:not(:disabled) {
+  background: var(--color-surface-hover);
+}
+
+.import__btn--import {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.import__btn--import:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+.import__btn--secondary {
+  background: var(--color-surface-raised);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  font-size: var(--text-xs);
+  padding: 8px 14px;
+}
+
+.import__btn--secondary:hover:not(:disabled) {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+/* ============================================
+   LOADING BAR
+   ============================================ */
+
+.import__loading {
+  width: 100%;
+  height: 3px;
+  background: var(--color-surface-raised);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.import__loading-bar {
+  width: 40%;
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: 2px;
+  animation: loadingBar 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* ============================================
+   RESULT BOX
+   ============================================ */
+
+.import__result {
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--color-surface-raised);
+  animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.import__result-message {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin: 8px 0 0;
+}
+
+/* ============================================
+   BADGES (Valid / Invalid)
+   ============================================ */
+
+.import__badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.import__badge--valid {
+  background: rgba(45, 212, 160, 0.15);
+  color: var(--color-positive);
+}
+
+.import__badge--invalid {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--color-negative);
+}
+
+/* ============================================
+   IMPORTED REPORT LIST
+   ============================================ */
+
+.import__report-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.import__report-item {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  padding: 6px 10px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+
+.import__sidebar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 20px;
+  animation: slideUp 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.08s both;
+}
+
+.import__sidebar-title {
+  font-family: var(--font-ui);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 16px;
+  letter-spacing: -0.01em;
+}
+
+.import__sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ============================================
+   CODE BLOCK (Sample XML)
+   ============================================ */
+
+.import__code-block {
+  margin-top: 16px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.import__code-block pre {
+  font-family: var(--font-data);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  white-space: pre;
+  margin: 0;
+  padding: 16px;
+  line-height: 1.6;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 960px) {
+  .import__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .import {
+    padding: 16px;
+  }
+
+  .import__actions {
+    flex-direction: column;
+  }
+
+  .import__input {
+    max-width: 100%;
+  }
+
+  .drop-zone {
+    height: 160px;
+  }
+}

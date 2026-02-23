@@ -81,6 +81,18 @@ export const routes: Routes = [
       import('./features/audit/audit.component').then(m => m.AuditComponent)
   },
   {
+    path: 'import',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/import/import.component').then(m => m.ImportComponent)
+  },
+  {
+    path: 'validation',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/validation/validation.component').then(m => m.ValidationComponent)
+  },
+  {
     path: 'forbidden',
     loadComponent: () =>
       import('./features/error-pages/forbidden/forbidden.component').then(m => m.ForbiddenComponent)

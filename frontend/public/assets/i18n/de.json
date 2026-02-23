@@ -6,7 +6,8 @@
     "ANALYSTS": "Analysten",
     "SETTINGS": "Einstellungen",
     "WATCHLIST": "Watchlist",
-    "AUDIT": "Protokoll"
+    "AUDIT": "Protokoll",
+    "IMPORT": "Import"
   },
   "TOPBAR": {
     "SHORTCUTS": "Shortcuts",
@@ -160,5 +161,42 @@
     "LIMIT": "Einträge",
     "EMPTY": "Keine Audit-Einträge gefunden.",
     "SHOWING": "Zeige"
+  },
+  "IMPORT": {
+    "TITLE": "XML-Import",
+    "SUBTITLE": "Research Reports aus XML-Dateien importieren",
+    "DROP_ZONE": "XML-Datei hierher ziehen oder klicken",
+    "SELECTED_FILE": "Ausgewählte Datei",
+    "TICKER_FILTER": "Ticker-Filter (optional)",
+    "VALIDATE": "Validieren",
+    "IMPORT": "Importieren",
+    "VALID": "XML ist valide",
+    "INVALID": "XML ist ungültig",
+    "SUCCESS": "Reports importiert",
+    "SAMPLE": "Beispiel-XML",
+    "DOWNLOAD_SAMPLE": "Beispiel herunterladen",
+    "SHOW_SAMPLE": "Beispiel anzeigen",
+    "REMOVE_FILE": "Datei entfernen"
+  },
+  "VALIDATION": {
+    "TITLE": "Datenvalidierung",
+    "SUBTITLE": "Prüfung der Datenintegrität im Research Portal",
+    "NO_ISSUES": "Keine Probleme",
+    "ISSUES_FOUND": "Probleme gefunden",
+    "RUN": "Validierung starten",
+    "RUNNING": "Wird ausgeführt...",
+    "LAST_RUN": "Letzte Ausführung",
+    "NEXT_RUN": "Nächster Lauf",
+    "ORPHANED_REPORTS": "Verwaiste Reports",
+    "ORPHANED_DESC": "Reports ohne gültigen Analysten",
+    "INVALID_SECURITY": "Ungültige Wertschrift-Ref.",
+    "INVALID_SECURITY_DESC": "Reports mit nicht-existierender Wertschrift",
+    "NEGATIVE_MARKETCAP": "Negative MarketCap",
+    "NEGATIVE_MARKETCAP_DESC": "Wertschriften mit negativer Marktkapitalisierung",
+    "INVALID_ACCURACY": "Ungültige Accuracy",
+    "INVALID_ACCURACY_DESC": "Analysten mit Accuracy ausserhalb 0-100%",
+    "TOTAL": "Gesamt",
+    "CATEGORIES": "Kategorien",
+    "AUTO_INFO": "Automatische Validierung alle 6 Stunden"
   }
 }
