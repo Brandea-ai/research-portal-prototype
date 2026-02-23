@@ -1,14 +1,70 @@
-services:
-  backend:
-    build: ./backend
-    ports:
-      - "8080:8080"
-    environment:
-      - SPRING_PROFILES_ACTIVE=local
+# =============================================================================
+# Research Portal Prototype — Docker Compose (Produktion)
+# =============================================================================
+# Schweizer Banking Research Portal: Angular 21 + Spring Boot 3.5 + H2
+# Nutzung: docker compose up --build
+# =============================================================================
 
-  frontend:
-    build: ./frontend
+services:
+  # ---------------------------------------------------------------------------
+  # Backend: Spring Boot REST API
+  # ---------------------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: research-backend
     ports:
-      - "4200:80"
+      - "${SERVER_PORT:-8080}:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-local}
+      - JAVA_OPTS=${JAVA_OPTS:--Xmx512m}
+    env_file:
+      - path: .env
+        required: false
+    networks:
+      - research-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "--quiet", "http://localhost:8080/api/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    labels:
+      app.name: "research-portal"
+      app.component: "backend"
+      app.technology: "spring-boot-3.5"
+      app.team: "research-devops"
+
+  # ---------------------------------------------------------------------------
+  # Frontend: Angular 21 via Nginx Reverse Proxy
+  # ---------------------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: research-frontend
+    ports:
+      - "${FRONTEND_PORT:-4200}:80"
+    networks:
+      - research-net
+    restart: unless-stopped
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
+    labels:
+      app.name: "research-portal"
+      app.component: "frontend"
+      app.technology: "angular-21-nginx"
+      app.team: "research-devops"
+
+# =============================================================================
+# Netzwerk-Konfiguration
+# =============================================================================
+networks:
+  research-net:
+    driver: bridge
+    name: research-net
+    labels:
+      app.name: "research-portal"

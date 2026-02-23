@@ -1,0 +1,50 @@
+# =============================================================================
+# Research Portal Prototype — Docker Ignore (Root)
+# =============================================================================
+# Dateien und Verzeichnisse, die nicht in den Docker-Build-Kontext gehören
+# =============================================================================
+
+# --- Versionskontrolle ---
+.git
+.gitignore
+.githooks
+
+# --- IDE-Konfigurationen ---
+.idea
+.vscode
+*.iml
+*.iws
+*.ipr
+
+# --- Build-Artefakte ---
+**/node_modules
+**/dist
+**/target
+**/.angular
+
+# --- Dokumentation und CI/CD ---
+docs
+.github
+.gitlab
+.gitlab-ci.yml
+.harness
+Jenkinsfile
+*.md
+*.png
+
+# --- Umgebungs- und Konfigurationsdateien ---
+.env
+.env.local
+.env.example
+docker-compose*.yml
+sonar-project.properties
+vercel.json
+.editorconfig
+
+# --- Claude/Task-Verwaltung ---
+.claude
+_claude-tasks
+
+# --- OS-Dateien ---
+.DS_Store
+Thumbs.db

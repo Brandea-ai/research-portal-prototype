@@ -1,0 +1,24 @@
+# =============================================================================
+# Research Portal Backend — Docker Ignore
+# =============================================================================
+# Nur relevante Dateien in den Backend-Build-Kontext senden
+# =============================================================================
+
+# --- Build-Artefakte ---
+target/
+
+# --- IDE-Konfigurationen ---
+.idea/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+
+# --- Dokumentation ---
+*.md
+
+# --- OS-Dateien ---
+.DS_Store
+Thumbs.db

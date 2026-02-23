@@ -1,0 +1,17 @@
+<div class="error-page">
+  <div class="error-content">
+    <span class="error-code">500</span>
+    <h1 class="error-title">Serverfehler</h1>
+    <p class="error-description">
+      Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.
+    </p>
+    <div class="error-actions">
+      <button class="btn btn--secondary" (click)="reload()">
+        Erneut versuchen
+      </button>
+      <button class="btn btn--primary" (click)="navigateToDashboard()">
+        Zum Dashboard
+      </button>
+    </div>
+  </div>
+</div>

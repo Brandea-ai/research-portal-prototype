@@ -1,0 +1,55 @@
+# =============================================================================
+# Research Portal Prototype — Docker Compose Override (Entwicklung)
+# =============================================================================
+# Erweitert docker-compose.yml mit Entwicklungs-spezifischen Einstellungen.
+# Nutzung: docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # Backend: Live-Reload + Remote Debug
+  # ---------------------------------------------------------------------------
+  backend:
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+      - SPRING_DEVTOOLS_RESTART_ENABLED=true
+      - JAVA_OPTS=-Xmx512m -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+      - LOGGING_LEVEL_ROOT=DEBUG
+      - LOGGING_LEVEL_CH_ZKB_RESEARCH=DEBUG
+    ports:
+      - "${SERVER_PORT:-8080}:8080"
+      - "5005:5005"     # Java Remote Debug Port
+    volumes:
+      - ./backend/src:/app/src:ro                  # Quellcode (nur lesen)
+      - ./backend/pom.xml:/app/pom.xml:ro          # Maven-Konfiguration
+      - backend-m2-cache:/root/.m2                  # Maven-Cache persistent
+    healthcheck:
+      # Kürzere Intervalle für schnelleres Feedback in der Entwicklung
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
+  # ---------------------------------------------------------------------------
+  # Frontend: Volume-Mount für schnelle Iteration
+  # ---------------------------------------------------------------------------
+  frontend:
+    environment:
+      - NGINX_ENTRYPOINT_QUIET_LOGS=1
+    volumes:
+      - ./frontend/dist/frontend/browser:/usr/share/nginx/html:ro   # Gebaute Dateien
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro     # Nginx-Konfiguration
+    # In der Entwicklung auch ohne gesundes Backend starten
+    depends_on:
+      backend:
+        condition: service_started
+
+# =============================================================================
+# Volumes für persistente Caches
+# =============================================================================
+volumes:
+  backend-m2-cache:
+    name: research-m2-cache
+    labels:
+      app.name: "research-portal"
+      app.purpose: "maven-dependency-cache"

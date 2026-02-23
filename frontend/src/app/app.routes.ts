@@ -62,5 +62,19 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/analysts/analysts.component').then(m => m.AnalystsComponent)
   },
-  { path: '**', redirectTo: 'dashboard' }
+  {
+    path: 'forbidden',
+    loadComponent: () =>
+      import('./features/error-pages/forbidden/forbidden.component').then(m => m.ForbiddenComponent)
+  },
+  {
+    path: 'error',
+    loadComponent: () =>
+      import('./features/error-pages/server-error/server-error.component').then(m => m.ServerErrorComponent)
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./features/error-pages/not-found/not-found.component').then(m => m.NotFoundComponent)
+  },
 ];

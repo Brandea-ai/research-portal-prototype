@@ -1,0 +1,29 @@
+# =============================================================================
+# Research Portal Frontend — Docker Ignore
+# =============================================================================
+# Nur relevante Dateien in den Frontend-Build-Kontext senden
+# =============================================================================
+
+# --- Abhängigkeiten (werden im Container installiert) ---
+node_modules/
+
+# --- Build-Artefakte ---
+dist/
+.angular/
+
+# --- IDE-Konfigurationen ---
+.idea/
+*.iml
+.vscode/
+
+# --- Tests (nicht für Produktion) ---
+cypress/
+cypress.config.ts
+e2e/
+
+# --- Dokumentation ---
+*.md
+
+# --- OS-Dateien ---
+.DS_Store
+Thumbs.db
