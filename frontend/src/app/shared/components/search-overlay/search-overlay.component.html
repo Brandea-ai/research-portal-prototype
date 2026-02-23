@@ -1,0 +1,46 @@
+<div class="search-overlay" [class.search-overlay--open]="isOpen()">
+  <div class="search-overlay__input-wrapper">
+    <input
+      type="text"
+      class="search-overlay__input"
+      placeholder="Suchen... (Ctrl+K)"
+      [value]="query()"
+      (input)="onInput($event)"
+      (keydown)="onKeydown($event)"
+      (focus)="isOpen.set(true)"
+      #searchInput
+    />
+    @if (query().length > 0) {
+      <button class="search-overlay__clear" (click)="clear()">×</button>
+    }
+  </div>
+
+  @if (isOpen() && query().length >= 2) {
+    <div class="search-overlay__dropdown">
+      @if (loading()) {
+        <div class="search-overlay__loading">Suche...</div>
+      } @else if (results().length === 0) {
+        <div class="search-overlay__empty">Keine Ergebnisse</div>
+      } @else {
+        @for (result of results(); track result.id + result.type; let i = $index) {
+          <div
+            class="search-overlay__item"
+            [class.search-overlay__item--active]="selectedIndex() === i"
+            (click)="openResult(result)"
+            (mouseenter)="selectedIndex.set(i)">
+            <span class="search-overlay__type-badge" [attr.data-type]="result.type">
+              {{ result.type === 'REPORT' ? 'R' : result.type === 'ANALYST' ? 'A' : 'W' }}
+            </span>
+            <div class="search-overlay__item-content">
+              <span class="search-overlay__item-title">{{ result.title }}</span>
+              <span class="search-overlay__item-subtitle">{{ result.subtitle }}</span>
+            </div>
+          </div>
+        }
+        <div class="search-overlay__footer">
+          {{ results().length }} Ergebnisse
+        </div>
+      }
+    </div>
+  }
+</div>

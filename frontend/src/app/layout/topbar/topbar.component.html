@@ -3,6 +3,7 @@
     <button class="topbar__menu-btn" (click)="onMenuToggle()">&#9776;</button>
     <h1 class="topbar__title">{{ pageTitle() }}</h1>
   </div>
+  <app-search-overlay></app-search-overlay>
   <div class="topbar__actions">
     <app-language-switcher></app-language-switcher>
     <button class="topbar__shortcut-hint" (click)="openShortcuts()" [title]="'TOPBAR.SHORTCUTS' | translate">

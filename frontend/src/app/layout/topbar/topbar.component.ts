@@ -4,11 +4,12 @@ import { AuthService } from '../../core/services/auth.service';
 import { ThemeService } from '../../core/services/theme.service';
 import { KeyboardShortcutService } from '../../core/services/keyboard-shortcut.service';
 import { LanguageSwitcherComponent } from '../../shared/components/language-switcher/language-switcher.component';
+import { SearchOverlayComponent } from '../../shared/components/search-overlay/search-overlay.component';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [TranslatePipe, LanguageSwitcherComponent],
+  imports: [TranslatePipe, LanguageSwitcherComponent, SearchOverlayComponent],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.css'
 })
