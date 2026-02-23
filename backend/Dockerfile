@@ -9,4 +9,10 @@ FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", \
+  "-Xms256m", "-Xmx384m", \
+  "-XX:+UseG1GC", \
+  "-XX:MaxGCPauseMillis=100", \
+  "-XX:+UseStringDeduplication", \
+  "-Dspring.profiles.active=local", \
+  "-jar", "app.jar"]

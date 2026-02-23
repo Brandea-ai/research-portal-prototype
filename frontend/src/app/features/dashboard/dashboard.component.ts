@@ -18,6 +18,7 @@ import { SecurityService } from '../../core/services/security.service';
 import { AnalystService } from '../../core/services/analyst.service';
 import { AuditService, AuditLog } from '../../core/services/audit.service';
 import { ThemeService } from '../../core/services/theme.service';
+import { forkJoin } from 'rxjs';
 import { Report } from '../../core/models/report.model';
 import { Security } from '../../core/models/security.model';
 import { Analyst } from '../../core/models/analyst.model';
@@ -126,6 +127,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    // Fire all API calls in parallel via forkJoin for fastest possible load
+    forkJoin({
+      securities: this.securityService.getAll(),
+      analysts: this.analystService.getAll(),
+      audit: this.auditService.getRecentLogs(8),
+    }).subscribe(({ securities, analysts, audit }) => {
+      this.securities.set(securities);
+      this.analysts.set(analysts);
+      this.auditLogs.set(audit);
+      this.loading.set(false);
+      setTimeout(() => this.buildCharts(), 0);
+    });
+
+    // Reports use ReportStateService (cached, may resolve instantly)
     this.reportState.reports$.subscribe((data) => {
       this.reports.set(data);
       if (!this.loading()) {
@@ -133,24 +148,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       }
     });
     this.reportState.loadReports();
-
-    this.securityService.getAll().subscribe((data) => {
-      this.securities.set(data);
-      if (!this.loading()) {
-        this.buildCharts();
-      }
-    });
-
-    this.analystService.getAll().subscribe((data) => {
-      this.analysts.set(data);
-      this.loading.set(false);
-      // All data is loaded — build charts after Angular renders the canvases.
-      setTimeout(() => this.buildCharts(), 0);
-    });
-
-    this.auditService.getRecentLogs(8).subscribe((logs) => {
-      this.auditLogs.set(logs);
-    });
   }
 
   ngAfterViewInit(): void {
