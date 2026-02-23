@@ -7,7 +7,8 @@
     "SETTINGS": "Einstellungen",
     "WATCHLIST": "Watchlist",
     "AUDIT": "Protokoll",
-    "IMPORT": "Import"
+    "IMPORT": "Import",
+    "METRICS": "Metriken"
   },
   "TOPBAR": {
     "SHORTCUTS": "Shortcuts",
@@ -177,6 +178,35 @@
     "DOWNLOAD_SAMPLE": "Beispiel herunterladen",
     "SHOW_SAMPLE": "Beispiel anzeigen",
     "REMOVE_FILE": "Datei entfernen"
+  },
+  "METRICS": {
+    "TITLE": "API-Metriken",
+    "SUBTITLE": "Performance-Monitoring und Rate-Limit-Übersicht",
+    "BACK_TO_SETTINGS": "Einstellungen",
+    "OVERVIEW": "Übersicht",
+    "TOTAL_REQUESTS": "Anfragen",
+    "TOTAL_ERRORS": "Fehler",
+    "AVG_RESPONSE": "Avg. Antwortzeit",
+    "ERROR_RATE": "Fehlerrate",
+    "SUCCESS_RATE": "Erfolgsrate",
+    "UPTIME": "Laufzeit",
+    "STATUS_CODES": "Statuscode-Verteilung",
+    "CODES": "Codes",
+    "RATE_LIMITING": "Rate Limiting",
+    "CLIENT_IP": "Client-IP",
+    "CATEGORY": "Kategorie",
+    "REMAINING": "Verbleibend",
+    "USED": "genutzt",
+    "LIMITED": "Limitiert",
+    "OK": "OK",
+    "TOTAL_BLOCKED": "Gesamt blockiert",
+    "ACTIVE_CLIENTS": "Aktive Clients",
+    "ENDPOINTS": "Endpoint-Traffic",
+    "ALL_ENDPOINTS": "Alle Endpoints",
+    "NO_DATA": "Keine Daten vorhanden",
+    "RESET_METRICS": "Metriken zurücksetzen",
+    "RESET_RATE_LIMITS": "Rate-Limits zurücksetzen",
+    "RESETTING": "Wird zurückgesetzt..."
   },
   "VALIDATION": {
     "TITLE": "Datenvalidierung",

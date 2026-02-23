@@ -7,7 +7,8 @@
     "SETTINGS": "Settings",
     "WATCHLIST": "Watchlist",
     "AUDIT": "Audit Trail",
-    "IMPORT": "Import"
+    "IMPORT": "Import",
+    "METRICS": "Metrics"
   },
   "TOPBAR": {
     "SHORTCUTS": "Shortcuts",
@@ -177,6 +178,35 @@
     "DOWNLOAD_SAMPLE": "Download sample",
     "SHOW_SAMPLE": "Show sample",
     "REMOVE_FILE": "Remove file"
+  },
+  "METRICS": {
+    "TITLE": "API Metrics",
+    "SUBTITLE": "Performance monitoring and rate limit overview",
+    "BACK_TO_SETTINGS": "Settings",
+    "OVERVIEW": "Overview",
+    "TOTAL_REQUESTS": "Requests",
+    "TOTAL_ERRORS": "Errors",
+    "AVG_RESPONSE": "Avg. Response",
+    "ERROR_RATE": "Error Rate",
+    "SUCCESS_RATE": "Success Rate",
+    "UPTIME": "Uptime",
+    "STATUS_CODES": "Status Code Distribution",
+    "CODES": "Codes",
+    "RATE_LIMITING": "Rate Limiting",
+    "CLIENT_IP": "Client IP",
+    "CATEGORY": "Category",
+    "REMAINING": "Remaining",
+    "USED": "used",
+    "LIMITED": "Limited",
+    "OK": "OK",
+    "TOTAL_BLOCKED": "Total Blocked",
+    "ACTIVE_CLIENTS": "Active Clients",
+    "ENDPOINTS": "Endpoint Traffic",
+    "ALL_ENDPOINTS": "All Endpoints",
+    "NO_DATA": "No data available",
+    "RESET_METRICS": "Reset Metrics",
+    "RESET_RATE_LIMITS": "Reset Rate Limits",
+    "RESETTING": "Resetting..."
   },
   "VALIDATION": {
     "TITLE": "Data Validation",

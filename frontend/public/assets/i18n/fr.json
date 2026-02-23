@@ -7,7 +7,8 @@
     "SETTINGS": "Paramètres",
     "WATCHLIST": "Liste de suivi",
     "AUDIT": "Journal d'audit",
-    "IMPORT": "Import"
+    "IMPORT": "Import",
+    "METRICS": "Métriques"
   },
   "TOPBAR": {
     "SHORTCUTS": "Raccourcis",
@@ -177,6 +178,35 @@
     "DOWNLOAD_SAMPLE": "Télécharger l'exemple",
     "SHOW_SAMPLE": "Afficher l'exemple",
     "REMOVE_FILE": "Supprimer le fichier"
+  },
+  "METRICS": {
+    "TITLE": "Métriques API",
+    "SUBTITLE": "Monitoring de performance et limites de débit",
+    "BACK_TO_SETTINGS": "Paramètres",
+    "OVERVIEW": "Vue d'ensemble",
+    "TOTAL_REQUESTS": "Requêtes",
+    "TOTAL_ERRORS": "Erreurs",
+    "AVG_RESPONSE": "Temps de rép. moy.",
+    "ERROR_RATE": "Taux d'erreur",
+    "SUCCESS_RATE": "Taux de succès",
+    "UPTIME": "Durée",
+    "STATUS_CODES": "Distribution des codes de statut",
+    "CODES": "Codes",
+    "RATE_LIMITING": "Limitation de débit",
+    "CLIENT_IP": "IP client",
+    "CATEGORY": "Catégorie",
+    "REMAINING": "Restant",
+    "USED": "utilisé",
+    "LIMITED": "Limité",
+    "OK": "OK",
+    "TOTAL_BLOCKED": "Total bloqué",
+    "ACTIVE_CLIENTS": "Clients actifs",
+    "ENDPOINTS": "Trafic par endpoint",
+    "ALL_ENDPOINTS": "Tous les endpoints",
+    "NO_DATA": "Aucune donnée disponible",
+    "RESET_METRICS": "Réinitialiser les métriques",
+    "RESET_RATE_LIMITS": "Réinitialiser les limites",
+    "RESETTING": "Réinitialisation..."
   },
   "VALIDATION": {
     "TITLE": "Validation des données",

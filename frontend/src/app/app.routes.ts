@@ -93,6 +93,12 @@ export const routes: Routes = [
       import('./features/validation/validation.component').then(m => m.ValidationComponent)
   },
   {
+    path: 'metrics',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/metrics/metrics.component').then(m => m.MetricsComponent)
+  },
+  {
     path: 'forbidden',
     loadComponent: () =>
       import('./features/error-pages/forbidden/forbidden.component').then(m => m.ForbiddenComponent)

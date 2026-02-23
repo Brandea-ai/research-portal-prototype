@@ -1,0 +1,189 @@
+<div class="metrics">
+
+  <app-breadcrumb [items]="breadcrumbs" />
+
+  <!-- Page Header -->
+  <div class="metrics__header">
+    <div class="metrics__header-text">
+      <h1 class="metrics__title">{{ 'METRICS.TITLE' | translate }}</h1>
+      <span class="metrics__subtitle">{{ 'METRICS.SUBTITLE' | translate }}</span>
+    </div>
+    <a class="metrics__back-link" routerLink="/settings">{{ 'METRICS.BACK_TO_SETTINGS' | translate }}</a>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="loading-state">
+      <span class="loading-dot"></span>
+      <span class="loading-text">{{ 'SETTINGS.LOADING' | translate }}</span>
+    </div>
+  }
+
+  @if (!loading() && metrics(); as m) {
+    <!-- ============================
+         SECTION 1: KPI Overview
+         ============================ -->
+    <section class="metrics-section metrics-section--1">
+      <div class="section-label">{{ 'METRICS.OVERVIEW' | translate }}</div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-card__value">{{ m.totalRequests | number }}</span>
+          <span class="kpi-card__label">{{ 'METRICS.TOTAL_REQUESTS' | translate }}</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-card__value" [class.kpi-card__value--warn]="m.totalErrors > 0">{{ m.totalErrors | number }}</span>
+          <span class="kpi-card__label">{{ 'METRICS.TOTAL_ERRORS' | translate }}</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-card__value">{{ m.avgResponseTimeMs | number:'1.1-1' }}<span class="kpi-card__unit">ms</span></span>
+          <span class="kpi-card__label">{{ 'METRICS.AVG_RESPONSE' | translate }}</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-card__value" [class.kpi-card__value--ok]="errorRate() < 5" [class.kpi-card__value--warn]="errorRate() >= 5">{{ errorRate() | number:'1.1-1' }}<span class="kpi-card__unit">%</span></span>
+          <span class="kpi-card__label">{{ 'METRICS.ERROR_RATE' | translate }}</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-card__value kpi-card__value--ok">{{ successRate() | number:'1.1-1' }}<span class="kpi-card__unit">%</span></span>
+          <span class="kpi-card__label">{{ 'METRICS.SUCCESS_RATE' | translate }}</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-card__value kpi-card__value--mono">{{ m.uptime }}</span>
+          <span class="kpi-card__label">{{ 'METRICS.UPTIME' | translate }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         SECTION 2: Status Codes + Endpoints
+         ============================ -->
+    <section class="metrics-section metrics-section--2">
+      <div class="metrics-grid-2col">
+
+        <!-- Status Code Distribution -->
+        <div class="metrics-card">
+          <div class="metrics-card__header">
+            <span class="metrics-card__title">{{ 'METRICS.STATUS_CODES' | translate }}</span>
+            <span class="metrics-card__count">{{ statusEntries().length }} {{ 'METRICS.CODES' | translate }}</span>
+          </div>
+          <div class="metrics-card__body metrics-card__body--no-pad">
+            @for (entry of statusEntries(); track entry.code) {
+              <div class="status-row">
+                <div class="status-row__left">
+                  <span class="status-row__code" [class]="statusCodeClass(entry.code)">{{ entry.code }}</span>
+                  <span class="status-row__count">{{ entry.count | number }}</span>
+                </div>
+                <div class="status-row__bar-wrap">
+                  <div class="status-row__bar" [class]="statusCodeClass(entry.code)" [style.width]="entry.percentage + '%'"></div>
+                </div>
+                <span class="status-row__pct">{{ entry.percentage | number:'1.1-1' }}%</span>
+              </div>
+            }
+            @if (statusEntries().length === 0) {
+              <div class="metrics-empty">{{ 'METRICS.NO_DATA' | translate }}</div>
+            }
+          </div>
+        </div>
+
+        <!-- Rate Limit Section -->
+        <div class="metrics-card">
+          <div class="metrics-card__header">
+            <span class="metrics-card__title">{{ 'METRICS.RATE_LIMITING' | translate }}</span>
+            @if (rateLimitStatus(); as rl) {
+              <span class="status-badge" [class.status-badge--positive]="!rl.limited" [class.status-badge--negative]="rl.limited">
+                {{ rl.limited ? ('METRICS.LIMITED' | translate) : ('METRICS.OK' | translate) }}
+              </span>
+            }
+          </div>
+          <div class="metrics-card__body">
+            @if (rateLimitStatus(); as rl) {
+              <div class="rate-info">
+                <div class="info-row">
+                  <span class="info-row__label">{{ 'METRICS.CLIENT_IP' | translate }}</span>
+                  <span class="info-row__value info-row__value--mono">{{ rl.clientIp }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-row__label">{{ 'METRICS.CATEGORY' | translate }}</span>
+                  <span class="info-row__value info-row__value--mono">{{ rl.category }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-row__label">{{ 'METRICS.REMAINING' | translate }}</span>
+                  <span class="info-row__value info-row__value--mono">{{ rl.remaining }} / {{ rl.limit }}</span>
+                </div>
+              </div>
+
+              <!-- Usage Bar -->
+              <div class="usage-bar-wrap">
+                <div class="usage-bar__track">
+                  <div class="usage-bar__fill" [class.usage-bar__fill--ok]="rateLimitUsage() < 80" [class.usage-bar__fill--warn]="rateLimitUsage() >= 80" [style.width]="rateLimitUsage() + '%'"></div>
+                </div>
+                <span class="usage-bar__label">{{ rateLimitUsage() | number:'1.0-0' }}% {{ 'METRICS.USED' | translate }}</span>
+              </div>
+            }
+
+            @if (rateLimitStats(); as stats) {
+              <div class="rate-stats">
+                <div class="rate-stats__row">
+                  <span class="rate-stats__label">{{ 'METRICS.TOTAL_BLOCKED' | translate }}</span>
+                  <span class="rate-stats__value" [class.rate-stats__value--warn]="stats.totalBlocked > 0">{{ stats.totalBlocked }}</span>
+                </div>
+                <div class="rate-stats__row">
+                  <span class="rate-stats__label">{{ 'METRICS.ACTIVE_CLIENTS' | translate }}</span>
+                  <span class="rate-stats__value">{{ stats.activeClients }}</span>
+                </div>
+                @for (cat of blockedCategories(); track cat.category) {
+                  <div class="rate-stats__row rate-stats__row--sub">
+                    <span class="rate-stats__label">{{ cat.category }}</span>
+                    <span class="rate-stats__value" [class.rate-stats__value--warn]="cat.count > 0">{{ cat.count }}</span>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         SECTION 3: All Endpoints
+         ============================ -->
+    <section class="metrics-section metrics-section--3">
+      <div class="section-label">{{ 'METRICS.ENDPOINTS' | translate }}</div>
+
+      <div class="metrics-card">
+        <div class="metrics-card__header">
+          <span class="metrics-card__title">{{ 'METRICS.ALL_ENDPOINTS' | translate }}</span>
+          <span class="metrics-card__count">{{ allEndpoints().length }} Endpoints</span>
+        </div>
+        <div class="metrics-card__body metrics-card__body--no-pad">
+          @for (ep of allEndpoints(); track ep.endpoint) {
+            <div class="endpoint-row">
+              <span class="endpoint-row__name">{{ ep.endpoint }}</span>
+              <div class="endpoint-row__bar-wrap">
+                <div class="endpoint-row__bar" [style.width]="endpointBarWidth(ep.count)"></div>
+              </div>
+              <span class="endpoint-row__count">{{ ep.count | number }}</span>
+            </div>
+          }
+          @if (allEndpoints().length === 0) {
+            <div class="metrics-empty">{{ 'METRICS.NO_DATA' | translate }}</div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         SECTION 4: Actions
+         ============================ -->
+    <section class="metrics-section metrics-section--4">
+      <div class="metrics-actions">
+        <button class="btn btn--danger" [disabled]="resetting()" (click)="onResetMetrics()">
+          {{ resetting() ? ('METRICS.RESETTING' | translate) : ('METRICS.RESET_METRICS' | translate) }}
+        </button>
+        <button class="btn btn--danger-outline" [disabled]="rateLimitResetting()" (click)="onResetRateLimits()">
+          {{ rateLimitResetting() ? ('METRICS.RESETTING' | translate) : ('METRICS.RESET_RATE_LIMITS' | translate) }}
+        </button>
+      </div>
+    </section>
+  }
+</div>
