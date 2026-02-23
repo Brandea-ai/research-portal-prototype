@@ -11,6 +11,7 @@ import { Report } from '../../../core/models/report.model';
 import { Analyst } from '../../../core/models/analyst.model';
 import { Security } from '../../../core/models/security.model';
 import { environment } from '../../../../environments/environment';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-report-detail',
@@ -28,6 +29,7 @@ export class ReportDetailComponent implements OnInit {
   private readonly reportState = inject(ReportStateService);
   private readonly analystService = inject(AnalystService);
   private readonly securityService = inject(SecurityService);
+  private readonly notification = inject(NotificationService);
 
   report = signal<Report | null>(null);
   analyst = signal<Analyst | null>(null);
@@ -172,8 +174,14 @@ export class ReportDetailComponent implements OnInit {
     const r = this.report();
     if (!r) return;
     this.reportState.deleteReport(r.id).subscribe({
-      next: () => this.router.navigate(['/reports']),
-      error: () => this.error.set('Report konnte nicht gelöscht werden.')
+      next: () => {
+        this.notification.success('Report wurde gelöscht.');
+        this.router.navigate(['/reports']);
+      },
+      error: () => {
+        this.error.set('Report konnte nicht gelöscht werden.');
+        this.notification.error('Report konnte nicht gelöscht werden.');
+      }
     });
   }
 }

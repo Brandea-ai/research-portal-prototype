@@ -1,0 +1,95 @@
+@if (loading()) {
+  <div class="page">
+    <p class="loading-text">Analyst wird geladen...</p>
+  </div>
+} @else if (error()) {
+  <div class="page">
+    <a class="back-link" routerLink="/analysts">Zurück zur Übersicht</a>
+    <p class="error-text">{{ error() }}</p>
+  </div>
+} @else if (analyst(); as a) {
+  <div class="page">
+
+    <!-- Header -->
+    <div class="detail-header">
+      <a class="back-link" routerLink="/analysts">Zurück zur Übersicht</a>
+      <h1 class="detail-title">{{ a.name }}</h1>
+    </div>
+
+    <!-- Info-Cards Grid (4 Spalten) -->
+    <div class="info-section">
+      <div class="info-card">
+        <span class="section-label">Abteilung</span>
+        <span class="info-value">{{ a.department }}</span>
+      </div>
+
+      <div class="info-card">
+        <span class="section-label">Position</span>
+        <span class="info-value">{{ a.title }}</span>
+      </div>
+
+      <div class="info-card">
+        <span class="section-label">Star-Rating</span>
+        <span class="info-value info-value--stars">{{ a.starRating }} / 5</span>
+        <span class="stars-display">{{ starDisplay(a.starRating) }}</span>
+      </div>
+
+      <div class="info-card">
+        <span class="section-label">Accuracy 12M</span>
+        <span class="info-value info-value--data">{{ a.accuracy12m | number:'1.1-1' }}%</span>
+      </div>
+    </div>
+
+    <!-- Coverage Universe -->
+    @if (a.coverageUniverse.length > 0) {
+      <div class="content-section">
+        <h2 class="section-title">Coverage Universe</h2>
+        <div class="coverage-badges">
+          @for (ticker of a.coverageUniverse; track ticker) {
+            <span class="coverage-badge">{{ ticker }}</span>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Publizierte Reports -->
+    <div class="content-section">
+      <h2 class="section-title">Publizierte Reports</h2>
+      <div class="table-wrapper">
+        @if (reports().length === 0) {
+          <p class="empty-state">Keine Reports vorhanden.</p>
+        } @else {
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Datum</th>
+                <th>Titel</th>
+                <th>Wertschrift</th>
+                <th>Rating</th>
+                <th class="text-right">Kursziel</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (report of reports(); track report.id) {
+                <tr (click)="openReport(report.id)" class="clickable-row">
+                  <td class="cell-date">{{ report.publishedAt | date:'dd.MM.yyyy' }}</td>
+                  <td class="cell-title">{{ report.title }}</td>
+                  <td>
+                    <span class="ticker">SEC-{{ report.securityId }}</span>
+                  </td>
+                  <td>
+                    <span class="rating" [class]="ratingColorClass(report.rating)">
+                      {{ formattedRating(report.rating) }}
+                    </span>
+                  </td>
+                  <td class="text-right mono">CHF {{ report.targetPrice | number:'1.2-2' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    </div>
+
+  </div>
+}

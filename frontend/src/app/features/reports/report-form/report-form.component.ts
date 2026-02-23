@@ -10,6 +10,7 @@ import { SecurityService } from '../../../core/services/security.service';
 import { Analyst } from '../../../core/models/analyst.model';
 import { Security } from '../../../core/models/security.model';
 import { Report, CreateReportRequest } from '../../../core/models/report.model';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-report-form',
@@ -28,6 +29,7 @@ export class ReportFormComponent implements OnInit {
   private readonly reportState = inject(ReportStateService);
   private readonly analystService = inject(AnalystService);
   private readonly securityService = inject(SecurityService);
+  private readonly notification = inject(NotificationService);
 
   isEditMode = signal(false);
   loading = signal(true);
@@ -164,22 +166,26 @@ export class ReportFormComponent implements OnInit {
       this.reportState.updateReport(id, request).subscribe({
         next: (report) => {
           this.submitting.set(false);
+          this.notification.success('Report wurde aktualisiert.');
           this.router.navigate(['/reports', report.id]);
         },
         error: () => {
           this.submitting.set(false);
           this.error.set('Report konnte nicht aktualisiert werden.');
+          this.notification.error('Report konnte nicht gespeichert werden.');
         }
       });
     } else {
       this.reportState.createReport(request).subscribe({
         next: (report) => {
           this.submitting.set(false);
+          this.notification.success('Report wurde erstellt.');
           this.router.navigate(['/reports', report.id]);
         },
         error: () => {
           this.submitting.set(false);
           this.error.set('Report konnte nicht erstellt werden.');
+          this.notification.error('Report konnte nicht gespeichert werden.');
         }
       });
     }

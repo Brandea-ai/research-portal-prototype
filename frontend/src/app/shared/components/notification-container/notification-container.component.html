@@ -1,0 +1,8 @@
+<div class="notification-container">
+  @for (notification of notifications(); track notification.id) {
+    <div class="toast" [class]="'toast--' + notification.type" (click)="dismiss(notification.id)">
+      <span class="toast__message">{{ notification.message }}</span>
+      <span class="toast__close">&#x00D7;</span>
+    </div>
+  }
+</div>

@@ -9,7 +9,7 @@
   } @else {
     <div class="analyst-grid">
       @for (analyst of analysts(); track analyst.id) {
-        <div class="analyst-card">
+        <div class="analyst-card" (click)="openAnalyst(analyst.id)">
           <div class="analyst-card__header">
             <span class="analyst-card__name">{{ analyst.name }}</span>
             <span class="analyst-card__stars">{{ starDisplay(analyst.starRating) }}</span>

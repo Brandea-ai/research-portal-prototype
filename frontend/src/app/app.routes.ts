@@ -45,6 +45,12 @@ export const routes: Routes = [
       import('./features/securities/securities.component').then(m => m.SecuritiesComponent)
   },
   {
+    path: 'analysts/:id',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/analysts/analyst-detail/analyst-detail.component').then(m => m.AnalystDetailComponent)
+  },
+  {
     path: 'analysts',
     canActivate: [authGuard],
     loadComponent: () =>

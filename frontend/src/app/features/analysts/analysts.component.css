@@ -51,6 +51,7 @@
   flex-direction: column;
   gap: var(--space-xs);
   box-shadow: var(--shadow-card);
+  cursor: pointer;
   transition: box-shadow var(--transition-normal), transform var(--transition-normal), border-color var(--transition-fast), background var(--transition-normal);
 }
 
