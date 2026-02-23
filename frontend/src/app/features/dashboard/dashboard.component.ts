@@ -16,6 +16,7 @@ import { Chart, registerables } from 'chart.js';
 import { ReportStateService } from '../../core/services/report-state.service';
 import { SecurityService } from '../../core/services/security.service';
 import { AnalystService } from '../../core/services/analyst.service';
+import { AuditService, AuditLog } from '../../core/services/audit.service';
 import { ThemeService } from '../../core/services/theme.service';
 import { Report } from '../../core/models/report.model';
 import { Security } from '../../core/models/security.model';
@@ -35,6 +36,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   reports = signal<Report[]>([]);
   securities = signal<Security[]>([]);
   analysts = signal<Analyst[]>([]);
+  auditLogs = signal<AuditLog[]>([]);
   loading = signal(true);
   chartsReady = signal(false);
 
@@ -110,6 +112,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   private readonly reportState = inject(ReportStateService);
   private readonly securityService = inject(SecurityService);
   private readonly analystService = inject(AnalystService);
+  private readonly auditService = inject(AuditService);
   private readonly themeService = inject(ThemeService);
 
   constructor() {
@@ -143,6 +146,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.loading.set(false);
       // All data is loaded — build charts after Angular renders the canvases.
       setTimeout(() => this.buildCharts(), 0);
+    });
+
+    this.auditService.getRecentLogs(8).subscribe((logs) => {
+      this.auditLogs.set(logs);
     });
   }
 
@@ -340,5 +347,44 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     if (upside > 0) return 'positive';
     if (upside < 0) return 'negative';
     return 'neutral';
+  }
+
+  formatTimeAgo(timestamp: string): string {
+    const now = new Date();
+    const then = new Date(timestamp);
+    const diffMs = now.getTime() - then.getTime();
+    const diffMin = Math.floor(diffMs / 60_000);
+    const diffHrs = Math.floor(diffMs / 3_600_000);
+    const diffDays = Math.floor(diffMs / 86_400_000);
+
+    if (diffMin < 1) return 'gerade eben';
+    if (diffMin < 60) return `vor ${diffMin} Min.`;
+    if (diffHrs < 24) return `vor ${diffHrs} Std.`;
+    if (diffDays === 1) return 'vor 1 Tag';
+    return `vor ${diffDays} Tagen`;
+  }
+
+  actionLabel(action: string): string {
+    const labels: Record<string, string> = {
+      CREATE: 'Erstellt',
+      UPDATE: 'Aktualisiert',
+      DELETE: 'Gelöscht',
+      VIEW: 'Angesehen',
+      EXPORT: 'Exportiert',
+      LOGIN: 'Login',
+      LOGOUT: 'Logout',
+      IMPORT: 'Importiert',
+    };
+    return labels[action] ?? action;
+  }
+
+  actionClass(action: string): string {
+    const classes: Record<string, string> = {
+      CREATE: 'positive',
+      DELETE: 'negative',
+      UPDATE: 'accent',
+      IMPORT: 'accent',
+    };
+    return classes[action] ?? 'neutral';
   }
 }

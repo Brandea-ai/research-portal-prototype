@@ -182,5 +182,31 @@
 
     </div>
 
+    <!-- ===== ACTIVITY FEED ===== -->
+    <div class="activity-section">
+      <div class="section-header">
+        <span class="section-label">Letzte Aktivitäten</span>
+        <span class="section-count">{{ auditLogs().length }} Einträge</span>
+      </div>
+      <div class="activity-feed">
+        @for (log of auditLogs(); track log.id) {
+          <div class="activity-item">
+            <span class="activity-item__badge" [class]="'activity-item__badge--' + actionClass(log.action)">
+              {{ actionLabel(log.action) }}
+            </span>
+            <div class="activity-item__content">
+              <span class="activity-item__details">{{ log.details }}</span>
+              <span class="activity-item__meta">
+                {{ log.userName }} · {{ formatTimeAgo(log.timestamp) }}
+              </span>
+            </div>
+          </div>
+        }
+        @if (auditLogs().length === 0) {
+          <div class="activity-empty">Keine Aktivitäten</div>
+        }
+      </div>
+    </div>
+
   }
 </div>
