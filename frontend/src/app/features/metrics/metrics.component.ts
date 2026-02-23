@@ -91,8 +91,9 @@ export class MetricsComponent implements OnInit {
   readonly statusEntries = computed((): StatusEntry[] => {
     const m = this.metrics();
     if (!m || !m.requestsByStatus) return [];
-    const total = m.totalRequests || 1;
-    return Object.entries(m.requestsByStatus)
+    const entries = Object.entries(m.requestsByStatus);
+    const total = entries.reduce((sum, [, count]) => sum + count, 0) || 1;
+    return entries
       .map(([code, count]) => ({
         code,
         count,

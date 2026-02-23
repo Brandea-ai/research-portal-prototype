@@ -16,7 +16,13 @@ const PAGE_TITLES: Record<string, string> = {
   dashboard: 'Dashboard',
   reports: 'Research Reports',
   securities: 'Wertschriften',
-  analysts: 'Analysten'
+  analysts: 'Analysten',
+  watchlist: 'Watchlist',
+  metrics: 'API-Metriken',
+  settings: 'Einstellungen',
+  audit: 'Audit Trail',
+  import: 'XML-Import',
+  validation: 'Validierung',
 };
 
 @Component({

@@ -8,7 +8,8 @@
     "WATCHLIST": "Liste de suivi",
     "AUDIT": "Journal d'audit",
     "IMPORT": "Import",
-    "METRICS": "Métriques"
+    "METRICS": "Métriques",
+    "VALIDATION": "Validation"
   },
   "TOPBAR": {
     "SHORTCUTS": "Raccourcis",

@@ -8,7 +8,8 @@
     "WATCHLIST": "Watchlist",
     "AUDIT": "Audit Trail",
     "IMPORT": "Import",
-    "METRICS": "Metrics"
+    "METRICS": "Metrics",
+    "VALIDATION": "Validation"
   },
   "TOPBAR": {
     "SHORTCUTS": "Shortcuts",
