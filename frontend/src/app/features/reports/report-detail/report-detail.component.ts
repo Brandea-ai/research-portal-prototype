@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -12,11 +12,12 @@ import { Analyst } from '../../../core/models/analyst.model';
 import { Security } from '../../../core/models/security.model';
 import { environment } from '../../../../environments/environment';
 import { NotificationService } from '../../../core/services/notification.service';
+import { BreadcrumbComponent } from '../../../shared/components/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-report-detail',
   standalone: true,
-  imports: [RouterLink, DatePipe, DecimalPipe],
+  imports: [DatePipe, DecimalPipe, BreadcrumbComponent],
   templateUrl: './report-detail.component.html',
   styleUrl: './report-detail.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

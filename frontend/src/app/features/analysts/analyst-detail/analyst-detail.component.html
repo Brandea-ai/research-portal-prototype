@@ -4,7 +4,10 @@
   </div>
 } @else if (error()) {
   <div class="page">
-    <a class="back-link" routerLink="/analysts">Zurück zur Übersicht</a>
+    <app-breadcrumb [items]="[
+      { label: 'Dashboard', route: '/dashboard' },
+      { label: 'Analysten', route: '/analysts' }
+    ]"></app-breadcrumb>
     <p class="error-text">{{ error() }}</p>
   </div>
 } @else if (analyst(); as a) {
@@ -12,7 +15,11 @@
 
     <!-- Header -->
     <div class="detail-header">
-      <a class="back-link" routerLink="/analysts">Zurück zur Übersicht</a>
+      <app-breadcrumb [items]="[
+        { label: 'Dashboard', route: '/dashboard' },
+        { label: 'Analysten', route: '/analysts' },
+        { label: a.name }
+      ]"></app-breadcrumb>
       <h1 class="detail-title">{{ a.name }}</h1>
     </div>
 

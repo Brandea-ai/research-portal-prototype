@@ -4,7 +4,10 @@
   </div>
 } @else if (error()) {
   <div class="page">
-    <a class="back-link" routerLink="/securities">Zurück zur Übersicht</a>
+    <app-breadcrumb [items]="[
+      { label: 'Dashboard', route: '/dashboard' },
+      { label: 'Wertschriften', route: '/securities' }
+    ]"></app-breadcrumb>
     <p class="error-text">{{ error() }}</p>
   </div>
 } @else if (security(); as sec) {
@@ -12,7 +15,11 @@
 
     <!-- Header -->
     <div class="detail-header">
-      <a class="back-link" routerLink="/securities">Zurück zur Übersicht</a>
+      <app-breadcrumb [items]="[
+        { label: 'Dashboard', route: '/dashboard' },
+        { label: 'Wertschriften', route: '/securities' },
+        { label: sec.ticker + ' \u2014 ' + sec.name }
+      ]"></app-breadcrumb>
       <div class="title-row">
         <span class="ticker-badge">{{ sec.ticker }}</span>
         <h1 class="detail-title">{{ sec.name }}</h1>

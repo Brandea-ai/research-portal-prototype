@@ -4,7 +4,10 @@
   </div>
 } @else if (error()) {
   <div class="page">
-    <a class="back-link" routerLink="/reports">Zurück zur Übersicht</a>
+    <app-breadcrumb [items]="[
+      { label: 'Dashboard', route: '/dashboard' },
+      { label: 'Reports', route: '/reports' }
+    ]"></app-breadcrumb>
     <p class="error-text">{{ error() }}</p>
   </div>
 } @else if (report(); as r) {
@@ -12,7 +15,11 @@
 
     <!-- Header -->
     <div class="detail-header">
-      <a class="back-link" routerLink="/reports">Zurück zur Übersicht</a>
+      <app-breadcrumb [items]="[
+        { label: 'Dashboard', route: '/dashboard' },
+        { label: 'Reports', route: '/reports' },
+        { label: r.title }
+      ]"></app-breadcrumb>
       <h1 class="detail-title">{{ r.title }}</h1>
       <div class="detail-meta-row">
         <span class="type-badge">{{ formattedReportType() }}</span>

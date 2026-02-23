@@ -209,3 +209,11 @@ VALUES (11, '2026-02-20 09:31:00', 'UPDATE', 'REPORT', 10, 'l.meier', 'Dr. Lukas
 
 INSERT INTO audit_log (id, timestamp, action, entity_type, entity_id, user_id, user_name, user_role, details, ip_address)
 VALUES (12, '2026-02-21 14:00:00', 'EXPORT', 'REPORT', 3, 't.gerber', 'Thomas Gerber', 'ANALYST', 'PDF-Export: Report ''Novartis Q4 2025'' exportiert', '10.0.1.45');
+
+-- ────────────────────────────────────────────────
+-- WATCHLIST (Demo-Daten fuer Analysten-Beobachtungsliste)
+-- ────────────────────────────────────────────────
+
+INSERT INTO watchlist (user_id, security_id, added_at, notes, alert_on_new_report) VALUES ('demo-user', 1, '2026-02-15 10:00:00', 'Kernposition - langfristiges Investment', true);
+INSERT INTO watchlist (user_id, security_id, added_at, notes, alert_on_new_report) VALUES ('demo-user', 3, '2026-02-18 14:30:00', 'Healthcare-Exposure beobachten', true);
+INSERT INTO watchlist (user_id, security_id, added_at, notes, alert_on_new_report) VALUES ('demo-user', 4, '2026-02-20 09:15:00', 'Bankensektor-Momentum', false);

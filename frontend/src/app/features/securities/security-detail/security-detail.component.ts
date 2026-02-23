@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -7,11 +7,12 @@ import { SecurityService } from '../../../core/services/security.service';
 import { ReportService } from '../../../core/services/report.service';
 import { Security } from '../../../core/models/security.model';
 import { Report } from '../../../core/models/report.model';
+import { BreadcrumbComponent } from '../../../shared/components/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-security-detail',
   standalone: true,
-  imports: [RouterLink, DatePipe, DecimalPipe],
+  imports: [DatePipe, DecimalPipe, BreadcrumbComponent],
   templateUrl: './security-detail.component.html',
   styleUrl: './security-detail.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
